@@ -1,6 +1,8 @@
 package cz.cvut.kbss.sformsmanager.config.provider;
 
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +19,7 @@ import java.util.Map;
 @ConfigurationProperties(prefix = "repository")
 public class ConnectionProvider {
 
+    @Getter(AccessLevel.PRIVATE)
     private List<RepositoryConnection> connections;
     private Map<String, RepositoryConnection> connectionMap;
 

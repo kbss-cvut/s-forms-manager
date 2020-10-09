@@ -15,7 +15,7 @@ public class ContextService {
     private final ContextRepository contextRepository;
 
     @Transactional
-    public List<RdfContext> findAll() {
-        return contextRepository.findAll();
+    public List<RdfContext> findAll(String repositoryName) {
+        return contextRepository.findAll(repositoryName);
     }
 }

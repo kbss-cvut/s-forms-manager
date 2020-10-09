@@ -19,7 +19,7 @@ public class ContextController {
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<String> getContextNames() {
-        return contextService.findAll().stream().map(context -> context.getUri().toString()).collect(Collectors.toList());
+        return contextService.findAll("study-manager").stream().map(context -> context.getUri().toString()).collect(Collectors.toList());
     }
 
 }

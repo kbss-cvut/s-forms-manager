@@ -12,11 +12,11 @@
  * details. You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package cz.cvut.kbss.sformsmanager.persistence.sesame;
+package cz.cvut.kbss.sformsmanager.persistence.base;
 
 import cz.cvut.kbss.jopa.model.EntityManager;
 import cz.cvut.kbss.jopa.model.EntityManagerFactory;
-import cz.cvut.kbss.sformsmanager.config.provider.ConfigProvider;
+import cz.cvut.kbss.sformsmanager.config.provider.PropertiesProvider;
 import cz.cvut.kbss.sformsmanager.model.Student;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +35,7 @@ import java.net.URI;
 @RequiredArgsConstructor
 public class SesamePersistenceProvider {
 
-    private final ConfigProvider configProvider;
+    private final PropertiesProvider propertiesProvider;
     private final EntityManagerFactory emf;
 
     private Repository repository;
@@ -48,7 +48,7 @@ public class SesamePersistenceProvider {
     @PostConstruct
     private void initializeStorage() {
         forceRepoInitialization();
-        final String repoUrl = configProvider.getRepositoryUrl();
+        final String repoUrl = propertiesProvider.getRepositoryUrl();
         try {
             this.repository = RepositoryProvider.getRepository(repoUrl);
             assert repository.isInitialized();

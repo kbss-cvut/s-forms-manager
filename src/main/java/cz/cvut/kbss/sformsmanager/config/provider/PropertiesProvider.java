@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Configuration
 @PropertySource("classpath:application.properties")
-public class ConfigProvider {
+public class PropertiesProvider {
 
     @NotNull
     @Value("${driver}")

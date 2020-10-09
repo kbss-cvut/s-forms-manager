@@ -12,13 +12,13 @@
  * details. You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package cz.cvut.kbss.sformsmanager.persistence;
+package cz.cvut.kbss.sformsmanager.persistence.base;
 
 import cz.cvut.kbss.jopa.Persistence;
 import cz.cvut.kbss.jopa.model.EntityManagerFactory;
 import cz.cvut.kbss.jopa.model.JOPAPersistenceProperties;
 import cz.cvut.kbss.jopa.model.JOPAPersistenceProvider;
-import cz.cvut.kbss.sformsmanager.config.provider.ConfigProvider;
+import cz.cvut.kbss.sformsmanager.config.provider.PropertiesProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,14 +28,11 @@ import javax.annotation.PreDestroy;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Provides entity manager factory as a Spring bean.
- */
 @Configuration
 @RequiredArgsConstructor
-public class PersistenceFactory {
+public class BasePersistenceFactory {
 
-    private final ConfigProvider configProvider;
+    private final PropertiesProvider propertiesProvider;
     private EntityManagerFactory emf;
 
     @Bean
@@ -46,8 +43,8 @@ public class PersistenceFactory {
     @PostConstruct
     private void init() {
         final Map<String, String> properties = new HashMap<>();
-        properties.put(JOPAPersistenceProperties.ONTOLOGY_PHYSICAL_URI_KEY, configProvider.getRepositoryUrl());
-        properties.put(JOPAPersistenceProperties.DATA_SOURCE_CLASS, configProvider.getDriver());
+        properties.put(JOPAPersistenceProperties.ONTOLOGY_PHYSICAL_URI_KEY, propertiesProvider.getRepositoryUrl());
+        properties.put(JOPAPersistenceProperties.DATA_SOURCE_CLASS, propertiesProvider.getDriver());
         properties.put(JOPAPersistenceProperties.SCAN_PACKAGE, "cz.cvut.kbss.sformsmanager.model");
         properties.put(JOPAPersistenceProperties.JPA_PERSISTENCE_PROVIDER, JOPAPersistenceProvider.class.getName());
         this.emf = Persistence.createEntityManagerFactory("sformsmanager", properties);

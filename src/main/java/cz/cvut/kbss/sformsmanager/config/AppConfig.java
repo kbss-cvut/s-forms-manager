@@ -14,14 +14,14 @@
  */
 package cz.cvut.kbss.sformsmanager.config;
 
-import cz.cvut.kbss.sformsmanager.config.provider.ConfigProvider;
 import cz.cvut.kbss.sformsmanager.config.provider.ConnectionProvider;
+import cz.cvut.kbss.sformsmanager.config.provider.PropertiesProvider;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
 @Import({
-        ConfigProvider.class,
+        PropertiesProvider.class,
         PersistenceConfig.class,
         ServiceConfig.class,
         WebAppConfig.class,
