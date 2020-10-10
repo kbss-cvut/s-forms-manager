@@ -14,7 +14,9 @@
  */
 package cz.cvut.kbss.sformsmanager.rest;
 
-import cz.cvut.kbss.sformsmanager.model.JsonLDForm;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import cz.cvut.kbss.sformsmanager.model.GeneratedForm;
+import cz.cvut.kbss.sformsmanager.model.dto.GeneratedFormDto;
 import cz.cvut.kbss.sformsmanager.service.DataRepositoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.ResourceUtils;
@@ -33,16 +35,14 @@ import java.nio.file.Files;
 public class DataController {
 
     private final DataRepositoryService dataService;
-
-
-    @RequestMapping(method = RequestMethod.POST, path = "compare")
-    public String compareTwoForms(@RequestParam(value = "connectionName") String connectionName,
-                                  @RequestParam(value = "contextUri1") String contextUri1,
-                                  @RequestParam(value = "contextUri2") String contextUri2) throws URISyntaxException {
-        JsonLDForm form1 = dataService.getFormFromConnection(connectionName, contextUri1);
-        JsonLDForm form2 = dataService.getFormFromConnection(connectionName, contextUri2);
-
-        return "yes";
+    
+    @RequestMapping(method = RequestMethod.POST, path = "info")
+    public GeneratedFormDto getFormInfo(
+            @RequestParam(value = "connectionName") String connectionName,
+            @RequestParam(value = "contextUri") String contextUri)
+            throws URISyntaxException, JsonProcessingException {
+        GeneratedForm form1 = dataService.getFormFromConnection(connectionName, contextUri);
+        return new GeneratedFormDto(form1);
     }
 
     @RequestMapping(method = RequestMethod.POST)

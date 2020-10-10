@@ -1,7 +1,7 @@
 package cz.cvut.kbss.sformsmanager.service;
 
 import cz.cvut.kbss.sformsmanager.config.provider.ConnectionProvider;
-import cz.cvut.kbss.sformsmanager.model.JsonLDForm;
+import cz.cvut.kbss.sformsmanager.model.GeneratedForm;
 import cz.cvut.kbss.sformsmanager.service.data.RemoteDataLoader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +34,7 @@ public class DataRepositoryService {
      * @throws URISyntaxException
      */
     @Cacheable(value = "generatedForms", cacheManager = "formsCacheManager")
-    public JsonLDForm getFormFromConnection(String connectionName, String contextUri) throws URISyntaxException {
+    public GeneratedForm getFormFromConnection(String connectionName, String contextUri) throws URISyntaxException {
         ConnectionProvider.RepositoryConnection connection = connectionProvider.getConnectionMap().get(connectionName);
 
         final Map<String, String> params = new HashMap<>();
@@ -45,7 +45,7 @@ public class DataRepositoryService {
         String rawFormJson = dataLoader.loadData(connection.getFormGenServiceUrl(), params, Collections.emptyMap());
         String formKey = connectionName.concat(contextUri);
 
-        return JsonLDForm.builder().key(formKey).rawJson(rawFormJson).build();
+        return GeneratedForm.builder().key(formKey).rawJson(rawFormJson).build();
     }
 
 }
