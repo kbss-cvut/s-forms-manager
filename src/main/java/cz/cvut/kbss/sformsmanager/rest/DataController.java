@@ -14,6 +14,7 @@
  */
 package cz.cvut.kbss.sformsmanager.rest;
 
+import cz.cvut.kbss.sformsmanager.model.JsonLDForm;
 import cz.cvut.kbss.sformsmanager.service.DataRepositoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.ResourceUtils;
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 
@@ -34,10 +34,21 @@ public class DataController {
 
     private final DataRepositoryService dataService;
 
+
+    @RequestMapping(method = RequestMethod.POST, path = "compare")
+    public String compareTwoForms(@RequestParam(value = "connectionName") String connectionName,
+                                  @RequestParam(value = "contextUri1") String contextUri1,
+                                  @RequestParam(value = "contextUri2") String contextUri2) throws URISyntaxException {
+        JsonLDForm form1 = dataService.getFormFromConnection(connectionName, contextUri1);
+        JsonLDForm form2 = dataService.getFormFromConnection(connectionName, contextUri2);
+
+        return "yes";
+    }
+
     @RequestMapping(method = RequestMethod.POST)
     public String getForm(@RequestParam(value = "connectionName") String connectionName,
                           @RequestParam(value = "contextUri") String contextUri) throws URISyntaxException {
-        return dataService.getFormFromConnection(connectionName, URI.create(contextUri));
+        return dataService.getFormFromConnection(connectionName, contextUri).getRawJson();
 
         // todo: handle exception properly
     }

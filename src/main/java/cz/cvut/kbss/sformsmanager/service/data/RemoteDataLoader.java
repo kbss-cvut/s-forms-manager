@@ -23,10 +23,10 @@ public class RemoteDataLoader implements DataLoader {
     private final RestTemplate restTemplate;
 
     @Override
-    public String loadData(String remoteUrl, Map<String, String> params) throws URISyntaxException {
-        final HttpHeaders headers = processHeaders(params);
+    public String loadData(String remoteUrl, Map<String, String> params, Map<String, String> headers) throws URISyntaxException {
+        final HttpHeaders httpHeaders = processHeaders(headers);
         final URI urlWithQuery = URLUtils.addParametersToUri(remoteUrl, params);
-        final HttpEntity<Object> entity = new HttpEntity<>(null, headers);
+        final HttpEntity<Object> entity = new HttpEntity<>(null, httpHeaders);
 
         log.trace("Getting remote data using {}", urlWithQuery.toString());
         try {
