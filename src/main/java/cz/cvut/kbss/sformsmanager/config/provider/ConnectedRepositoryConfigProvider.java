@@ -17,21 +17,21 @@ import java.util.Map;
 @Configuration
 @PropertySource("classpath:connection.properties")
 @ConfigurationProperties(prefix = "repository")
-public class ConnectionProvider {
+public class ConnectedRepositoryConfigProvider {
 
     @Getter(AccessLevel.PRIVATE)
-    private List<RepositoryConnection> connections;
-    private Map<String, RepositoryConnection> connectionMap;
+    private List<ConnectedRepositoryConfig> connections;
+    private Map<String, ConnectedRepositoryConfig> connectionMap;
 
     @Data
-    public static class RepositoryConnection {
+    public static class ConnectedRepositoryConfig {
         private String name;
         private String formGenRepositoryUrl;
         private String formGenServiceUrl;
         private String appRepositoryUrl;
     }
 
-    public Map<String, RepositoryConnection> getConnectionMap() {
+    public Map<String, ConnectedRepositoryConfig> getConnectionMap() {
         if (connectionMap == null) {
             connectionMap = new HashMap<>();
             connections.forEach(c -> {

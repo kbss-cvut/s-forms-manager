@@ -45,7 +45,7 @@ public class BasePersistenceFactory {
         final Map<String, String> properties = new HashMap<>();
         properties.put(JOPAPersistenceProperties.ONTOLOGY_PHYSICAL_URI_KEY, propertiesProvider.getRepositoryUrl());
         properties.put(JOPAPersistenceProperties.DATA_SOURCE_CLASS, propertiesProvider.getDriver());
-        properties.put(JOPAPersistenceProperties.SCAN_PACKAGE, "cz.cvut.kbss.sformsmanager.model");
+        properties.put(JOPAPersistenceProperties.SCAN_PACKAGE, "cz.cvut.kbss.sformsmanager.model.persisted");
         properties.put(JOPAPersistenceProperties.JPA_PERSISTENCE_PROVIDER, JOPAPersistenceProvider.class.getName());
         this.emf = Persistence.createEntityManagerFactory("sformsmanager", properties);
     }

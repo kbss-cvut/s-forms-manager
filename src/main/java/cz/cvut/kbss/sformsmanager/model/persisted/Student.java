@@ -12,9 +12,11 @@
  * details. You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package cz.cvut.kbss.sformsmanager.model;
+package cz.cvut.kbss.sformsmanager.model.persisted;
 
+import cz.cvut.kbss.jopa.model.BeanListenerAspect;
 import cz.cvut.kbss.jopa.model.annotations.*;
+import cz.cvut.kbss.sformsmanager.model.Vocabulary;
 
 import java.io.Serializable;
 import java.net.URI;
@@ -24,7 +26,7 @@ import java.net.URI;
         @NamedNativeQuery(name = "Student.findByKey", query = "SELECT ?x WHERE {?x <" + Vocabulary.p_key + "> ?key . }")
 })
 @OWLClass(iri = Vocabulary.Student)
-public class Student implements Serializable {
+public class Student extends BeanListenerAspect.ManageableImpl implements Serializable {
 
     // TODO: remove, so far is kept only to give something to the persistence provider
 
@@ -104,4 +106,5 @@ public class Student implements Serializable {
                 ", email='" + email + '\'' +
                 '}';
     }
+
 }

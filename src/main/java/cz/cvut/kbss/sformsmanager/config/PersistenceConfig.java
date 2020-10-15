@@ -23,7 +23,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
-@ComponentScan(basePackages = "cz.cvut.kbss.sformsmanager.persistence")
+@ComponentScan(basePackages = "cz.cvut.kbss.sformsmanager.persistence.base")
 public class PersistenceConfig {
 
     @Bean
