@@ -26,7 +26,6 @@ public class Vocabulary {
     public static final String p_contextUri = URI_BASE + "contextUri";
     public static final String p_connectionName = URI_BASE + "connectoinName";
 
-    public static final String Student = URI_BASE + "Student";
     public static final String p_firstName = URI_BASE + "firstName";
     public static final String p_lastName = URI_BASE + "lastName";
     public static final String p_emailAddress = URI_BASE + "emailAddress";
