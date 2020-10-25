@@ -1,7 +1,7 @@
 package cz.cvut.kbss.jopa.sformsmanager.rest;
 
 import cz.cvut.kbss.jopa.sformsmanager.service.ContextService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,8 +12,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/contexts")
-@RequiredArgsConstructor
 public class ContextController {
+
+    @Autowired
+    public ContextController(ContextService contextService) {
+        this.contextService = contextService;
+    }
 
     private final ContextService contextService;
 

@@ -17,16 +17,18 @@ package cz.cvut.kbss.jopa.sformsmanager.persistence.dao;
 import cz.cvut.kbss.jopa.exceptions.NoResultException;
 import cz.cvut.kbss.jopa.model.EntityManager;
 import cz.cvut.kbss.jopa.sformsmanager.model.Student;
-import lombok.extern.apachecommons.CommonsLog;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Slf4j
 @Repository
 public class StudentDao {
+
+
+    private static final Logger log = LoggerFactory.getLogger(StudentDao.class);
 
     // Notice that we are using Autowired instead of PersistenceContext, which is tightly coupled with traditional JPA
     private final EntityManager em;
