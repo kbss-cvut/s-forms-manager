@@ -14,23 +14,36 @@
  */
 package cz.cvut.kbss.sformsmanager.config;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * @author ledvima1
- */
 @Configuration
 @ComponentScan(basePackages = "cz.cvut.kbss.sformsmanager.rest")
 public class RestConfig {
 
+    private static ObjectMapper objectMapper;
+
+    /**
+     * Gets a Jackson {@link ObjectMapper} for mapping JSON to Java and vice versa.
+     *
+     * @return {@code ObjectMapper}
+     */
     @Bean
-    public ObjectMapper objectMapper() {
-        final ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    public static ObjectMapper getObjectMapper() {
+        if (objectMapper == null) {
+            objectMapper = new ObjectMapper();
+            objectMapper.configure(JsonParser.Feature.AUTO_CLOSE_SOURCE, true);
+            objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            // JSR 310 (Java 8 DateTime API)
+            objectMapper.registerModule(new JavaTimeModule());
+        }
         return objectMapper;
     }
 }

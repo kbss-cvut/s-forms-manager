@@ -5,8 +5,8 @@ import cz.cvut.kbss.jopa.model.EntityManager;
 import cz.cvut.kbss.sformsmanager.exception.PersistenceException;
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
 import cz.cvut.kbss.sformsmanager.utils.OWLUtils;
-import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.springframework.lang.NonNull;
 
 import java.net.URI;
 import java.util.Collection;
@@ -16,9 +16,9 @@ import java.util.Optional;
 /**
  * Base implementation of the generic DAO.
  */
-@Slf4j
 public abstract class BaseDao<T> implements GenericDao<T> {
 
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(BaseDao.class);
     protected final EntityManager em; // TODO: should we use entity manager factory instead?
     protected final Class<T> type;
     protected final URI typeUri;

@@ -6,8 +6,7 @@ import cz.cvut.kbss.jopa.model.EntityManagerFactory;
 import cz.cvut.kbss.jopa.model.JOPAPersistenceProperties;
 import cz.cvut.kbss.jopa.model.JOPAPersistenceProvider;
 import cz.cvut.kbss.sformsmanager.config.provider.ConnectedRepositoryConfigProvider;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PreDestroy;
@@ -16,14 +15,17 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-@Slf4j
 @Component
-@RequiredArgsConstructor
 public class ConnectedRepositoryEntityManagerProvider {
 
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(ConnectedRepositoryEntityManagerProvider.class);
     private final ConnectedRepositoryConfigProvider connectedRepositoryConfigProvider;
 
     private final ConcurrentMap<String, EntityManager> activeEntityManagerMap = new ConcurrentHashMap();
+
+    public ConnectedRepositoryEntityManagerProvider(ConnectedRepositoryConfigProvider connectedRepositoryConfigProvider) {
+        this.connectedRepositoryConfigProvider = connectedRepositoryConfigProvider;
+    }
 
     public EntityManager getEntityManagerFactory(String connectionName) {
         if (!connectedRepositoryConfigProvider.getConnectionMap().containsKey(connectionName)) {

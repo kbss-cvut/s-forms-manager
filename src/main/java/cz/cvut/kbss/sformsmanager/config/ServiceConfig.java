@@ -14,7 +14,6 @@
  */
 package cz.cvut.kbss.sformsmanager.config;
 
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +24,6 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 @EnableTransactionManagement
 @EnableAspectJAutoProxy
-@EnableConfigurationProperties
 @ComponentScan(basePackages = "cz.cvut.kbss.sformsmanager.service")
 public class ServiceConfig {
 

@@ -1,10 +1,12 @@
 package cz.cvut.kbss.sformsmanager.utils;
 
 import cz.cvut.kbss.jopa.model.annotations.OWLClass;
-import lombok.experimental.UtilityClass;
 
-@UtilityClass
-public class OWLUtils {
+public final class OWLUtils {
+
+    private OWLUtils() {
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    }
 
     /**
      * Gets IRI of the OWL class mapped by the specified entity.
@@ -12,7 +14,7 @@ public class OWLUtils {
      * @param entityClass Entity class
      * @return IRI of mapped OWL class (as String)
      */
-    public String getOwlClassForEntity(Class<?> entityClass) {
+    public static String getOwlClassForEntity(Class<?> entityClass) {
         final OWLClass owlClass = entityClass.getDeclaredAnnotation(OWLClass.class);
         if (owlClass == null) {
             throw new IllegalArgumentException("Class " + entityClass + " is not an entity.");
@@ -20,11 +22,11 @@ public class OWLUtils {
         return owlClass.iri();
     }
 
-    public String createFormGenMetadataKey(String connectionName, String contextUri) {
+    public static String createFormGenkey(String connectionName, String contextUri) {
         return connectionName + "/" + contextUri;
     }
 
-    public String createFormGenVersionTagKey(String connectionName, int hashcode) {
-        return connectionName + "/" + String.valueOf(hashcode);
+    public static String createFormGenVersionTagKey(String connectionName, int hashcode) {
+        return connectionName + "/" + hashcode;
     }
 }

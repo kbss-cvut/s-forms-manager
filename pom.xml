@@ -2,12 +2,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.0.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
-    </parent>
     <groupId>cz.cvut.kbss</groupId>
     <artifactId>s-forms-manager</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -19,20 +13,20 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jdk.version>1.11</jdk.version> <!-- todo: tomcat? -->
+        <jdk.version>1.8</jdk.version> <!-- todo: tomcat? -->
         <maven.compiler.source>${jdk.version}</maven.compiler.source>
         <maven.compiler.target>${jdk.version}</maven.compiler.target>
-        <cz.cvut.kbss.jopa.version>0.14.7</cz.cvut.kbss.jopa.version>
-        <cz.cvut.kbss.jb4jsonld.version>0.7.1</cz.cvut.kbss.jb4jsonld.version>
-        <org.eclipse.rdf4j.version>3.3.0</org.eclipse.rdf4j.version>
+        <cz.cvut.kbss.jopa.version>0.14.4</cz.cvut.kbss.jopa.version>
+        <com.fasterxml.jackson.version>2.11.0</com.fasterxml.jackson.version>
+        <org.eclipse.rdf4j.version>3.2.1</org.eclipse.rdf4j.version>
         <ch.qos.logback.version>1.2.3</ch.qos.logback.version>
-        <org.aspectj.version>1.9.1</org.aspectj.version>
+        <org.aspectj.version>1.9.5</org.aspectj.version>
         <com.github.galigator.openllet.version>2.6.4</com.github.galigator.openllet.version>
-        <com.github.ledsoft.jopa-spring-transactions.version>0.0.8</com.github.ledsoft.jopa-spring-transactions.version>
+        <com.github.ledsoft.jopa-spring-transactions.version>0.0.7</com.github.ledsoft.jopa-spring-transactions.version>
 
-        <org.springframework.version>5.2.8.RELEASE</org.springframework.version>
+        <org.springframework.version>5.2.6.RELEASE</org.springframework.version>
         <org.springframework.boot.version>2.3.2.RELEASE</org.springframework.boot.version>
-        <org.springframework.security.version>5.0.6.RELEASE</org.springframework.security.version>
+        <org.springframework.security.version>5.2.6.RELEASE</org.springframework.security.version>
     </properties>
 
     <pluginRepositories>
@@ -51,11 +45,6 @@
     <dependencies>
 
         <!-- Jopa -->
-        <dependency>
-            <groupId>cz.cvut.kbss.jopa</groupId>
-            <artifactId>jopa-api</artifactId>
-            <version>${cz.cvut.kbss.jopa.version}</version>
-        </dependency>
         <dependency>
             <groupId>cz.cvut.kbss.jopa</groupId>
             <artifactId>jopa-impl</artifactId>
@@ -89,6 +78,12 @@
             <groupId>org.eclipse.rdf4j</groupId>
             <artifactId>rdf4j-rio-rdfjson</artifactId>
             <version>${org.eclipse.rdf4j.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.eclipse.rdf4j</groupId>
@@ -123,59 +118,6 @@
             <version>${org.springframework.version}</version>
         </dependency>
 
-        <!-- Spring Boot -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-            <version>${org.springframework.boot.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <!-- Spring Boot cache -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-cache</artifactId>
-            <version>${org.springframework.boot.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hazelcast</groupId>
-            <artifactId>hazelcast-all</artifactId>
-            <version>4.0.2</version>
-        </dependency>
-
-        <!-- Bean Validation -->
-        <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <version>2.0.0.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>5.2.4.Final</version>
-        </dependency>
-
-        <!-- Spring Security -->
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-config</artifactId>
-            <version>${org.springframework.security.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-            <version>${org.springframework.security.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-web</artifactId>
-            <version>${org.springframework.security.version}</version>
-        </dependency>
-
         <!-- Servlet-API -->
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -190,30 +132,158 @@
             <version>1.3.5</version>
         </dependency>
 
+
+        <!-- Spring Boot === DOES NOT WORK WITH OWL -->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter</artifactId>-->
+<!--            <version>${org.springframework.boot.version}</version>-->
+<!--        </dependency>-->
+
+        <!-- Spring Boot cache ============================================ -->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-cache</artifactId>-->
+<!--            <version>${org.springframework.boot.version}</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.hazelcast</groupId>-->
+<!--            <artifactId>hazelcast-all</artifactId>-->
+<!--            <version>4.0.2</version>-->
+<!--        </dependency>-->
+
+        <!-- Bean Validation -->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>2.0.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>5.2.4.Final</version>
+        </dependency>
+
+        <!-- Spring Security -->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.security</groupId>-->
+<!--            <artifactId>spring-security-config</artifactId>-->
+<!--            <version>${org.springframework.security.version}</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.security</groupId>-->
+<!--            <artifactId>spring-security-core</artifactId>-->
+<!--            <version>${org.springframework.security.version}</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.security</groupId>-->
+<!--            <artifactId>spring-security-web</artifactId>-->
+<!--            <version>${org.springframework.security.version}</version>-->
+<!--        </dependency>-->
+        <!--  ============================================ -->
+
         <!-- Jackson for JSON serialization -->
+<!--        <dependency>-->
+<!--            <groupId>com.fasterxml.jackson.core</groupId>-->
+<!--            <artifactId>jackson-databind</artifactId>-->
+<!--            <version>${com.fasterxml.jackson.version}</version>-->
+<!--        </dependency>-->
+<!--<<<<<<< HEAD-->
+
+
+<!--        &lt;!&ndash; TODO: use serialization instead &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.json</groupId>-->
+<!--            <artifactId>json</artifactId>-->
+<!--            <version>20080701</version>-->
+<!--        </dependency>-->
+
+
+        <!-- Lombok = CANNOT BE USED -->
+<!--        <dependency> -->
+<!--            <groupId>org.projectlombok</groupId>-->
+<!--            <artifactId>lombok</artifactId>-->
+<!--            <version>1.18.12</version>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
+<!--=======-->
+<!--&gt;>>>>>> e1818c5... works again &#45;&#45; [Fix] Issue with persisting student-->
+<!--        <dependency>-->
+<!--            <groupId>com.fasterxml.jackson.core</groupId>-->
+<!--            <artifactId>jackson-core</artifactId>-->
+<!--            <version>${com.fasterxml.jackson.version}</version>-->
+<!--        </dependency>-->
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.10.3</version>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${com.fasterxml.jackson.version}</version>
         </dependency>
 
-
-        <!-- TODO: use serialization instead -->
         <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20080701</version>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>${org.aspectj.version}</version>
         </dependency>
-
-
-        <!-- Lombok -->
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.12</version>
-            <scope>provided</scope>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.18.1</version>
+            <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.7.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>3.6.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>3.6.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>3.6.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.7.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>3.6.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.18.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>3.6.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>3.6.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -274,30 +344,6 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.17</version>
             </plugin>
-            <!--            <plugin>-->
-            <!--                &lt;!&ndash; Generate entity classes from OWL integrity constraints &ndash;&gt;-->
-            <!--                <groupId>cz.cvut.kbss.jopa</groupId>-->
-            <!--                <artifactId>jopa-maven-plugin</artifactId>-->
-            <!--                <version>${cz.cvut.kbss.jopa.version}</version>-->
-            <!--                <configuration>-->
-            <!--                    <package>cz.cvut.kbss.study.model</package>-->
-            <!--                    <output-directory>${project.basedir}/src/main/generated-sources</output-directory>-->
-            <!--                    <ontology-iri>http://vfn.cz/ontologies/study-manager</ontology-iri>-->
-            <!--                    <mapping-file>${project.basedir}/src/main/resources/mapping</mapping-file>-->
-            <!--                    <whole-ontology-as-ics>true</whole-ontology-as-ics>-->
-            <!--                    &lt;!&ndash;<context-name>eccairs-model</context-name>&ndash;&gt;-->
-            <!--                    <vocabulary-only>true</vocabulary-only>-->
-            <!--                </configuration>-->
-            <!--                <executions>-->
-            <!--                    <execution>-->
-            <!--                        <id>generate-vocabulary</id>-->
-            <!--                        <phase>generate-sources</phase>-->
-            <!--                        <goals>-->
-            <!--                            <goal>owl2java-transform</goal>-->
-            <!--                        </goals>-->
-            <!--                    </execution>-->
-            <!--                </executions>-->
-            <!--            </plugin>-->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>

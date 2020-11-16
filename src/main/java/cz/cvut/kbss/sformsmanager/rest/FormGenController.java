@@ -20,7 +20,6 @@ import cz.cvut.kbss.sformsmanager.model.persisted.FormGenMetadata;
 import cz.cvut.kbss.sformsmanager.persistence.dao.FormGenMetadataDAO;
 import cz.cvut.kbss.sformsmanager.service.ConnectedRepositoryService;
 import cz.cvut.kbss.sformsmanager.utils.OWLUtils;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
@@ -32,18 +31,22 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/formGen")
-@RequiredArgsConstructor
 public class FormGenController {
 
     private final ConnectedRepositoryService connectedRepositoryService;
     private final FormGenMetadataDAO formGenMetadataDAO;
+
+    public FormGenController(ConnectedRepositoryService connectedRepositoryService, FormGenMetadataDAO formGenMetadataDAO) {
+        this.connectedRepositoryService = connectedRepositoryService;
+        this.formGenMetadataDAO = formGenMetadataDAO;
+    }
 
     @RequestMapping(method = RequestMethod.POST, path = "/info/get")
     public FormGenMetadataDto getFormGenInfo(
             @RequestParam(value = "connectionName") String connectionName,
             @RequestParam(value = "contextUri") String contextUri) {
 
-        String key = OWLUtils.createFormGenMetadataKey(connectionName, contextUri);
+        String key = OWLUtils.createFormGenkey(connectionName, contextUri);
         Optional<FormGenMetadata> formGenMetadata = formGenMetadataDAO.findByKey(key);
         if (formGenMetadata.isPresent()) {
             return new FormGenMetadataDto(formGenMetadata.get());

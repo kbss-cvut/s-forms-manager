@@ -2,8 +2,7 @@ package cz.cvut.kbss.sformsmanager.service.data;
 
 import cz.cvut.kbss.sformsmanager.rest.NotFoundException;
 import cz.cvut.kbss.sformsmanager.utils.URLUtils;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -15,12 +14,15 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
 
-@Slf4j
 @Service
-@RequiredArgsConstructor
 public class RemoteDataLoader implements DataLoader {
 
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(RemoteDataLoader.class);
     private final RestTemplate restTemplate;
+
+    public RemoteDataLoader(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     @Override
     public String loadData(String remoteUrl, Map<String, String> params, Map<String, String> headers) throws URISyntaxException {

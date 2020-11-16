@@ -19,7 +19,6 @@ import cz.cvut.kbss.jopa.model.EntityManagerFactory;
 import cz.cvut.kbss.jopa.model.JOPAPersistenceProperties;
 import cz.cvut.kbss.jopa.model.JOPAPersistenceProvider;
 import cz.cvut.kbss.sformsmanager.config.provider.PropertiesProvider;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -29,11 +28,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@RequiredArgsConstructor
 public class BasePersistenceFactory {
 
     private final PropertiesProvider propertiesProvider;
     private EntityManagerFactory emf;
+
+    public BasePersistenceFactory(PropertiesProvider propertiesProvider) {
+        this.propertiesProvider = propertiesProvider;
+    }
 
     @Bean
     public EntityManagerFactory getEntityManagerFactory() {

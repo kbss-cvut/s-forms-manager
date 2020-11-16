@@ -19,27 +19,30 @@ import cz.cvut.kbss.jopa.model.EntityManagerFactory;
 import cz.cvut.kbss.sformsmanager.config.provider.PropertiesProvider;
 import cz.cvut.kbss.sformsmanager.model.persisted.FormGenMetadata;
 import cz.cvut.kbss.sformsmanager.model.persisted.FormGenVersionTag;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.eclipse.rdf4j.repository.Repository;
 import org.eclipse.rdf4j.repository.RepositoryException;
 import org.eclipse.rdf4j.repository.config.RepositoryConfigException;
 import org.eclipse.rdf4j.repository.manager.RepositoryProvider;
+import org.slf4j.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
 import java.net.URI;
 
-@Slf4j
 @Configuration
-@RequiredArgsConstructor
 public class SesamePersistenceProvider {
 
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(SesamePersistenceProvider.class);
     private final PropertiesProvider propertiesProvider;
     private final EntityManagerFactory emf;
 
     private Repository repository;
+
+    public SesamePersistenceProvider(PropertiesProvider propertiesProvider, EntityManagerFactory emf) {
+        this.propertiesProvider = propertiesProvider;
+        this.emf = emf;
+    }
 
     @Bean
     public Repository repository() {
