@@ -2,12 +2,14 @@ package cz.cvut.kbss.sformsmanager.model.dto;
 
 import cz.cvut.kbss.sformsmanager.model.persisted.FormGenMetadata;
 
+import java.util.Objects;
+
 public final class FormGenMetadataDto {
 
     private final String version;
 
     public FormGenMetadataDto(FormGenMetadata formGenMetadata) {
-        this.version = formGenMetadata.getVersionTag().getVersion();
+        this.version = formGenMetadata.getFormGenVersion().getVersion();
     }
 
     public String getVersion() {
@@ -20,7 +22,7 @@ public final class FormGenMetadataDto {
         final FormGenMetadataDto other = (FormGenMetadataDto) o;
         final Object this$version = this.getVersion();
         final Object other$version = other.getVersion();
-        if (this$version == null ? other$version != null : !this$version.equals(other$version)) return false;
+        if (!Objects.equals(this$version, other$version)) return false;
         return true;
     }
 

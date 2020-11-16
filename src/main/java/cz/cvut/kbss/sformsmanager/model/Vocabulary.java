@@ -19,9 +19,12 @@ public class Vocabulary {
     public static final String URI_BASE = "http://onto.fel.cvut.cz/ontologies/sformsmanager#";
 
     public static final String FormGenMetadata = URI_BASE + "FormGenMetadata";
-    public static final String FormGenVersion = URI_BASE + "FormGenVersionTag";
-    public static final String p_assigned_version_tag = URI_BASE + "assignedFormGenVersionTag";
+    public static final String FormGenVersion = URI_BASE + "FormGenVersion";
+    public static final String FormGenInstance = URI_BASE + "FormGenInstance";
+    public static final String p_assigned_version = URI_BASE + "assignedFormGenVersion";
+    public static final String p_assigned_instance = URI_BASE + "assignedFormGenInstance";
     public static final String p_version = URI_BASE + "formGenVersion";
+    public static final String p_instance = URI_BASE + "formGenInstance";
     public static final String p_hashcode = URI_BASE + "formGenHashCode";
     public static final String p_contextUri = URI_BASE + "contextUri";
     public static final String p_connectionName = URI_BASE + "connectoinName";

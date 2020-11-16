@@ -1,6 +1,10 @@
 package cz.cvut.kbss.sformsmanager.model.dto;
 
 
+import cz.cvut.kbss.sformsmanager.utils.OWLUtils;
+
+import java.util.Objects;
+
 public final class FormGenRawJson {
 
     private final String connectionName;
@@ -8,15 +12,11 @@ public final class FormGenRawJson {
     private final String rawJson;
     private final String key;
 
-    public FormGenRawJson(String connectionName, String contextUri, String rawJson, String key) {
+    public FormGenRawJson(String connectionName, String contextUri, String rawJson) {
         this.connectionName = connectionName;
         this.contextUri = contextUri;
         this.rawJson = rawJson;
-        this.key = key;
-    }
-
-    public static FormGenRawJsonBuilder builder() {
-        return new FormGenRawJsonBuilder();
+        this.key = OWLUtils.createInitialsAndConcatWithSlash(connectionName, contextUri);
     }
 
     public String getConnectionName() {
@@ -41,7 +41,7 @@ public final class FormGenRawJson {
         final FormGenRawJson other = (FormGenRawJson) o;
         final Object this$key = this.getKey();
         final Object other$key = other.getKey();
-        if (this$key == null ? other$key != null : !this$key.equals(other$key)) return false;
+        if (!Objects.equals(this$key, other$key)) return false;
         return true;
     }
 
@@ -57,41 +57,4 @@ public final class FormGenRawJson {
         return "FormGenRawJson(key=" + this.getKey() + ")";
     }
 
-    public static class FormGenRawJsonBuilder {
-        private String connectionName;
-        private String contextUri;
-        private String rawJson;
-        private String key;
-
-        FormGenRawJsonBuilder() {
-        }
-
-        public FormGenRawJson.FormGenRawJsonBuilder connectionName(String connectionName) {
-            this.connectionName = connectionName;
-            return this;
-        }
-
-        public FormGenRawJson.FormGenRawJsonBuilder contextUri(String contextUri) {
-            this.contextUri = contextUri;
-            return this;
-        }
-
-        public FormGenRawJson.FormGenRawJsonBuilder rawJson(String rawJson) {
-            this.rawJson = rawJson;
-            return this;
-        }
-
-        public FormGenRawJson.FormGenRawJsonBuilder key(String key) {
-            this.key = key;
-            return this;
-        }
-
-        public FormGenRawJson build() {
-            return new FormGenRawJson(connectionName, contextUri, rawJson, key);
-        }
-
-        public String toString() {
-            return "FormGenRawJson.FormGenRawJsonBuilder(connectionName=" + this.connectionName + ", contextUri=" + this.contextUri + ", rawJson=" + this.rawJson + ", key=" + this.key + ")";
-        }
-    }
 }

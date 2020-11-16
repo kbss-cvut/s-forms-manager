@@ -2,6 +2,9 @@ package cz.cvut.kbss.sformsmanager.utils;
 
 import cz.cvut.kbss.jopa.model.annotations.OWLClass;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 public final class OWLUtils {
 
     private OWLUtils() {
@@ -22,11 +25,19 @@ public final class OWLUtils {
         return owlClass.iri();
     }
 
-    public static String createFormGenkey(String connectionName, String contextUri) {
-        return connectionName + "/" + contextUri;
+    /**
+     * Take initials of the first string delimited by '-' and concat it with '/' and the second parameter.
+     *
+     * @param toTakeInitials
+     * @param word
+     * @return
+     */
+    public static String createInitialsAndConcatWithSlash(String toTakeInitials, String word) {
+        String connectionNameInitials = Arrays.stream(toTakeInitials.split("-")).map(part -> String.valueOf(part.charAt(0))).collect(Collectors.joining());
+        return connectionNameInitials + "/" + word;
     }
 
-    public static String createFormGenVersionTagKey(String connectionName, int hashcode) {
-        return connectionName + "/" + hashcode;
+    public static String createInitialsAndConcatWithSlash(String toTakeInitials, int number) {
+        return createInitialsAndConcatWithSlash(toTakeInitials, String.valueOf(number));
     }
 }

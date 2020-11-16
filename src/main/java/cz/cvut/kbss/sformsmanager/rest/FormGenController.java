@@ -46,7 +46,7 @@ public class FormGenController {
             @RequestParam(value = "connectionName") String connectionName,
             @RequestParam(value = "contextUri") String contextUri) {
 
-        String key = OWLUtils.createFormGenkey(connectionName, contextUri);
+        String key = OWLUtils.createInitialsAndConcatWithSlash(connectionName, contextUri);
         Optional<FormGenMetadata> formGenMetadata = formGenMetadataDAO.findByKey(key);
         if (formGenMetadata.isPresent()) {
             return new FormGenMetadataDto(formGenMetadata.get());

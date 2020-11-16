@@ -5,28 +5,32 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.cvut.kbss.sformsmanager.model.dto.FormGenRawJson;
+import cz.cvut.kbss.sformsmanager.model.persisted.FormGenInstance;
 import cz.cvut.kbss.sformsmanager.model.persisted.FormGenMetadata;
-import cz.cvut.kbss.sformsmanager.model.persisted.FormGenVersionTag;
+import cz.cvut.kbss.sformsmanager.model.persisted.FormGenVersion;
+import cz.cvut.kbss.sformsmanager.persistence.dao.FormGenInstanceDAO;
 import cz.cvut.kbss.sformsmanager.persistence.dao.FormGenMetadataDAO;
-import cz.cvut.kbss.sformsmanager.persistence.dao.FormGenVersionTagDAO;
-import cz.cvut.kbss.sformsmanager.utils.OWLUtils;
+import cz.cvut.kbss.sformsmanager.persistence.dao.FormGenVersionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class FormGenProcessingServiceImpl implements FormGenProcessingService {
 
-    private final FormGenVersionTagDAO versionTagDAO;
+    private final FormGenInstanceDAO instanceDAO;
+    private final FormGenVersionDAO versionDAO;
     private final FormGenMetadataDAO metadataDAO;
 
     @Autowired
-    public FormGenProcessingServiceImpl(FormGenVersionTagDAO versionTagDAO, FormGenMetadataDAO metadataDAO) {
-        this.versionTagDAO = versionTagDAO;
+    public FormGenProcessingServiceImpl(FormGenInstanceDAO instanceDAO, FormGenVersionDAO versionTagDAO, FormGenMetadataDAO metadataDAO) {
+        this.instanceDAO = instanceDAO;
+        this.versionDAO = versionTagDAO;
         this.metadataDAO = metadataDAO;
     }
 
@@ -35,30 +39,25 @@ public class FormGenProcessingServiceImpl implements FormGenProcessingService {
         ObjectMapper mapper = new ObjectMapper();
         FormGenJsonLd formGenJsonLd = mapper.readValue(formGenRawJson.getRawJson(), FormGenJsonLd.class);
 
-        String versionTagKey = OWLUtils.createFormGenVersionTagKey(formGenRawJson.getConnectionName(), formGenJsonLd.hashCode());
-        Optional<FormGenVersionTag> versionTagOptional = versionTagDAO.findByKey(versionTagKey);
-        FormGenVersionTag versionTag;
-        if (versionTagOptional.isPresent()) {
-            versionTag = versionTagOptional.get();
-        } else {
-            versionTag = new FormGenVersionTag(formGenRawJson.getConnectionName() + versionTagDAO.count(), versionTagKey);
-        }
+        // formGen version
+        int hashCode = formGenJsonLd.hashCode();
+        String versionKey = FormGenVersion.createKey(formGenRawJson.getConnectionName(), hashCode);
+        Optional<FormGenVersion> versionTagOptional = versionDAO.findByKey(versionKey);
+        FormGenVersion formGenVersion = versionTagOptional.orElse(
+                new FormGenVersion(formGenRawJson.getConnectionName(), formGenRawJson.getContextUri(), versionDAO.count(), hashCode));
 
-        String formGenMetadataKey = OWLUtils.createFormGenkey(formGenRawJson.getConnectionName(), formGenRawJson.getContextUri());
+        // formGen intance
+        int instanceNumber = formGenJsonLd.getInstanceNumber(formGenRawJson.getConnectionName(), formGenRawJson.getContextUri());
+        String instanceKey = FormGenInstance.createKey(formGenRawJson.getConnectionName(), formGenRawJson.getContextUri());
+        Optional<FormGenInstance> instanceOptional = instanceDAO.findByKey(instanceKey);
+        FormGenInstance formGenInstance = instanceOptional.orElse(
+                new FormGenInstance(formGenRawJson.getConnectionName(), formGenRawJson.getContextUri(), instanceNumber));
+
+        // formGen
+        String formGenMetadataKey = FormGenMetadata.createKey(formGenRawJson.getConnectionName(), formGenRawJson.getContextUri());
         Optional<FormGenMetadata> formGenMetadataOptional = metadataDAO.findByKey(formGenMetadataKey);
-        FormGenMetadata formGenMetadata;
-        if (formGenMetadataOptional.isPresent()) {
-            formGenMetadata = formGenMetadataOptional.get();
-            formGenMetadata.setVersionTag(versionTag);
-        } else {
-            formGenMetadata = new FormGenMetadata(
-                    versionTag,
-                    formGenRawJson.getContextUri(),
-                    formGenRawJson.getConnectionName(),
-                    OWLUtils.createFormGenkey(
-                            formGenRawJson.getConnectionName(),
-                            formGenRawJson.getContextUri()));
-        }
+        FormGenMetadata formGenMetadata = formGenMetadataOptional.orElse(
+                new FormGenMetadata(formGenVersion, formGenInstance, formGenRawJson.getContextUri(), formGenRawJson.getConnectionName()));
 
         return formGenMetadata;
     }
@@ -83,6 +82,16 @@ public class FormGenProcessingServiceImpl implements FormGenProcessingService {
                     .collect(Collectors.toList());
             Integer hashCode = java.util.Objects.hash(listOfQuestions);
             return hashCode;
+        }
+
+        /**
+         * So far only a return a sum of all the provided characters codes.
+         *
+         * @return instance identifier
+         */
+        public int getInstanceNumber(String connectionName, String contextUri) {
+            return (connectionName + contextUri).chars()
+                    .reduce(0, (subtotal, element) -> subtotal + element);
         }
 
         public List<FormGenJsonLdNode> getGraph() {
@@ -131,7 +140,7 @@ public class FormGenProcessingServiceImpl implements FormGenProcessingService {
             if (!other.canEqual((Object) this)) return false;
             final Object this$questionOrigin = this.getQuestionOrigin();
             final Object other$questionOrigin = other.getQuestionOrigin();
-            if (this$questionOrigin == null ? other$questionOrigin != null : !this$questionOrigin.equals(other$questionOrigin))
+            if (!Objects.equals(this$questionOrigin, other$questionOrigin))
                 return false;
             return true;
         }

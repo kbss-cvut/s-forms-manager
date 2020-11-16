@@ -6,41 +6,41 @@ import cz.cvut.kbss.jopa.model.annotations.OWLClass;
 import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
 import cz.cvut.kbss.jopa.model.annotations.ParticipationConstraints;
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
+import cz.cvut.kbss.sformsmanager.utils.OWLUtils;
 
 import java.io.Serializable;
 import java.net.URI;
 
 @OWLClass(iri = Vocabulary.FormGenVersion)
-public class FormGenVersionTag implements Serializable {
+public class FormGenVersion implements Serializable {
 
     @Id(generated = true)
     private URI uri;
 
     /**
      * Represent a version of FormGenMetadata.
+     * <p/>
+     * Consists of connection name initials and its numbering.
      */
     @ParticipationConstraints(nonEmpty = true)
     @OWLDataProperty(iri = Vocabulary.p_version)
-    private String version; // e.g. study-manager15
+    private String version; // e.g. v/sm/15
 
     /**
-     * Consists of connectionName and hashcode.
+     * Consists of connectionName initials and hashcode.
      * <p/>
-     * Use {@link cz.cvut.kbss.sformsmanager.utils.OWLUtils#createFormGenVersionTagKey(String, int)}
+     * Use {@link cz.cvut.kbss.sformsmanager.utils.OWLUtils#createInitialsAndConcatWithSlash(String, String)}
      */
     @ParticipationConstraints(nonEmpty = true)
     @OWLDataProperty(iri = Vocabulary.p_key)
-    private String key; // e.g. study-manager13156432
+    private String key; // e.g. v/sm/13156432
 
-    public FormGenVersionTag() {
+    public FormGenVersion(String connectionName, String contextUri, int versionNumbering, int hashcode) {
+        this.version = createVersion(connectionName, versionNumbering);
+        this.key = createKey(connectionName, hashcode);
     }
 
-    public FormGenVersionTag(String version, String key) {
-        this.version = version;
-        this.key = key;
-    }
-
-    public FormGenVersionTag(URI uri, String version, String key) {
+    public FormGenVersion(URI uri, String version, String key) {
         this.uri = uri;
         this.version = version;
         this.key = key;
@@ -70,11 +70,20 @@ public class FormGenVersionTag implements Serializable {
         this.key = key;
     }
 
+
+    public static String createKey(String connectionName, int versionNumbering) {
+        return "v/" + OWLUtils.createInitialsAndConcatWithSlash(connectionName, versionNumbering);
+    }
+
+    public static String createVersion(String connectionName, int hashcode) {
+        return "v/" + OWLUtils.createInitialsAndConcatWithSlash(connectionName, hashcode);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        FormGenVersionTag that = (FormGenVersionTag) o;
+        FormGenVersion that = (FormGenVersion) o;
         return Objects.equal(uri, that.uri) &&
                 Objects.equal(version, that.version) &&
                 Objects.equal(key, that.key);

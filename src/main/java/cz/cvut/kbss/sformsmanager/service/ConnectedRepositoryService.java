@@ -7,7 +7,6 @@ import cz.cvut.kbss.sformsmanager.model.persisted.FormGenMetadata;
 import cz.cvut.kbss.sformsmanager.persistence.dao.FormGenMetadataDAO;
 import cz.cvut.kbss.sformsmanager.service.data.RemoteDataLoader;
 import cz.cvut.kbss.sformsmanager.service.process.FormGenProcessingService;
-import cz.cvut.kbss.sformsmanager.utils.OWLUtils;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +21,7 @@ import java.util.Map;
 public class ConnectedRepositoryService {
 
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(ConnectedRepositoryService.class);
-    
+
     private final RemoteDataLoader dataLoader;
     private final ConnectedRepositoryConfigProvider connectedRepositoryConfigProvider;
     private final FormGenMetadataDAO formGenMetadataDAO;
@@ -61,14 +60,7 @@ public class ConnectedRepositoryService {
         params.put(FORMGEN_REPOSITORY_URL_PARAM, connection.getFormGenRepositoryUrl());
 
         String rawFormJson = dataLoader.loadData(connection.getFormGenServiceUrl(), params, Collections.emptyMap());
-        String formGenKey = OWLUtils.createFormGenkey(connectionName, contextUri);
-
-        return FormGenRawJson.builder()
-                .connectionName(connectionName)
-                .key(formGenKey)
-                .contextUri(contextUri)
-                .rawJson(rawFormJson)
-                .build();
+        return new FormGenRawJson(connectionName, contextUri, rawFormJson);
     }
 
     @Transactional

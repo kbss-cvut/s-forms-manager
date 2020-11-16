@@ -15,8 +15,12 @@ public class FormGenMetadata implements Serializable {
     private URI uri;
 
     @ParticipationConstraints()
-    @OWLObjectProperty(iri = Vocabulary.p_assigned_version_tag, fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    private FormGenVersionTag versionTag;
+    @OWLObjectProperty(iri = Vocabulary.p_assigned_version, fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    private FormGenVersion formGenVersion;
+
+    @ParticipationConstraints()
+    @OWLObjectProperty(iri = Vocabulary.p_assigned_instance, fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    private FormGenInstance formGenInstance;
 
     @ParticipationConstraints(nonEmpty = true)
     @OWLDataProperty(iri = Vocabulary.p_contextUri)
@@ -28,40 +32,34 @@ public class FormGenMetadata implements Serializable {
 
     @ParticipationConstraints(nonEmpty = true)
     @OWLDataProperty(iri = Vocabulary.p_key)
-    private String key = OWLUtils.createFormGenkey(connectionName, contextUri);
+    private String key; // e.g. sm/formGen16453135
 
     public FormGenMetadata() {
     }
 
-    public FormGenMetadata(URI uri, FormGenVersionTag versionTag, String contextUri, String connectionName, String key) {
+    public FormGenMetadata(URI uri, FormGenVersion formGenVersion, FormGenInstance formGenInstance, String contextUri, String connectionName) {
         this.uri = uri;
-        this.versionTag = versionTag;
+        this.formGenVersion = formGenVersion;
+        this.formGenInstance = formGenInstance;
         this.contextUri = contextUri;
         this.connectionName = connectionName;
-        this.key = key;
+        this.key = createKey(connectionName, contextUri);
     }
 
-    public FormGenMetadata(FormGenVersionTag versionTag, String contextUri, String connectionName, String key) {
-        this.versionTag = versionTag;
+    public FormGenMetadata(FormGenVersion formGenVersion, FormGenInstance formGenInstance, String contextUri, String connectionName) {
+        this.formGenVersion = formGenVersion;
+        this.formGenInstance = formGenInstance;
         this.contextUri = contextUri;
         this.connectionName = connectionName;
-        this.key = key;
+        this.key = createKey(connectionName, contextUri);
     }
 
-    public URI getUri() {
-        return uri;
+    public FormGenVersion getFormGenVersion() {
+        return formGenVersion;
     }
 
-    public void setUri(URI uri) {
-        this.uri = uri;
-    }
-
-    public FormGenVersionTag getVersionTag() {
-        return versionTag;
-    }
-
-    public void setVersionTag(FormGenVersionTag versionTag) {
-        this.versionTag = versionTag;
+    public void setFormGenVersion(FormGenVersion formGenVersion) {
+        this.formGenVersion = formGenVersion;
     }
 
     public String getContextUri() {
@@ -84,8 +82,32 @@ public class FormGenMetadata implements Serializable {
         return key;
     }
 
+    public void setKey(String connectionName, String contextUri) {
+        this.key = OWLUtils.createInitialsAndConcatWithSlash(connectionName, contextUri);
+    }
+
+    public URI getUri() {
+        return uri;
+    }
+
+    public void setUri(URI uri) {
+        this.uri = uri;
+    }
+
+    public FormGenInstance getFormGenInstance() {
+        return formGenInstance;
+    }
+
+    public void setFormGenInstance(FormGenInstance formGenInstance) {
+        this.formGenInstance = formGenInstance;
+    }
+
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public static String createKey(String connectionName, String contextUri) {
+        return OWLUtils.createInitialsAndConcatWithSlash(connectionName, contextUri);
     }
 
     @Override
@@ -94,7 +116,8 @@ public class FormGenMetadata implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         FormGenMetadata that = (FormGenMetadata) o;
         return Objects.equal(uri, that.uri) &&
-                Objects.equal(versionTag, that.versionTag) &&
+                Objects.equal(formGenVersion, that.formGenVersion) &&
+                Objects.equal(formGenInstance, that.formGenInstance) &&
                 Objects.equal(contextUri, that.contextUri) &&
                 Objects.equal(connectionName, that.connectionName) &&
                 Objects.equal(key, that.key);
@@ -102,6 +125,6 @@ public class FormGenMetadata implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(uri, versionTag, contextUri, connectionName, key);
+        return Objects.hashCode(uri, formGenVersion, formGenInstance, contextUri, connectionName, key);
     }
 }
