@@ -29,8 +29,10 @@ public class Vocabulary {
     public static final String p_contextUri = URI_BASE + "contextUri";
     public static final String p_connectionName = URI_BASE + "connectoinName";
 
-    public static final String p_firstName = URI_BASE + "firstName";
-    public static final String p_lastName = URI_BASE + "lastName";
-    public static final String p_emailAddress = URI_BASE + "emailAddress";
+    public static final String Connection = URI_BASE + "Connection";
+    public static final String p_repositoryUrl = URI_BASE + "repositoryUrl";
+    public static final String p_serviceUrl = URI_BASE + "serviceUrl";
+    public static final String p_appRepositoryUrl = URI_BASE + "appRepositoryUrl";
+
     public static final String p_key = URI_BASE + "key";
 }

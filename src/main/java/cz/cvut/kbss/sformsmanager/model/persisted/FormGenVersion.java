@@ -5,6 +5,7 @@ import cz.cvut.kbss.jopa.model.annotations.Id;
 import cz.cvut.kbss.jopa.model.annotations.OWLClass;
 import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
 import cz.cvut.kbss.jopa.model.annotations.ParticipationConstraints;
+import cz.cvut.kbss.sformsmanager.model.HasUniqueKey;
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
 import cz.cvut.kbss.sformsmanager.utils.OWLUtils;
 
@@ -12,7 +13,7 @@ import java.io.Serializable;
 import java.net.URI;
 
 @OWLClass(iri = Vocabulary.FormGenVersion)
-public class FormGenVersion implements Serializable {
+public class FormGenVersion implements Serializable, HasUniqueKey {
 
     @Id(generated = true)
     private URI uri;
@@ -34,6 +35,9 @@ public class FormGenVersion implements Serializable {
     @ParticipationConstraints(nonEmpty = true)
     @OWLDataProperty(iri = Vocabulary.p_key)
     private String key; // e.g. v/sm/13156432
+
+    public FormGenVersion() {
+    }
 
     public FormGenVersion(String connectionName, String contextUri, int versionNumbering, int hashcode) {
         this.version = createVersion(connectionName, versionNumbering);

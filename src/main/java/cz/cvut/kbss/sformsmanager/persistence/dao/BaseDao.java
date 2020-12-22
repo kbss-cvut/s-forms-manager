@@ -3,6 +3,7 @@ package cz.cvut.kbss.sformsmanager.persistence.dao;
 import cz.cvut.kbss.jopa.exceptions.NoResultException;
 import cz.cvut.kbss.jopa.model.EntityManager;
 import cz.cvut.kbss.sformsmanager.exception.PersistenceException;
+import cz.cvut.kbss.sformsmanager.model.HasUniqueKey;
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
 import cz.cvut.kbss.sformsmanager.utils.OWLUtils;
 import org.slf4j.Logger;
@@ -16,7 +17,7 @@ import java.util.Optional;
 /**
  * Base implementation of the generic DAO.
  */
-public abstract class BaseDao<T> implements GenericDao<T> {
+public abstract class BaseDao<T extends HasUniqueKey> implements GenericDao<T> {
 
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(BaseDao.class);
     protected final EntityManager em; // TODO: should we use entity manager factory instead?
@@ -75,6 +76,9 @@ public abstract class BaseDao<T> implements GenericDao<T> {
 
     @Override
     public void persist(@NonNull T entity) {
+        if (findByKey(entity.getKey()).isPresent()) {
+            throw new PersistenceException("The entity with " + entity.getKey() + " already exist.");
+        }
         try {
             em.persist(entity);
         } catch (RuntimeException e) {

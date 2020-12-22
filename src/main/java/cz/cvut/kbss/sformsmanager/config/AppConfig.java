@@ -14,7 +14,6 @@
  */
 package cz.cvut.kbss.sformsmanager.config;
 
-import cz.cvut.kbss.sformsmanager.config.provider.ConnectedRepositoryConfigProvider;
 import cz.cvut.kbss.sformsmanager.config.provider.PropertiesProvider;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -25,7 +24,6 @@ import org.springframework.context.annotation.Import;
         PersistenceConfig.class,
         ServiceConfig.class,
         WebAppConfig.class,
-        SecurityConfig.class,
-        ConnectedRepositoryConfigProvider.class})
+        SecurityConfig.class})
 public class AppConfig {
 }

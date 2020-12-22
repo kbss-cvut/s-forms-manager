@@ -15,7 +15,7 @@
 package cz.cvut.kbss.sformsmanager.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import cz.cvut.kbss.sformsmanager.model.dto.FormGenMetadataDto;
+import cz.cvut.kbss.sformsmanager.model.dto.FormGenMetadataDTO;
 import cz.cvut.kbss.sformsmanager.model.persisted.FormGenMetadata;
 import cz.cvut.kbss.sformsmanager.persistence.dao.FormGenMetadataDAO;
 import cz.cvut.kbss.sformsmanager.service.ConnectedRepositoryService;
@@ -42,14 +42,14 @@ public class FormGenController {
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/info/get")
-    public FormGenMetadataDto getFormGenInfo(
+    public FormGenMetadataDTO getFormGenInfo(
             @RequestParam(value = "connectionName") String connectionName,
             @RequestParam(value = "contextUri") String contextUri) {
 
         String key = OWLUtils.createInitialsAndConcatWithSlash(connectionName, contextUri);
         Optional<FormGenMetadata> formGenMetadata = formGenMetadataDAO.findByKey(key);
         if (formGenMetadata.isPresent()) {
-            return new FormGenMetadataDto(formGenMetadata.get());
+            return new FormGenMetadataDTO(formGenMetadata.get());
         } else {
             throw new NotFoundException("FormGenInfo " + key + " not found.");
         }

@@ -2,6 +2,7 @@ package cz.cvut.kbss.sformsmanager.model.persisted;
 
 import com.google.common.base.Objects;
 import cz.cvut.kbss.jopa.model.annotations.*;
+import cz.cvut.kbss.sformsmanager.model.HasUniqueKey;
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
 import cz.cvut.kbss.sformsmanager.utils.OWLUtils;
 
@@ -9,7 +10,7 @@ import java.io.Serializable;
 import java.net.URI;
 
 @OWLClass(iri = Vocabulary.FormGenMetadata)
-public class FormGenMetadata implements Serializable {
+public class FormGenMetadata implements Serializable, HasUniqueKey {
 
     @Id(generated = true)
     private URI uri;

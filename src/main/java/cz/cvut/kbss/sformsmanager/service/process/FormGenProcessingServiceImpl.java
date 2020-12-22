@@ -76,6 +76,8 @@ public class FormGenProcessingServiceImpl implements FormGenProcessingService {
 
         @Override
         public int hashCode() {
+            // TODO: study-manager save action =-> jopa objekty Q&A, vytahnout question origin pro vsechny otazky a pro ne udelat hash
+
             List<String> listOfQuestions = graph.stream()
                     .filter(node -> node.getQuestionOrigin() != null)
                     .map(node -> node.getQuestionOrigin())
@@ -90,6 +92,11 @@ public class FormGenProcessingServiceImpl implements FormGenProcessingService {
          * @return instance identifier
          */
         public int getInstanceNumber(String connectionName, String contextUri) {
+            //
+
+
+            // TODO: v idealnim pripade bude rozlisovani verze probihat na zaklade konfigurovateleho sparQL dotazu
+            // nebo alternativou je pridat to do S-Forms - cas ulozeni
             return (connectionName + contextUri).chars()
                     .reduce(0, (subtotal, element) -> subtotal + element);
         }

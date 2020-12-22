@@ -55,6 +55,6 @@ public class WebAppConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) { // TODO: replace with spring security
-        registry.addMapping("/**"); // https://spring.io/blog/2015/06/08/cors-support-in-spring-framework
+        registry.addMapping("/**").allowedMethods("*"); // https://spring.io/blog/2015/06/08/cors-support-in-spring-framework
     }
 }
