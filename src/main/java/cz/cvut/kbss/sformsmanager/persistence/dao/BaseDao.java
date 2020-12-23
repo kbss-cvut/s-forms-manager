@@ -135,7 +135,7 @@ public abstract class BaseDao<T extends HasUniqueKey> implements GenericDao<T> {
     public int count() {
         try {
             return (int) em.createNativeQuery(
-                    "SELECT (count(?p) as ?object) WHERE { ?x a ?type }")
+                    "SELECT (count(?x) as ?object) WHERE { ?x a ?type }")
                     .setParameter("type", typeUri).getSingleResult();
         } catch (RuntimeException e) {
             log.error(e.getMessage());

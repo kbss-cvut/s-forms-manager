@@ -19,6 +19,11 @@ public class ContextRepository {
 
     public List<RdfContext> findAll(String connectionName) {
         EntityManager emf = entityManagerProvider.getEntityManagerFactory(connectionName);
-        return emf.getContexts().stream().map(RdfContext::new).limit(10).collect(Collectors.toList());
+        return emf.getContexts().stream().map(RdfContext::new).collect(Collectors.toList());
+    }
+
+    public int count(String connectionName) {
+        EntityManager emf = entityManagerProvider.getEntityManagerFactory(connectionName);
+        return emf.getContexts().size();
     }
 }

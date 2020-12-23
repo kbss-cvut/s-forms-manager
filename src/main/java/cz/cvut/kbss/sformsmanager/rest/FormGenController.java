@@ -16,10 +16,14 @@ package cz.cvut.kbss.sformsmanager.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import cz.cvut.kbss.sformsmanager.model.dto.FormGenMetadataDTO;
+import cz.cvut.kbss.sformsmanager.model.dto.ProcessedContextsStatsDTO;
 import cz.cvut.kbss.sformsmanager.model.persisted.FormGenMetadata;
-import cz.cvut.kbss.sformsmanager.persistence.dao.FormGenMetadataDAO;
 import cz.cvut.kbss.sformsmanager.service.ConnectedRepositoryService;
+import cz.cvut.kbss.sformsmanager.service.ContextService;
+import cz.cvut.kbss.sformsmanager.service.FormGenService;
 import cz.cvut.kbss.sformsmanager.utils.OWLUtils;
+import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
@@ -33,12 +37,17 @@ import java.util.Optional;
 @RequestMapping("/formGen")
 public class FormGenController {
 
-    private final ConnectedRepositoryService connectedRepositoryService;
-    private final FormGenMetadataDAO formGenMetadataDAO;
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(FormGenController.class);
 
-    public FormGenController(ConnectedRepositoryService connectedRepositoryService, FormGenMetadataDAO formGenMetadataDAO) {
+    private final ConnectedRepositoryService connectedRepositoryService;
+    private final FormGenService formGenService;
+    private final ContextService contextService;
+
+    @Autowired
+    public FormGenController(ConnectedRepositoryService connectedRepositoryService, FormGenService formGenService, ContextService contextService) {
         this.connectedRepositoryService = connectedRepositoryService;
-        this.formGenMetadataDAO = formGenMetadataDAO;
+        this.formGenService = formGenService;
+        this.contextService = contextService;
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/info/get")
@@ -47,7 +56,7 @@ public class FormGenController {
             @RequestParam(value = "contextUri") String contextUri) {
 
         String key = OWLUtils.createInitialsAndConcatWithSlash(connectionName, contextUri);
-        Optional<FormGenMetadata> formGenMetadata = formGenMetadataDAO.findByKey(key);
+        Optional<FormGenMetadata> formGenMetadata = formGenService.findByKey(key);
         if (formGenMetadata.isPresent()) {
             return new FormGenMetadataDTO(formGenMetadata.get());
         } else {
@@ -64,7 +73,7 @@ public class FormGenController {
         return connectedRepositoryService.getFormGenRawJsonFromConnectionAndSaveMetadata(connectionName, contextUri).getRawJson();
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/info/update")
+    @RequestMapping(method = RequestMethod.POST, path = "/info/update/single")
     @ResponseStatus(value = HttpStatus.OK)
     public void updateFormGenInfo(
             @RequestParam(value = "connectionName") String connectionName,
@@ -72,6 +81,32 @@ public class FormGenController {
             throws URISyntaxException, JsonProcessingException {
 
         connectedRepositoryService.getFormGenRawJsonFromConnectionAndSaveMetadata(connectionName, contextUri).getRawJson();
+    }
+
+    @RequestMapping(method = RequestMethod.POST, path = "/info/update/all")
+    @ResponseStatus(value = HttpStatus.OK)
+    public void updateFormGenInfoAll(
+            @RequestParam(value = "connectionName") String connectionName) {
+
+        log.info("Running batch update on {}.", connectionName);
+        contextService.findAll(connectionName).forEach(context -> {
+            try {
+                log.info("Processing {}", context.getUri().toString());
+                connectedRepositoryService.getFormGenRawJsonFromConnectionAndSaveMetadata(connectionName, context.getUri().toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/info/stats")
+    @ResponseStatus(value = HttpStatus.OK)
+    public ProcessedContextsStatsDTO getContextsStats(
+            @RequestParam(value = "connectionName") String connectionName) {
+
+        int totalContexts = contextService.count(connectionName);
+        int processedContexts = formGenService.getConnectionCount(connectionName);
+        return new ProcessedContextsStatsDTO(totalContexts, processedContexts);
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/static")

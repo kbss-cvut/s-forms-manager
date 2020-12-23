@@ -20,7 +20,12 @@ public class ContextService {
     private final ContextRepository contextRepository;
 
     @Transactional
-    public List<RdfContext> findAll(String repositoryName) {
-        return contextRepository.findAll(repositoryName);
+    public List<RdfContext> findAll(String connectionName) {
+        return contextRepository.findAll(connectionName);
+    }
+
+    @Transactional
+    public int count(String connectionName) {
+        return contextRepository.count(connectionName);
     }
 }
