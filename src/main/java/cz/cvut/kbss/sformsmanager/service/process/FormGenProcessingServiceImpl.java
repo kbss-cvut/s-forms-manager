@@ -44,7 +44,7 @@ public class FormGenProcessingServiceImpl implements FormGenProcessingService {
         String versionKey = FormGenVersion.createKey(formGenRawJson.getConnectionName(), hashCode);
         Optional<FormGenVersion> versionTagOptional = versionDAO.findByKey(versionKey);
         FormGenVersion formGenVersion = versionTagOptional.orElse(
-                new FormGenVersion(formGenRawJson.getConnectionName(), formGenRawJson.getContextUri(), versionDAO.count(), hashCode));
+                new FormGenVersion(formGenRawJson.getConnectionName(), versionDAO.count(), hashCode));
 
         // formGen intance
         int instanceNumber = formGenJsonLd.getInstanceNumber(formGenRawJson.getConnectionName(), formGenRawJson.getContextUri());

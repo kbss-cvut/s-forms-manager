@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.springframework.lang.NonNull;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -39,6 +40,19 @@ public abstract class BaseDao<T extends HasUniqueKey> implements GenericDao<T> {
         } catch (RuntimeException e) {
             log.error(e.getMessage());
             throw new PersistenceException(e);
+        }
+    }
+
+    public List<T> findPaginated(@NonNull String connectionName, int offset, int limit) {
+        try {
+            return em.createNativeQuery("SELECT ?x WHERE { ?x ?hasConnectionName ?connectionName ;a ?type } OFFSET ?offset LIMIT ?limit", type)
+                    .setParameter("hasConnectionName", URI.create(Vocabulary.p_connectionName))
+                    .setParameter("connectionName", connectionName)
+                    .setParameter("offset", offset)
+                    .setParameter("limit", limit)
+                    .setParameter("type", typeUri).getResultList();
+        } catch (NoResultException e) {
+            return new ArrayList<>();
         }
     }
 
@@ -136,6 +150,30 @@ public abstract class BaseDao<T extends HasUniqueKey> implements GenericDao<T> {
         try {
             return (int) em.createNativeQuery(
                     "SELECT (count(?x) as ?object) WHERE { ?x a ?type }")
+                    .setParameter("type", typeUri).getSingleResult();
+        } catch (RuntimeException e) {
+            log.error(e.getMessage());
+            throw new PersistenceException("Could not run 'count' on " + typeUri.toString() + ".", e);
+        }
+    }
+
+    public List<T> findByConnectionName(@NonNull String connectionName) {
+        try {
+            return em.createNativeQuery("SELECT ?x WHERE { ?x ?hasConnectionName ?connectionName ;a ?type }", type)
+                    .setParameter("hasConnectionName", URI.create(Vocabulary.p_connectionName))
+                    .setParameter("connectionName", connectionName)
+                    .setParameter("type", typeUri).getResultList();
+        } catch (NoResultException e) {
+            return new ArrayList<>();
+        }
+    }
+
+    public int count(@NonNull String connectionName) {
+        try {
+            return (int) em.createNativeQuery(
+                    "SELECT (count(?x) as ?object) WHERE { ?x ?hasConnectionName ?connectionName ;a ?type }")
+                    .setParameter("hasConnectionName", URI.create(Vocabulary.p_connectionName))
+                    .setParameter("connectionName", connectionName)
                     .setParameter("type", typeUri).getSingleResult();
         } catch (RuntimeException e) {
             log.error(e.getMessage());

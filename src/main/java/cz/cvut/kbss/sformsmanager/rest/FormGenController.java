@@ -15,13 +15,14 @@
 package cz.cvut.kbss.sformsmanager.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import cz.cvut.kbss.sformsmanager.model.Context;
+import cz.cvut.kbss.sformsmanager.model.dto.ContextsStatsDTO;
 import cz.cvut.kbss.sformsmanager.model.dto.FormGenMetadataDTO;
-import cz.cvut.kbss.sformsmanager.model.dto.ProcessedContextsStatsDTO;
+import cz.cvut.kbss.sformsmanager.model.dto.FormGenStatsDTO;
 import cz.cvut.kbss.sformsmanager.model.persisted.FormGenMetadata;
-import cz.cvut.kbss.sformsmanager.service.ConnectedRepositoryService;
-import cz.cvut.kbss.sformsmanager.service.ContextService;
-import cz.cvut.kbss.sformsmanager.service.FormGenService;
+import cz.cvut.kbss.sformsmanager.service.*;
 import cz.cvut.kbss.sformsmanager.utils.OWLUtils;
+import cz.cvut.kbss.sformsmanager.utils.PredicateUtils;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,13 +41,17 @@ public class FormGenController {
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(FormGenController.class);
 
     private final ConnectedRepositoryService connectedRepositoryService;
-    private final FormGenService formGenService;
+    private final FormGenMetadataService metadataService;
+    private final FormGenInstanceService instanceService;
+    private final FormGenVersionService versionService;
     private final ContextService contextService;
 
     @Autowired
-    public FormGenController(ConnectedRepositoryService connectedRepositoryService, FormGenService formGenService, ContextService contextService) {
+    public FormGenController(ConnectedRepositoryService connectedRepositoryService, FormGenMetadataService metadataService, FormGenInstanceService instanceService, FormGenVersionService versionService, ContextService contextService) {
         this.connectedRepositoryService = connectedRepositoryService;
-        this.formGenService = formGenService;
+        this.metadataService = metadataService;
+        this.instanceService = instanceService;
+        this.versionService = versionService;
         this.contextService = contextService;
     }
 
@@ -56,7 +61,7 @@ public class FormGenController {
             @RequestParam(value = "contextUri") String contextUri) {
 
         String key = OWLUtils.createInitialsAndConcatWithSlash(connectionName, contextUri);
-        Optional<FormGenMetadata> formGenMetadata = formGenService.findByKey(key);
+        Optional<FormGenMetadata> formGenMetadata = metadataService.findByKey(key);
         if (formGenMetadata.isPresent()) {
             return new FormGenMetadataDTO(formGenMetadata.get());
         } else {
@@ -83,30 +88,45 @@ public class FormGenController {
         connectedRepositoryService.getFormGenRawJsonFromConnectionAndSaveMetadata(connectionName, contextUri).getRawJson();
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/info/update/all")
+    @RequestMapping(method = RequestMethod.POST, path = "/info/update/batch")
     @ResponseStatus(value = HttpStatus.OK)
-    public void updateFormGenInfoAll(
-            @RequestParam(value = "connectionName") String connectionName) {
+    public void updateFormGenInfoBatch(
+            @RequestParam(value = "connectionName") String connectionName,
+            @RequestParam(value = "numberOfUpdates") int numberOfUpdates) {
 
-        log.info("Running batch update on {}.", connectionName);
-        contextService.findAll(connectionName).forEach(context -> {
+        log.info("Running batch update on {} contexts of {}.", numberOfUpdates, connectionName);
+        contextService.getContexts(connectionName).stream()
+                .filter(PredicateUtils.not(Context::isProcessed))
+                .limit(numberOfUpdates).forEach(context -> {
             try {
-                log.info("Processing {}", context.getUri().toString());
-                connectedRepositoryService.getFormGenRawJsonFromConnectionAndSaveMetadata(connectionName, context.getUri().toString());
+                log.info("Processing {}", context.getUriString());
+                connectedRepositoryService.getFormGenRawJsonFromConnectionAndSaveMetadata(connectionName, context.getUriString());
             } catch (Exception e) {
                 e.printStackTrace();
             }
         });
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/info/stats")
+    @RequestMapping(method = RequestMethod.GET, path = "/info/contextStats")
     @ResponseStatus(value = HttpStatus.OK)
-    public ProcessedContextsStatsDTO getContextsStats(
+    public ContextsStatsDTO getContextsStats(
             @RequestParam(value = "connectionName") String connectionName) {
 
         int totalContexts = contextService.count(connectionName);
-        int processedContexts = formGenService.getConnectionCount(connectionName);
-        return new ProcessedContextsStatsDTO(totalContexts, processedContexts);
+        int processedContexts = metadataService.getConnectionCount(connectionName);
+        return new ContextsStatsDTO(totalContexts, processedContexts);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/info/formStats")
+    @ResponseStatus(value = HttpStatus.OK)
+    public FormGenStatsDTO getFormGenStats(
+            @RequestParam(value = "connectionName") String connectionName) {
+
+        int formGens = metadataService.getConnectionCount(connectionName);
+        int formGenInstances = instanceService.getConnectionCount(connectionName);
+        int formGenVersions = versionService.getConnectionCount(connectionName);
+
+        return new FormGenStatsDTO(formGens, formGenVersions, formGenInstances);
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/static")

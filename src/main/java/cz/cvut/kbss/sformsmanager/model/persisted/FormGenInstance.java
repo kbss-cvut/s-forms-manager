@@ -27,6 +27,10 @@ public class FormGenInstance implements Serializable, HasUniqueKey {
     @OWLDataProperty(iri = Vocabulary.p_instance)
     private String instance; // e.g. i/sm/8
 
+    @ParticipationConstraints(nonEmpty = true)
+    @OWLDataProperty(iri = Vocabulary.p_connectionName)
+    private String connectionName;
+
     /**
      * Consists of connectionName, contextUri and hashcode.
      * <p/>
@@ -40,11 +44,13 @@ public class FormGenInstance implements Serializable, HasUniqueKey {
     }
 
     public FormGenInstance(String connectionName, String contextUri, int numbering) {
+        this.connectionName = connectionName;
         this.instance = createInstance(connectionName, numbering);
         this.key = createKey(connectionName, contextUri);
     }
 
-    public FormGenInstance(URI uri, String instance, String key) {
+    public FormGenInstance(String connectionName, URI uri, String instance, String key) {
+        this.connectionName = connectionName;
         this.uri = uri;
         this.instance = instance;
         this.key = key;
@@ -74,6 +80,14 @@ public class FormGenInstance implements Serializable, HasUniqueKey {
         this.key = key;
     }
 
+    public String getConnectionName() {
+        return connectionName;
+    }
+
+    public void setConnectionName(String connectionName) {
+        this.connectionName = connectionName;
+    }
+
     public static String createInstance(String connectionName, int numbering) {
         return "i/" + OWLUtils.createInitialsAndConcatWithSlash(connectionName, numbering);
     }
@@ -89,11 +103,12 @@ public class FormGenInstance implements Serializable, HasUniqueKey {
         FormGenInstance that = (FormGenInstance) o;
         return Objects.equal(uri, that.uri) &&
                 Objects.equal(instance, that.instance) &&
+                Objects.equal(connectionName, that.connectionName) &&
                 Objects.equal(key, that.key);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(uri, instance, key);
+        return Objects.hashCode(uri, connectionName, instance, key);
     }
 }

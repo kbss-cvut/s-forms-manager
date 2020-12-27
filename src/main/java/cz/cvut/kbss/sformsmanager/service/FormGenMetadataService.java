@@ -11,12 +11,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class FormGenService {
+public class FormGenMetadataService {
 
     private final FormGenMetadataDAO formGenMetadataDAO;
 
     @Autowired
-    public FormGenService(FormGenMetadataDAO formGenMetadataDAO) {
+    public FormGenMetadataService(FormGenMetadataDAO formGenMetadataDAO) {
         this.formGenMetadataDAO = formGenMetadataDAO;
     }
 
@@ -24,7 +24,7 @@ public class FormGenService {
         return formGenMetadataDAO.findByKey(key);
     }
 
-    public Set<String> findProcessedContexts(String connectionName) {
+    public Set<String> findProcessedForms(String connectionName) {
         return formGenMetadataDAO.findByConnectionName(connectionName).stream()
                 .map(metadata -> metadata.getContextUri())
                 .collect(Collectors.toSet());

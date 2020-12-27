@@ -1,8 +1,9 @@
 package cz.cvut.kbss.sformsmanager.rest;
 
 import cz.cvut.kbss.sformsmanager.model.dto.ContextDTO;
+import cz.cvut.kbss.sformsmanager.model.dto.Paginated;
 import cz.cvut.kbss.sformsmanager.service.ContextService;
-import cz.cvut.kbss.sformsmanager.service.FormGenService;
+import cz.cvut.kbss.sformsmanager.service.FormGenMetadataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,31 +12,32 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/contexts")
 public class ContextController {
 
+    private final FormGenMetadataService formGenMetadataService;
     private final ContextService contextService;
-    private final FormGenService formGenService;
 
     @Autowired
-    public ContextController(ContextService contextService, FormGenService formGenService) {
+    public ContextController(FormGenMetadataService formGenMetadataService, ContextService contextService) {
+        this.formGenMetadataService = formGenMetadataService;
         this.contextService = contextService;
-        this.formGenService = formGenService;
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<ContextDTO> getContexts(@RequestParam(value = "connectionName") String connectionName) {
-        Set<String> processedContexts = formGenService.findProcessedContexts(connectionName);
-        return contextService.findAll(connectionName).stream()
-                .map(context -> {
-                    String contextName = context.getUri().toString();
-                    return new ContextDTO(contextName, processedContexts.contains(contextName));
-                })
-                .collect(Collectors.toList());
+        return contextService.getContexts(connectionName).stream().map(ContextDTO::new).collect(Collectors.toList());
+    }
+
+    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, path = "/paginated")
+    public Paginated<ContextDTO> getPaginatedContexts(@RequestParam(value = "connectionName") String connectionName, Integer offset, Integer limit) {
+        int totalItems = contextService.count(connectionName);
+
+        List<ContextDTO> list = contextService.getPaginatedContexts(connectionName, offset, limit).stream().map(ContextDTO::new).collect(Collectors.toList());
+        return new Paginated<>(totalItems, offset, limit, list);
     }
 
 }

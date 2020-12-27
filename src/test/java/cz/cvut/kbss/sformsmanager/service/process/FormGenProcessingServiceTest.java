@@ -100,7 +100,7 @@ public class FormGenProcessingServiceTest {
     @Test
     public void processAnotherFormGen() throws IOException {
         String versionTagKey = OWLUtils.createInitialsAndConcatWithSlash(formGenRawJson.getConnectionName(), HASH_CODE);
-        FormGenVersion expectedVersion = new FormGenVersion(null, formGenRawJson.getConnectionName() + versionTagDAO.count(), versionTagKey);
+        FormGenVersion expectedVersion = new FormGenVersion("study-manager", null, formGenRawJson.getConnectionName() + versionTagDAO.count(), versionTagKey);
         when(versionTagDAO.findByKey(anyString())).thenReturn(Optional.of(expectedVersion));
 
         FormGenMetadata metadata1 = processingService.getFormGenMetadata(formGenRawJson);

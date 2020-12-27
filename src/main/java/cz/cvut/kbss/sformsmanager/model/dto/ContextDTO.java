@@ -1,5 +1,7 @@
 package cz.cvut.kbss.sformsmanager.model.dto;
 
+import cz.cvut.kbss.sformsmanager.model.Context;
+
 public class ContextDTO {
 
     private String uri;
@@ -11,6 +13,11 @@ public class ContextDTO {
     public ContextDTO(String uri, boolean processed) {
         this.uri = uri;
         this.processed = processed;
+    }
+
+    public ContextDTO(Context context) {
+        this.uri = context.getUriString();
+        this.processed = context.isProcessed();
     }
 
     public String getUri() {

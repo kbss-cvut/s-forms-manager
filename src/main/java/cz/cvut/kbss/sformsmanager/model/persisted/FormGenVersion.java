@@ -27,6 +27,10 @@ public class FormGenVersion implements Serializable, HasUniqueKey {
     @OWLDataProperty(iri = Vocabulary.p_version)
     private String version; // e.g. v/sm/15
 
+    @ParticipationConstraints(nonEmpty = true)
+    @OWLDataProperty(iri = Vocabulary.p_connectionName)
+    private String connectionName;
+
     /**
      * Consists of connectionName initials and hashcode.
      * <p/>
@@ -39,12 +43,14 @@ public class FormGenVersion implements Serializable, HasUniqueKey {
     public FormGenVersion() {
     }
 
-    public FormGenVersion(String connectionName, String contextUri, int versionNumbering, int hashcode) {
+    public FormGenVersion(String connectionName, int versionNumbering, int hashcode) {
+        this.connectionName = connectionName;
         this.version = createVersion(connectionName, versionNumbering);
         this.key = createKey(connectionName, hashcode);
     }
 
-    public FormGenVersion(URI uri, String version, String key) {
+    public FormGenVersion(String connectionName, URI uri, String version, String key) {
+        this.connectionName = connectionName;
         this.uri = uri;
         this.version = version;
         this.key = key;
@@ -74,6 +80,13 @@ public class FormGenVersion implements Serializable, HasUniqueKey {
         this.key = key;
     }
 
+    public String getConnectionName() {
+        return connectionName;
+    }
+
+    public void setConnectionName(String connectionName) {
+        this.connectionName = connectionName;
+    }
 
     public static String createKey(String connectionName, int versionNumbering) {
         return "v/" + OWLUtils.createInitialsAndConcatWithSlash(connectionName, versionNumbering);
