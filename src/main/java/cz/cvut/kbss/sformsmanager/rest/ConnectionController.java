@@ -15,8 +15,8 @@
 package cz.cvut.kbss.sformsmanager.rest;
 
 import cz.cvut.kbss.sformsmanager.model.dto.ConnectionDTO;
-import cz.cvut.kbss.sformsmanager.model.persisted.Connection;
-import cz.cvut.kbss.sformsmanager.service.data.ConnectionService;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.Connection;
+import cz.cvut.kbss.sformsmanager.service.model.local.ConnectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

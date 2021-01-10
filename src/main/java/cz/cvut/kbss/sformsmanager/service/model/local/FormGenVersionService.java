@@ -1,8 +1,8 @@
-package cz.cvut.kbss.sformsmanager.service;
+package cz.cvut.kbss.sformsmanager.service.model.local;
 
 
-import cz.cvut.kbss.sformsmanager.model.persisted.FormGenVersion;
-import cz.cvut.kbss.sformsmanager.persistence.dao.FormGenVersionDAO;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.FormGenVersion;
+import cz.cvut.kbss.sformsmanager.persistence.dao.local.FormGenVersionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +23,6 @@ public class FormGenVersionService {
     }
 
     public int getConnectionCount(String connectionName) {
-        return versionDAO.count(connectionName);
+        return versionDAO.countAllInConnection(connectionName);
     }
 }

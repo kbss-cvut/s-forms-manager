@@ -1,6 +1,6 @@
 package cz.cvut.kbss.sformsmanager.model.dto;
 
-import cz.cvut.kbss.sformsmanager.model.Context;
+import cz.cvut.kbss.sformsmanager.model.persisted.remote.Context;
 
 public class ContextDTO {
 

@@ -1,8 +1,8 @@
-package cz.cvut.kbss.sformsmanager.service;
+package cz.cvut.kbss.sformsmanager.service.model.local;
 
 
-import cz.cvut.kbss.sformsmanager.model.persisted.FormGenInstance;
-import cz.cvut.kbss.sformsmanager.persistence.dao.FormGenInstanceDAO;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.FormGenInstance;
+import cz.cvut.kbss.sformsmanager.persistence.dao.local.FormGenInstanceDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +23,6 @@ public class FormGenInstanceService {
     }
 
     public int getConnectionCount(String connectionName) {
-        return instanceDAO.count(connectionName);
+        return instanceDAO.countAllInConnection(connectionName);
     }
 }

@@ -1,13 +1,13 @@
-package cz.cvut.kbss.sformsmanager.persistence.dao;
+package cz.cvut.kbss.sformsmanager.persistence.dao.local;
 
 import cz.cvut.kbss.jopa.model.EntityManager;
-import cz.cvut.kbss.sformsmanager.model.persisted.FormGenMetadata;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.FormGenMetadata;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FormGenMetadataDAO extends BaseDao<FormGenMetadata> {
+public class FormGenMetadataDAO extends LocalWithConnectionBaseDAO<FormGenMetadata> {
 
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(FormGenMetadataDAO.class);
 

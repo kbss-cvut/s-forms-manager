@@ -15,12 +15,16 @@
 package cz.cvut.kbss.sformsmanager.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import cz.cvut.kbss.sformsmanager.model.Context;
 import cz.cvut.kbss.sformsmanager.model.dto.ContextsStatsDTO;
 import cz.cvut.kbss.sformsmanager.model.dto.FormGenMetadataDTO;
 import cz.cvut.kbss.sformsmanager.model.dto.FormGenStatsDTO;
-import cz.cvut.kbss.sformsmanager.model.persisted.FormGenMetadata;
-import cz.cvut.kbss.sformsmanager.service.*;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.FormGenMetadata;
+import cz.cvut.kbss.sformsmanager.model.persisted.remote.Context;
+import cz.cvut.kbss.sformsmanager.service.data.FormGenJsonLoader;
+import cz.cvut.kbss.sformsmanager.service.model.local.FormGenInstanceService;
+import cz.cvut.kbss.sformsmanager.service.model.local.FormGenMetadataService;
+import cz.cvut.kbss.sformsmanager.service.model.local.FormGenVersionService;
+import cz.cvut.kbss.sformsmanager.service.model.remote.ContextService;
 import cz.cvut.kbss.sformsmanager.utils.OWLUtils;
 import cz.cvut.kbss.sformsmanager.utils.PredicateUtils;
 import org.slf4j.Logger;
@@ -40,15 +44,15 @@ public class FormGenController {
 
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(FormGenController.class);
 
-    private final ConnectedRepositoryService connectedRepositoryService;
+    private final cz.cvut.kbss.sformsmanager.service.data.FormGenJsonLoader FormGenJsonLoader;
     private final FormGenMetadataService metadataService;
     private final FormGenInstanceService instanceService;
     private final FormGenVersionService versionService;
     private final ContextService contextService;
 
     @Autowired
-    public FormGenController(ConnectedRepositoryService connectedRepositoryService, FormGenMetadataService metadataService, FormGenInstanceService instanceService, FormGenVersionService versionService, ContextService contextService) {
-        this.connectedRepositoryService = connectedRepositoryService;
+    public FormGenController(FormGenJsonLoader FormGenJsonLoader, FormGenMetadataService metadataService, FormGenInstanceService instanceService, FormGenVersionService versionService, ContextService contextService) {
+        this.FormGenJsonLoader = FormGenJsonLoader;
         this.metadataService = metadataService;
         this.instanceService = instanceService;
         this.versionService = versionService;
@@ -75,7 +79,7 @@ public class FormGenController {
             @RequestParam(value = "contextUri") String contextUri
     ) throws URISyntaxException, JsonProcessingException {
 
-        return connectedRepositoryService.getFormGenRawJsonFromConnectionAndSaveMetadata(connectionName, contextUri).getRawJson();
+        return FormGenJsonLoader.getFormGenRawJsonAndSaveMetadata(connectionName, contextUri).getRawJson();
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/info/update/single")
@@ -85,7 +89,7 @@ public class FormGenController {
             @RequestParam(value = "contextUri") String contextUri)
             throws URISyntaxException, JsonProcessingException {
 
-        connectedRepositoryService.getFormGenRawJsonFromConnectionAndSaveMetadata(connectionName, contextUri).getRawJson();
+        FormGenJsonLoader.getFormGenRawJsonAndSaveMetadata(connectionName, contextUri).getRawJson();
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/info/update/batch")
@@ -100,7 +104,7 @@ public class FormGenController {
                 .limit(numberOfUpdates).forEach(context -> {
             try {
                 log.info("Processing {}", context.getUriString());
-                connectedRepositoryService.getFormGenRawJsonFromConnectionAndSaveMetadata(connectionName, context.getUriString());
+                FormGenJsonLoader.getFormGenRawJsonAndSaveMetadata(connectionName, context.getUriString());
             } catch (Exception e) {
                 e.printStackTrace();
             }

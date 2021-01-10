@@ -2,8 +2,8 @@ package cz.cvut.kbss.sformsmanager.rest;
 
 import cz.cvut.kbss.sformsmanager.model.dto.ContextDTO;
 import cz.cvut.kbss.sformsmanager.model.dto.Paginated;
-import cz.cvut.kbss.sformsmanager.service.ContextService;
-import cz.cvut.kbss.sformsmanager.service.FormGenMetadataService;
+import cz.cvut.kbss.sformsmanager.service.model.local.FormGenMetadataService;
+import cz.cvut.kbss.sformsmanager.service.model.remote.ContextService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;

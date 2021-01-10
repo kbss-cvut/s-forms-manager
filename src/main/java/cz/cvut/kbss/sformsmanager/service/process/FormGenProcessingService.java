@@ -2,7 +2,7 @@ package cz.cvut.kbss.sformsmanager.service.process;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import cz.cvut.kbss.sformsmanager.model.dto.FormGenRawJson;
-import cz.cvut.kbss.sformsmanager.model.persisted.FormGenMetadata;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.FormGenMetadata;
 
 public interface FormGenProcessingService {
 

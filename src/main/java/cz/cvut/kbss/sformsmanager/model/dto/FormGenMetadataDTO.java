@@ -1,6 +1,6 @@
 package cz.cvut.kbss.sformsmanager.model.dto;
 
-import cz.cvut.kbss.sformsmanager.model.persisted.FormGenMetadata;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.FormGenMetadata;
 
 public final class FormGenMetadataDTO {
 
@@ -10,7 +10,7 @@ public final class FormGenMetadataDTO {
 
     public FormGenMetadataDTO(FormGenMetadata formGenMetadata) {
         this.version = formGenMetadata.getFormGenVersion().getVersion();
-        this.instance = formGenMetadata.getFormGenInstance().getInstance();
+        this.instance = formGenMetadata.getFormGenInstance().getUri().toString();
     }
 
     public String getVersion() {

@@ -1,7 +1,7 @@
 package cz.cvut.kbss.sformsmanager.model.dto;
 
 
-import cz.cvut.kbss.sformsmanager.model.persisted.Connection;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.Connection;
 
 public class ConnectionDTO {
 

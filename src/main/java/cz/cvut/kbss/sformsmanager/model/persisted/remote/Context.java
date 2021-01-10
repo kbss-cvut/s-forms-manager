@@ -1,4 +1,4 @@
-package cz.cvut.kbss.sformsmanager.model;
+package cz.cvut.kbss.sformsmanager.model.persisted.remote;
 
 public class Context {
 

@@ -1,11 +1,12 @@
 package cz.cvut.kbss.sformsmanager.service.process;
 
 import cz.cvut.kbss.sformsmanager.model.dto.FormGenRawJson;
-import cz.cvut.kbss.sformsmanager.model.persisted.FormGenMetadata;
-import cz.cvut.kbss.sformsmanager.model.persisted.FormGenVersion;
-import cz.cvut.kbss.sformsmanager.persistence.dao.FormGenInstanceDAO;
-import cz.cvut.kbss.sformsmanager.persistence.dao.FormGenMetadataDAO;
-import cz.cvut.kbss.sformsmanager.persistence.dao.FormGenVersionDAO;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.FormGenMetadata;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.FormGenVersion;
+import cz.cvut.kbss.sformsmanager.persistence.dao.local.FormGenInstanceDAO;
+import cz.cvut.kbss.sformsmanager.persistence.dao.local.FormGenMetadataDAO;
+import cz.cvut.kbss.sformsmanager.persistence.dao.local.FormGenVersionDAO;
+import cz.cvut.kbss.sformsmanager.service.model.remote.QuestionService;
 import cz.cvut.kbss.sformsmanager.utils.OWLUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,6 +42,8 @@ public class FormGenProcessingServiceTest {
     private FormGenVersionDAO versionTagDAO;
     @Mock
     private FormGenMetadataDAO metadataDAO;
+    @Mock
+    private QuestionService questionService;
 
     @BeforeAll
     public static void setup() throws IOException {
@@ -50,7 +53,7 @@ public class FormGenProcessingServiceTest {
 
     @BeforeEach
     public void setUp() {
-        processingService = new FormGenProcessingServiceImpl(instanceDAO, versionTagDAO, metadataDAO);
+        processingService = new FormGenProcessingServiceImpl(instanceDAO, versionTagDAO, metadataDAO, questionService);
 
         when(versionTagDAO.findByKey(anyString())).thenReturn(Optional.empty());
         when(metadataDAO.findByKey(anyString())).thenReturn(Optional.empty());

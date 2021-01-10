@@ -1,5 +1,7 @@
 package cz.cvut.kbss.sformsmanager.persistence.dao;
 
+import cz.cvut.kbss.jopa.model.EntityManager;
+
 import java.net.URI;
 import java.util.Collection;
 import java.util.List;
@@ -10,14 +12,14 @@ import java.util.Optional;
  *
  * @param <T> Type managed by this DAO
  */
-public interface GenericDao<T> {
+public interface GenericDAO<T> {
 
     /**
      * Finds all instances of the class managed by this DAO.
      *
      * @return All known instances
      */
-    List<T> findAll();
+    List<T> findAll(EntityManager em);
 
     /**
      * Finds entity instance with the specified identifier.
@@ -26,16 +28,7 @@ public interface GenericDao<T> {
      * @return {@code Optional} containing the matching entity instance or an empty {@code Optional }if no such instance
      * exists
      */
-    Optional<T> find(URI id);
-
-
-    /**
-     * Finds entity instance by its unique key.
-     *
-     * @param key Instance key
-     * @return Optional of Entity instance or {@code null} if no such matching exists
-     */
-    Optional<T> findByKey(String key);
+    Optional<T> find(EntityManager em, URI id);
 
     /**
      * Gets a reference to an instance with the specified identifier.
@@ -48,21 +41,21 @@ public interface GenericDao<T> {
      * @return {@code Optional} containing a reference to a matching instance or an empty {@code Optional }if no such
      * instance exists
      */
-    Optional<T> getReference(URI id);
+    Optional<T> getReference(EntityManager em, URI id);
 
     /**
      * Persists the specified entity.
      *
      * @param entity Entity to persist
      */
-    void persist(T entity);
+    void persist(EntityManager em, T entity);
 
     /**
      * Persists the specified instances.
      *
      * @param entities Entities to persist
      */
-    void persist(Collection<T> entities);
+    void persist(EntityManager em, Collection<T> entities);
 
     /**
      * Updates the specified entity.
@@ -70,21 +63,21 @@ public interface GenericDao<T> {
      * @param entity Entity to update
      * @return The updated entity. Use it for further processing, as it could be a completely different instance
      */
-    T update(T entity);
+    T update(EntityManager em, T entity);
 
     /**
      * Removes the specified entity.
      *
      * @param entity Entity to remove
      */
-    void remove(T entity);
+    void remove(EntityManager em, T entity);
 
     /**
      * Removes an entity with the specified id.
      *
      * @param id Entity identifier
      */
-    void remove(URI id);
+    void remove(EntityManager em, URI id);
 
     /**
      * Checks whether an entity with the specified id exists (and has the type managed by this DAO).
@@ -92,7 +85,7 @@ public interface GenericDao<T> {
      * @param id Entity identifier
      * @return {@literal true} if entity exists, {@literal false} otherwise
      */
-    boolean exists(URI id);
+    boolean exists(EntityManager em, URI id);
 
-    int count();
+    int count(EntityManager em);
 }

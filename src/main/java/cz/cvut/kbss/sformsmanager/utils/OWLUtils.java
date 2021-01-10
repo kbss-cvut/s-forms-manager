@@ -25,6 +25,11 @@ public final class OWLUtils {
         return owlClass.iri();
     }
 
+//    public static String getOwlObjectPropertyForEntity(Class<?> entityClass, String property) throws NoSuchFieldException {
+//        OWLObjectProperty annotation = entityClass.getField(property).getDeclaredAnnotation(OWLObjectProperty.class);
+//        return annotation.iri();
+//    }
+
     /**
      * Take initials of the first string delimited by '-' and concat it with '/' and the second parameter.
      *

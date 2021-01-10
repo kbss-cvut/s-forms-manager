@@ -1,7 +1,8 @@
-package cz.cvut.kbss.sformsmanager.service;
+package cz.cvut.kbss.sformsmanager.service.model.remote;
 
-import cz.cvut.kbss.sformsmanager.model.Context;
-import cz.cvut.kbss.sformsmanager.persistence.dao.ContextRepository;
+import cz.cvut.kbss.sformsmanager.model.persisted.remote.Context;
+import cz.cvut.kbss.sformsmanager.persistence.dao.remote.ContextRepository;
+import cz.cvut.kbss.sformsmanager.service.model.local.FormGenMetadataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,13 +14,13 @@ import java.util.stream.Collectors;
 @Service
 public class ContextService {
 
-    private final FormGenMetadataService formGenMetadataService;
     private final ContextRepository contextRepository;
+    private final FormGenMetadataService formGenMetadataService;
 
     @Autowired
-    public ContextService(ContextRepository contextRepository, FormGenMetadataService formGenMetadataService1) {
+    public ContextService(ContextRepository contextRepository, FormGenMetadataService formGenMetadataService) {
         this.contextRepository = contextRepository;
-        this.formGenMetadataService = formGenMetadataService1;
+        this.formGenMetadataService = formGenMetadataService;
     }
 
     @Transactional
@@ -34,7 +35,7 @@ public class ContextService {
     public List<Context> getContexts(String connectionName) {
         Set<String> processedContexts = formGenMetadataService.findProcessedForms(connectionName);
         return contextRepository.findAll(connectionName).stream()
-                .map(context -> new Context(context.getUriString(), processedContexts.contains(context)))
+                .map(context -> new Context(context.getUriString(), processedContexts.contains(context.getUriString())))
                 .collect(Collectors.toList());
     }
 

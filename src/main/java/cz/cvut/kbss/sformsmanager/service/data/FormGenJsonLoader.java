@@ -1,12 +1,11 @@
-package cz.cvut.kbss.sformsmanager.service;
+package cz.cvut.kbss.sformsmanager.service.data;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import cz.cvut.kbss.sformsmanager.model.dto.FormGenRawJson;
-import cz.cvut.kbss.sformsmanager.model.persisted.Connection;
-import cz.cvut.kbss.sformsmanager.model.persisted.FormGenMetadata;
-import cz.cvut.kbss.sformsmanager.persistence.dao.ConnectionDAO;
-import cz.cvut.kbss.sformsmanager.persistence.dao.FormGenMetadataDAO;
-import cz.cvut.kbss.sformsmanager.service.data.RemoteDataLoader;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.Connection;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.FormGenMetadata;
+import cz.cvut.kbss.sformsmanager.persistence.dao.local.ConnectionDAO;
+import cz.cvut.kbss.sformsmanager.persistence.dao.local.FormGenMetadataDAO;
 import cz.cvut.kbss.sformsmanager.service.process.FormGenProcessingService;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +18,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class ConnectedRepositoryService {
+public class FormGenJsonLoader {
 
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(ConnectedRepositoryService.class);
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(FormGenJsonLoader.class);
 
     private final RemoteDataLoader dataLoader;
     private final ConnectionDAO connectionDAO;
@@ -33,7 +32,7 @@ public class ConnectedRepositoryService {
     private static final String RECORD_GRAPH_ID_PARAM = "recordGraphId";
 
     @Autowired
-    public ConnectedRepositoryService(RemoteDataLoader dataLoader, ConnectionDAO connectionDAO, FormGenMetadataDAO formGenMetadataDAO, FormGenProcessingService formGenProcessingService) {
+    public FormGenJsonLoader(RemoteDataLoader dataLoader, ConnectionDAO connectionDAO, FormGenMetadataDAO formGenMetadataDAO, FormGenProcessingService formGenProcessingService) {
         this.dataLoader = dataLoader;
         this.connectionDAO = connectionDAO;
         this.formGenMetadataDAO = formGenMetadataDAO;
@@ -62,7 +61,7 @@ public class ConnectedRepositoryService {
     }
 
     @Transactional
-    public FormGenRawJson getFormGenRawJsonFromConnectionAndSaveMetadata(String connectionName, String contextUri) throws URISyntaxException, JsonProcessingException {
+    public FormGenRawJson getFormGenRawJsonAndSaveMetadata(String connectionName, String contextUri) throws URISyntaxException, JsonProcessingException {
         FormGenRawJson formGenRawJson = getFormGenRawJsonFromConnection(connectionName, contextUri);
         FormGenMetadata formGenMetadata = formGenProcessingService.getFormGenMetadata(formGenRawJson);
         formGenMetadataDAO.update(formGenMetadata);
@@ -70,4 +69,3 @@ public class ConnectedRepositoryService {
         return formGenRawJson;
     }
 }
-

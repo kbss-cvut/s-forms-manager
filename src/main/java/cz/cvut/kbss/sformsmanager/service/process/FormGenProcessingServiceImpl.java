@@ -5,12 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.cvut.kbss.sformsmanager.model.dto.FormGenRawJson;
-import cz.cvut.kbss.sformsmanager.model.persisted.FormGenInstance;
-import cz.cvut.kbss.sformsmanager.model.persisted.FormGenMetadata;
-import cz.cvut.kbss.sformsmanager.model.persisted.FormGenVersion;
-import cz.cvut.kbss.sformsmanager.persistence.dao.FormGenInstanceDAO;
-import cz.cvut.kbss.sformsmanager.persistence.dao.FormGenMetadataDAO;
-import cz.cvut.kbss.sformsmanager.persistence.dao.FormGenVersionDAO;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.FormGenInstance;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.FormGenMetadata;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.FormGenVersion;
+import cz.cvut.kbss.sformsmanager.persistence.dao.local.FormGenInstanceDAO;
+import cz.cvut.kbss.sformsmanager.persistence.dao.local.FormGenMetadataDAO;
+import cz.cvut.kbss.sformsmanager.persistence.dao.local.FormGenVersionDAO;
+import cz.cvut.kbss.sformsmanager.service.model.remote.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,18 +28,20 @@ public class FormGenProcessingServiceImpl implements FormGenProcessingService {
     private final FormGenVersionDAO versionDAO;
     private final FormGenMetadataDAO metadataDAO;
 
+    private final QuestionService questionService;
+
     @Autowired
-    public FormGenProcessingServiceImpl(FormGenInstanceDAO instanceDAO, FormGenVersionDAO versionTagDAO, FormGenMetadataDAO metadataDAO) {
+    public FormGenProcessingServiceImpl(FormGenInstanceDAO instanceDAO, FormGenVersionDAO versionTagDAO, FormGenMetadataDAO metadataDAO, QuestionService questionService) {
         this.instanceDAO = instanceDAO;
         this.versionDAO = versionTagDAO;
         this.metadataDAO = metadataDAO;
+        this.questionService = questionService;
     }
 
     @Transactional
     public FormGenMetadata getFormGenMetadata(FormGenRawJson formGenRawJson) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         FormGenJsonLd formGenJsonLd = mapper.readValue(formGenRawJson.getRawJson(), FormGenJsonLd.class);
-
         // formGen version
         int hashCode = formGenJsonLd.hashCode();
         String versionKey = FormGenVersion.createKey(formGenRawJson.getConnectionName(), hashCode);
@@ -48,7 +51,7 @@ public class FormGenProcessingServiceImpl implements FormGenProcessingService {
 
         // formGen intance
         int instanceNumber = formGenJsonLd.getInstanceNumber(formGenRawJson.getConnectionName(), formGenRawJson.getContextUri());
-        String instanceKey = FormGenInstance.createKey(formGenRawJson.getConnectionName(), formGenRawJson.getContextUri());
+        String instanceKey = FormGenInstance.createInstance(formGenRawJson.getConnectionName(), instanceNumber);
         Optional<FormGenInstance> instanceOptional = instanceDAO.findByKey(instanceKey);
         FormGenInstance formGenInstance = instanceOptional.orElse(
                 new FormGenInstance(formGenRawJson.getConnectionName(), formGenRawJson.getContextUri(), instanceNumber));
@@ -78,6 +81,10 @@ public class FormGenProcessingServiceImpl implements FormGenProcessingService {
         public int hashCode() {
             // TODO: study-manager save action =-> jopa objekty Q&A, vytahnout question origin pro vsechny otazky a pro ne udelat hash
 
+            // TODO: pro sparql dotaz je potreba najit nejake jednoznacne usporadani
+
+            // pro rozeznani
+
             List<String> listOfQuestions = graph.stream()
                     .filter(node -> node.getQuestionOrigin() != null)
                     .map(node -> node.getQuestionOrigin())
@@ -98,7 +105,7 @@ public class FormGenProcessingServiceImpl implements FormGenProcessingService {
             // TODO: v idealnim pripade bude rozlisovani verze probihat na zaklade konfigurovateleho sparQL dotazu
             // nebo alternativou je pridat to do S-Forms - cas ulozeni
             return (connectionName + contextUri).chars()
-                    .reduce(0, (subtotal, element) -> subtotal + element);
+                    .reduce(0, (subtotal, element) -> subtotal + element) % 20;
         }
 
         public List<FormGenJsonLdNode> getGraph() {

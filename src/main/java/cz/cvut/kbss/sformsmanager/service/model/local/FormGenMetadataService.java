@@ -1,8 +1,8 @@
-package cz.cvut.kbss.sformsmanager.service;
+package cz.cvut.kbss.sformsmanager.service.model.local;
 
 
-import cz.cvut.kbss.sformsmanager.model.persisted.FormGenMetadata;
-import cz.cvut.kbss.sformsmanager.persistence.dao.FormGenMetadataDAO;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.FormGenMetadata;
+import cz.cvut.kbss.sformsmanager.persistence.dao.local.FormGenMetadataDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,12 +25,12 @@ public class FormGenMetadataService {
     }
 
     public Set<String> findProcessedForms(String connectionName) {
-        return formGenMetadataDAO.findByConnectionName(connectionName).stream()
+        return formGenMetadataDAO.findAllInConnection(connectionName).stream()
                 .map(metadata -> metadata.getContextUri())
                 .collect(Collectors.toSet());
     }
 
     public int getConnectionCount(String connectionName) {
-        return formGenMetadataDAO.count(connectionName);
+        return formGenMetadataDAO.countAllInConnection(connectionName);
     }
 }

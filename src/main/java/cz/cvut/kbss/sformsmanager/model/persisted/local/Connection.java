@@ -1,22 +1,17 @@
-package cz.cvut.kbss.sformsmanager.model.persisted;
+package cz.cvut.kbss.sformsmanager.model.persisted.local;
 
 
-import cz.cvut.kbss.jopa.model.annotations.Id;
 import cz.cvut.kbss.jopa.model.annotations.OWLClass;
 import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
 import cz.cvut.kbss.jopa.model.annotations.ParticipationConstraints;
-import cz.cvut.kbss.sformsmanager.model.HasUniqueKey;
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
+import cz.cvut.kbss.sformsmanager.model.persisted.HasUniqueKey;
 import org.hibernate.validator.constraints.NotBlank;
 
 import java.io.Serializable;
-import java.net.URI;
 
 @OWLClass(iri = Vocabulary.Connection)
-public class Connection implements Serializable, HasUniqueKey {
-
-    @Id(generated = true)
-    private URI uri;
+public class Connection extends LocalEntity implements Serializable, HasUniqueKey {
 
     @NotBlank
     @ParticipationConstraints(nonEmpty = true)
@@ -33,27 +28,14 @@ public class Connection implements Serializable, HasUniqueKey {
     @OWLDataProperty(iri = Vocabulary.p_appRepositoryUrl)
     private String appRepositoryUrl;
 
-    @NotBlank
-    @ParticipationConstraints(nonEmpty = true)
-    @OWLDataProperty(iri = Vocabulary.p_key)
-    private String key; // connectionName
-
     public Connection() {
     }
 
     public Connection(String formGenRepositoryUrl, String formGenServiceUrl, String appRepositoryUrl, String connectionName) {
+        super(connectionName);
         this.formGenRepositoryUrl = formGenRepositoryUrl;
         this.formGenServiceUrl = formGenServiceUrl;
         this.appRepositoryUrl = appRepositoryUrl;
-        this.key = connectionName;
-    }
-
-    public URI getUri() {
-        return uri;
-    }
-
-    public void setUri(URI uri) {
-        this.uri = uri;
     }
 
     public String getFormGenRepositoryUrl() {
@@ -78,13 +60,5 @@ public class Connection implements Serializable, HasUniqueKey {
 
     public void setAppRepositoryUrl(String appRepositoryUrl) {
         this.appRepositoryUrl = appRepositoryUrl;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
     }
 }

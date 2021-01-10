@@ -1,7 +1,7 @@
-package cz.cvut.kbss.sformsmanager.service.data;
+package cz.cvut.kbss.sformsmanager.service.model.local;
 
-import cz.cvut.kbss.sformsmanager.model.persisted.Connection;
-import cz.cvut.kbss.sformsmanager.persistence.dao.ConnectionDAO;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.Connection;
+import cz.cvut.kbss.sformsmanager.persistence.dao.local.ConnectionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

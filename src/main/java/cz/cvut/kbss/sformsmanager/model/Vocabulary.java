@@ -24,10 +24,9 @@ public class Vocabulary {
     public static final String p_assigned_version = URI_BASE + "assignedFormGenVersion";
     public static final String p_assigned_instance = URI_BASE + "assignedFormGenInstance";
     public static final String p_version = URI_BASE + "formGenVersion";
-    public static final String p_instance = URI_BASE + "formGenInstance";
     public static final String p_hashcode = URI_BASE + "formGenHashCode";
     public static final String p_contextUri = URI_BASE + "contextUri";
-    public static final String p_connectionName = URI_BASE + "connectoinName";
+    public static final String p_connectionName = URI_BASE + "connectionName";
 
     public static final String Connection = URI_BASE + "Connection";
     public static final String p_repositoryUrl = URI_BASE + "repositoryUrl";
@@ -35,4 +34,9 @@ public class Vocabulary {
     public static final String p_appRepositoryUrl = URI_BASE + "appRepositoryUrl";
 
     public static final String p_key = URI_BASE + "key";
+
+    public final static String DOC_URI = "http://onto.fel.cvut.cz/ontologies/documentation/question";
+
+    public static final String Question = DOC_URI + "Question";
+    public final static String s_p_has_question_origin = "http://onto.fel.cvut.cz/ontologies/form/has-question-origin";
 }
