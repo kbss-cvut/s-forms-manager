@@ -31,8 +31,8 @@ public class FormGenVersion extends LocalEntity implements Serializable, HasUniq
     public FormGenVersion() {
     }
 
-    public FormGenVersion(String connectionName, int versionNumbering, int hashcode) {
-        super(createKey(connectionName, hashcode));
+    public FormGenVersion(String connectionName, int versionNumbering, String hash) {
+        super(createKey(connectionName, hash));
         this.connectionName = connectionName;
         this.version = createVersion(connectionName, versionNumbering);
     }
@@ -60,16 +60,16 @@ public class FormGenVersion extends LocalEntity implements Serializable, HasUniq
     }
 
     /**
-     * Consists of connectionName initials and hashcode.
+     * Consists of connectionName initials and numbering of version.
      * <p/>
      * Use {@link cz.cvut.kbss.sformsmanager.utils.OWLUtils#createInitialsAndConcatWithSlash(String, String)}
      */
-    public static String createKey(String connectionName, int versionNumbering) {
+    public static String createVersion(String connectionName, int versionNumbering) {
         return "v/" + OWLUtils.createInitialsAndConcatWithSlash(connectionName, versionNumbering);
     }
 
-    public static String createVersion(String connectionName, int hashcode) {
-        return "v/" + OWLUtils.createInitialsAndConcatWithSlash(connectionName, hashcode);
+    public static String createKey(String connectionName, String hash) {
+        return "v/" + OWLUtils.createInitialsAndConcatWithSlash(connectionName, hash);
     }
 
     @Override

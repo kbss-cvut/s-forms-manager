@@ -2,25 +2,29 @@ package cz.cvut.kbss.sformsmanager.model.dto;
 
 public class FormGenStatsDTO {
 
-    private int formUploads;
+    private int totalContexts;
+    private int processedContexts;
     private int recognizedVersions;
     private int recognizedInstaces;
+    private int nonEmptyContexts;
 
     public FormGenStatsDTO() {
     }
 
-    public FormGenStatsDTO(int formUploads, int recognizedVersions, int recognizedInstaces) {
-        this.formUploads = formUploads;
+    public FormGenStatsDTO(int totalContexts, int processedContexts, int recognizedVersions, int recognizedInstances, int nonEmptyContexts) {
+        this.totalContexts = totalContexts;
+        this.processedContexts = processedContexts;
         this.recognizedVersions = recognizedVersions;
-        this.recognizedInstaces = recognizedInstaces;
+        this.recognizedInstaces = recognizedInstances;
+        this.nonEmptyContexts = nonEmptyContexts;
     }
 
-    public int getFormUploads() {
-        return formUploads;
+    public int getProcessedContexts() {
+        return processedContexts;
     }
 
-    public void setFormUploads(int formUploads) {
-        this.formUploads = formUploads;
+    public void setProcessedContexts(int processedContexts) {
+        this.processedContexts = processedContexts;
     }
 
     public int getRecognizedVersions() {
@@ -37,5 +41,21 @@ public class FormGenStatsDTO {
 
     public void setRecognizedInstaces(int recognizedInstaces) {
         this.recognizedInstaces = recognizedInstaces;
+    }
+
+    public int getTotalContexts() {
+        return totalContexts;
+    }
+
+    public void setTotalContexts(int totalContexts) {
+        this.totalContexts = totalContexts;
+    }
+
+    public int getNonEmptyContexts() {
+        return nonEmptyContexts;
+    }
+
+    public void setNonEmptyContexts(int nonEmptyContexts) {
+        this.nonEmptyContexts = nonEmptyContexts;
     }
 }

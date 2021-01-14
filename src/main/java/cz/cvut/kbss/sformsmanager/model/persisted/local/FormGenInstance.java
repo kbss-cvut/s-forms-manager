@@ -9,6 +9,7 @@ import cz.cvut.kbss.sformsmanager.model.persisted.HasConnection;
 import cz.cvut.kbss.sformsmanager.utils.OWLUtils;
 
 import java.io.Serializable;
+import java.net.URI;
 
 @OWLClass(iri = Vocabulary.FormGenInstance)
 public class FormGenInstance extends LocalEntity implements Serializable, HasConnection {
@@ -20,8 +21,8 @@ public class FormGenInstance extends LocalEntity implements Serializable, HasCon
     public FormGenInstance() {
     }
 
-    public FormGenInstance(String connectionName, String contextUri, int numbering) {
-        super(createInstance(connectionName, numbering));
+    public FormGenInstance(String connectionName, String contextUri, String hash) {
+        super(URI.create(contextUri), createKey(connectionName, hash));
         this.connectionName = connectionName;
     }
 
@@ -33,13 +34,8 @@ public class FormGenInstance extends LocalEntity implements Serializable, HasCon
         this.connectionName = connectionName;
     }
 
-    /**
-     * Represent a numbering of FormGen completion. TODO: ???
-     * <p/>
-     * Consists of connectionName initials, contextUri and its number of completion.
-     */
-    public static String createInstance(String connectionName, int numbering) {
-        return "i/" + OWLUtils.createInitialsAndConcatWithSlash(connectionName, numbering);
+    public static String createKey(String connectionName, String hash) {
+        return "i/" + OWLUtils.createInitialsAndConcatWithSlash(connectionName, hash);
     }
 
     @Override

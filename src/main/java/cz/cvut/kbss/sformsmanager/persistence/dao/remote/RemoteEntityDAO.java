@@ -16,6 +16,8 @@ import java.util.Optional;
  */
 public abstract class RemoteEntityDAO<T> extends BaseDAO<T> {
 
+    // TODO: is remote entity DAO even needed?
+
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(RemoteEntityDAO.class);
     private ConnectionEntityManagerProvider entityManagerProvider;
 

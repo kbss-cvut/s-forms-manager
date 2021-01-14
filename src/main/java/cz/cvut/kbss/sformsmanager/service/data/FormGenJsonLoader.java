@@ -1,16 +1,13 @@
 package cz.cvut.kbss.sformsmanager.service.data;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import cz.cvut.kbss.sformsmanager.model.dto.FormGenRawJson;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.Connection;
-import cz.cvut.kbss.sformsmanager.model.persisted.local.FormGenMetadata;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.ConnectionDAO;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.FormGenMetadataDAO;
 import cz.cvut.kbss.sformsmanager.service.process.FormGenProcessingService;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.net.URISyntaxException;
 import java.util.Collections;
@@ -58,14 +55,5 @@ public class FormGenJsonLoader {
 
         String rawFormJson = dataLoader.loadData(connection.getFormGenServiceUrl(), params, Collections.emptyMap());
         return new FormGenRawJson(connectionName, contextUri, rawFormJson);
-    }
-
-    @Transactional
-    public FormGenRawJson getFormGenRawJsonAndSaveMetadata(String connectionName, String contextUri) throws URISyntaxException, JsonProcessingException {
-        FormGenRawJson formGenRawJson = getFormGenRawJsonFromConnection(connectionName, contextUri);
-        FormGenMetadata formGenMetadata = formGenProcessingService.getFormGenMetadata(formGenRawJson);
-        formGenMetadataDAO.update(formGenMetadata);
-
-        return formGenRawJson;
     }
 }

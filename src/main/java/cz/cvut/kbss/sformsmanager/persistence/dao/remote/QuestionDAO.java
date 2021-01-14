@@ -36,4 +36,17 @@ public class QuestionDAO extends RemoteEntityDAO<Question> {
             throw new PersistenceException(e);
         }
     }
+
+//    public String getFormGenVersionHash(String connectionName, String contextUri) {
+//        EntityManager em = entityManagerProvider.getEntityManagerFactory(connectionName);
+//        try {
+//            return em.createNativeQuery("SELECT ?x WHERE { graph ?contextUri { ?x a ?type . } }", type)
+//                    .setParameter("contextUri", "<" + contextUri + ">")
+//                    .setParameter("type", typeUri)
+//                    .getResultList();
+//        } catch (RuntimeException e) {
+//            log.error(e.getMessage());
+//            throw new PersistenceException(e);
+//        }
+//    }
 }

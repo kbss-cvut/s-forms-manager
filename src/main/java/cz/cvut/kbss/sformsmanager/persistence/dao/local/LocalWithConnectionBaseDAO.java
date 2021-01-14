@@ -18,7 +18,7 @@ public abstract class LocalWithConnectionBaseDAO<T extends LocalEntity & HasUniq
 
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(LocalWithConnectionBaseDAO.class);
 
-    private final EntityManager em;
+    protected final EntityManager em;
 
     protected LocalWithConnectionBaseDAO(EntityManager em, Class<T> type) {
         super(em, type);

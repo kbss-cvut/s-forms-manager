@@ -14,7 +14,6 @@
  */
 package cz.cvut.kbss.sformsmanager.rest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import cz.cvut.kbss.sformsmanager.model.dto.ContextsStatsDTO;
 import cz.cvut.kbss.sformsmanager.model.dto.FormGenMetadataDTO;
 import cz.cvut.kbss.sformsmanager.model.dto.FormGenStatsDTO;
@@ -30,12 +29,9 @@ import cz.cvut.kbss.sformsmanager.utils.PredicateUtils;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
 import java.util.Optional;
 
 @RestController
@@ -77,9 +73,9 @@ public class FormGenController {
     public String getFormGenRawJson(
             @RequestParam(value = "connectionName") String connectionName,
             @RequestParam(value = "contextUri") String contextUri
-    ) throws URISyntaxException, JsonProcessingException {
+    ) throws URISyntaxException {
 
-        return FormGenJsonLoader.getFormGenRawJsonAndSaveMetadata(connectionName, contextUri).getRawJson();
+        return FormGenJsonLoader.getFormGenRawJsonFromConnection(connectionName, contextUri).getRawJson();
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/info/update/single")
@@ -87,9 +83,9 @@ public class FormGenController {
     public void updateFormGenInfo(
             @RequestParam(value = "connectionName") String connectionName,
             @RequestParam(value = "contextUri") String contextUri)
-            throws URISyntaxException, JsonProcessingException {
+            throws URISyntaxException {
 
-        FormGenJsonLoader.getFormGenRawJsonAndSaveMetadata(connectionName, contextUri).getRawJson();
+        FormGenJsonLoader.getFormGenRawJsonFromConnection(connectionName, contextUri).getRawJson();
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/info/update/batch")
@@ -104,7 +100,7 @@ public class FormGenController {
                 .limit(numberOfUpdates).forEach(context -> {
             try {
                 log.info("Processing {}", context.getUriString());
-                FormGenJsonLoader.getFormGenRawJsonAndSaveMetadata(connectionName, context.getUriString());
+                FormGenJsonLoader.getFormGenRawJsonFromConnection(connectionName, context.getUriString());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -126,15 +122,12 @@ public class FormGenController {
     public FormGenStatsDTO getFormGenStats(
             @RequestParam(value = "connectionName") String connectionName) {
 
-        int formGens = metadataService.getConnectionCount(connectionName);
+        int totalContexts = contextService.count(connectionName);
+        int processedContexts = metadataService.getConnectionCount(connectionName);
         int formGenInstances = instanceService.getConnectionCount(connectionName);
         int formGenVersions = versionService.getConnectionCount(connectionName);
+        int nonEmptyContexts = metadataService.getConnectionNonEmptyCount(connectionName);
 
-        return new FormGenStatsDTO(formGens, formGenVersions, formGenInstances);
-    }
-
-    @RequestMapping(method = RequestMethod.POST, path = "/static")
-    public String getFormStatic(@RequestParam(value = "contextUri") String contextUri) throws IOException {
-        return new String(Files.readAllBytes(ResourceUtils.getFile("classpath:app_generated_form_filled.txt").toPath()));
+        return new FormGenStatsDTO(totalContexts, processedContexts, formGenVersions, formGenInstances, nonEmptyContexts);
     }
 }

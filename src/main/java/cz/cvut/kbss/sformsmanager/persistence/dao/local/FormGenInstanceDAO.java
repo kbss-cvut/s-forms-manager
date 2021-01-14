@@ -15,4 +15,5 @@ public class FormGenInstanceDAO extends LocalWithConnectionBaseDAO<FormGenInstan
     protected FormGenInstanceDAO(EntityManager em) {
         super(em, FormGenInstance.class);
     }
+
 }
