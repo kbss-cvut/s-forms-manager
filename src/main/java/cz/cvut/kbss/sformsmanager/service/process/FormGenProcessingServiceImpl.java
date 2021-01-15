@@ -35,7 +35,7 @@ public class FormGenProcessingServiceImpl implements FormGenProcessingService {
     }
 
     @Transactional
-    public FormGenMetadata getFormGenMetadata(String connectionName, String contextUri) throws IOException, TemplateException {
+    public FormGenMetadata processFormGen(String connectionName, String contextUri) throws IOException, TemplateException {
 
         // formGen
         String formGenMetadataKey = FormGenMetadata.createKey(connectionName, contextUri);
@@ -48,7 +48,7 @@ public class FormGenProcessingServiceImpl implements FormGenProcessingService {
         String versionKey = FormGenVersion.createKey(connectionName, versionHash);
         Optional<FormGenVersion> versionTagOptional = versionDAO.findByKey(versionKey);
         FormGenVersion formGenVersion = versionTagOptional.orElse(
-                new FormGenVersion(connectionName, versionDAO.count(), versionHash));
+                new FormGenVersion(connectionName, versionDAO.count(), versionHash, contextUri));
 
         // formGen instance
         String instanceHash = contextService.getFormGenInstanceHash(connectionName, contextUri);
@@ -67,7 +67,6 @@ public class FormGenProcessingServiceImpl implements FormGenProcessingService {
         }
 
         FormGenMetadata formGenMetadata = new FormGenMetadata(formGenVersion, formGenInstance, saveHash, formGenCreated, contextUri, connectionName);
-
-        return formGenMetadata;
+        return metadataDAO.update(formGenMetadata);
     }
 }

@@ -2,7 +2,6 @@ package cz.cvut.kbss.sformsmanager.rest;
 
 import cz.cvut.kbss.sformsmanager.model.dto.ContextDTO;
 import cz.cvut.kbss.sformsmanager.model.dto.Paginated;
-import cz.cvut.kbss.sformsmanager.service.model.local.FormGenMetadataService;
 import cz.cvut.kbss.sformsmanager.service.model.remote.ContextService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -18,12 +17,10 @@ import java.util.stream.Collectors;
 @RequestMapping("/contexts")
 public class ContextController {
 
-    private final FormGenMetadataService formGenMetadataService;
     private final ContextService contextService;
 
     @Autowired
-    public ContextController(FormGenMetadataService formGenMetadataService, ContextService contextService) {
-        this.formGenMetadataService = formGenMetadataService;
+    public ContextController(ContextService contextService) {
         this.contextService = contextService;
     }
 

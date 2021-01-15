@@ -6,14 +6,13 @@ import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
 import cz.cvut.kbss.jopa.model.annotations.ParticipationConstraints;
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
 import cz.cvut.kbss.sformsmanager.model.persisted.HasConnection;
-import cz.cvut.kbss.sformsmanager.model.persisted.HasUniqueKey;
 import cz.cvut.kbss.sformsmanager.utils.OWLUtils;
 
 import java.io.Serializable;
 import java.net.URI;
 
 @OWLClass(iri = Vocabulary.FormGenVersion)
-public class FormGenVersion extends LocalEntity implements Serializable, HasUniqueKey, HasConnection {
+public class FormGenVersion extends LocalEntity implements Serializable, HasConnection {
 
     /**
      * Represent a version of FormGenMetadata.
@@ -25,22 +24,28 @@ public class FormGenVersion extends LocalEntity implements Serializable, HasUniq
     private String version; // e.g. v/sm/15
 
     @ParticipationConstraints(nonEmpty = true)
+    @OWLDataProperty(iri = Vocabulary.p_contextUri)
+    private String sampleContextUri;
+
+    @ParticipationConstraints(nonEmpty = true)
     @OWLDataProperty(iri = Vocabulary.p_connectionName)
     private String connectionName;
 
     public FormGenVersion() {
     }
 
-    public FormGenVersion(String connectionName, int versionNumbering, String hash) {
+    public FormGenVersion(String connectionName, int versionNumbering, String hash, String sampleContextUri) {
         super(createKey(connectionName, hash));
         this.connectionName = connectionName;
         this.version = createVersion(connectionName, versionNumbering);
+        this.sampleContextUri = sampleContextUri;
     }
 
-    public FormGenVersion(String connectionName, URI uri, String version, String key) {
+    public FormGenVersion(String connectionName, URI uri, String version, String key, String sampleContextUri) {
         super(uri, key);
         this.connectionName = connectionName;
         this.version = version;
+        this.sampleContextUri = sampleContextUri;
     }
 
     public String getVersion() {
@@ -57,6 +62,14 @@ public class FormGenVersion extends LocalEntity implements Serializable, HasUniq
 
     public void setConnectionName(String connectionName) {
         this.connectionName = connectionName;
+    }
+
+    public String getSampleContextUri() {
+        return sampleContextUri;
+    }
+
+    public void setSampleContextUri(String sampleContextUri) {
+        this.sampleContextUri = sampleContextUri;
     }
 
     /**

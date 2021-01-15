@@ -52,8 +52,7 @@ public class ConnectionController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
-    public void create(
-            @RequestBody ConnectionDTO connectionDTO) {
+    public void create(@RequestBody ConnectionDTO connectionDTO) {
 
         Connection connection = new Connection(
                 connectionDTO.getFormGenRepositoryUrl(),
@@ -65,8 +64,7 @@ public class ConnectionController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ConnectionDTO find(
-            @RequestParam(value = "connectionName") String connectionName) {
+    public ConnectionDTO find(@RequestParam(value = "connectionName") String connectionName) {
 
         Optional<Connection> connection = connectionService.findByKey(connectionName);
         return connection.map(ConnectionDTO::new)
@@ -75,8 +73,7 @@ public class ConnectionController {
 
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseStatus(value = HttpStatus.OK)
-    public void update(
-            @RequestParam(value = " Connection") ConnectionDTO connectionDTO) {
+    public void update(@RequestParam(value = "Connection") ConnectionDTO connectionDTO) {
 
         Connection connection = new Connection(
                 connectionDTO.getFormGenRepositoryUrl(),
@@ -88,8 +85,7 @@ public class ConnectionController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE)
-    public void delete(
-            @RequestBody String connectionName) {
+    public void delete(@RequestBody String connectionName) {
 
         Optional<Connection> connection = connectionService.findByKey(connectionName);
         if (connection.isPresent()) {

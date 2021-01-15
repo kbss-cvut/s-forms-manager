@@ -62,4 +62,19 @@ public abstract class LocalWithConnectionBaseDAO<T extends LocalEntity & HasUniq
         }
     }
 
+    public int countAllInConnectionByVersion(@NonNull String connectionName, @NonNull String version) {
+        try {
+            return (int) em.createNativeQuery(
+                    "SELECT (count(?x) as ?object) WHERE { ?x ?hasConnectionName ?connectionName ;a ?type ;?hasVersion ?versionParam  }")
+                    .setParameter("hasConnectionName", URI.create(Vocabulary.p_connectionName))
+                    .setParameter("connectionName", connectionName)
+                    .setParameter("hasVersion", URI.create(Vocabulary.p_assigned_version))
+                    .setParameter("versionParam", URI.create(version))
+                    .setParameter("type", typeUri).getSingleResult();
+        } catch (RuntimeException e) {
+            log.error(e.getMessage());
+            throw new PersistenceException("Could not run 'count' on " + typeUri.toString() + ".", e);
+        }
+    }
+
 }

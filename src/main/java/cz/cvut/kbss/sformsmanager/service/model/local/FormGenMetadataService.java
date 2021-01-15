@@ -37,4 +37,8 @@ public class FormGenMetadataService {
     public int getConnectionNonEmptyCount(String connectionName) {
         return formGenMetadataDAO.countAllNonEmptyInConnection(connectionName);
     }
+
+    public int getConnectionCountByVersion(String connectionName, String versionKey) {
+        return formGenMetadataDAO.countAllInConnectionByVersion(connectionName, versionKey);
+    }
 }

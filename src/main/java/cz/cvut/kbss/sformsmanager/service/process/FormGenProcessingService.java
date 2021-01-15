@@ -7,5 +7,5 @@ import java.io.IOException;
 
 public interface FormGenProcessingService {
 
-    FormGenMetadata getFormGenMetadata(String connectionName, String contextUri) throws IOException, TemplateException;
+    FormGenMetadata processFormGen(String connectionName, String contextUri) throws IOException, TemplateException;
 }

@@ -14,22 +14,17 @@
  */
 package cz.cvut.kbss.sformsmanager.rest;
 
-import cz.cvut.kbss.sformsmanager.model.dto.ContextsStatsDTO;
 import cz.cvut.kbss.sformsmanager.model.dto.FormGenMetadataDTO;
-import cz.cvut.kbss.sformsmanager.model.dto.FormGenStatsDTO;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.FormGenMetadata;
-import cz.cvut.kbss.sformsmanager.model.persisted.remote.Context;
 import cz.cvut.kbss.sformsmanager.service.data.FormGenJsonLoader;
-import cz.cvut.kbss.sformsmanager.service.model.local.FormGenInstanceService;
 import cz.cvut.kbss.sformsmanager.service.model.local.FormGenMetadataService;
-import cz.cvut.kbss.sformsmanager.service.model.local.FormGenVersionService;
-import cz.cvut.kbss.sformsmanager.service.model.remote.ContextService;
 import cz.cvut.kbss.sformsmanager.utils.OWLUtils;
-import cz.cvut.kbss.sformsmanager.utils.PredicateUtils;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URISyntaxException;
 import java.util.Optional;
@@ -40,19 +35,13 @@ public class FormGenController {
 
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(FormGenController.class);
 
-    private final cz.cvut.kbss.sformsmanager.service.data.FormGenJsonLoader FormGenJsonLoader;
+    private final FormGenJsonLoader formGenJsonLoader;
     private final FormGenMetadataService metadataService;
-    private final FormGenInstanceService instanceService;
-    private final FormGenVersionService versionService;
-    private final ContextService contextService;
 
     @Autowired
-    public FormGenController(FormGenJsonLoader FormGenJsonLoader, FormGenMetadataService metadataService, FormGenInstanceService instanceService, FormGenVersionService versionService, ContextService contextService) {
-        this.FormGenJsonLoader = FormGenJsonLoader;
+    public FormGenController(FormGenJsonLoader FormGenJsonLoader, FormGenMetadataService metadataService) {
+        this.formGenJsonLoader = FormGenJsonLoader;
         this.metadataService = metadataService;
-        this.instanceService = instanceService;
-        this.versionService = versionService;
-        this.contextService = contextService;
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/info/get")
@@ -69,65 +58,13 @@ public class FormGenController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST, path = "s-forms-json-ld")
     public String getFormGenRawJson(
             @RequestParam(value = "connectionName") String connectionName,
             @RequestParam(value = "contextUri") String contextUri
     ) throws URISyntaxException {
 
-        return FormGenJsonLoader.getFormGenRawJsonFromConnection(connectionName, contextUri).getRawJson();
+        return formGenJsonLoader.getFormGenRawJsonFromConnection(connectionName, contextUri).getRawJson();
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/info/update/single")
-    @ResponseStatus(value = HttpStatus.OK)
-    public void updateFormGenInfo(
-            @RequestParam(value = "connectionName") String connectionName,
-            @RequestParam(value = "contextUri") String contextUri)
-            throws URISyntaxException {
-
-        FormGenJsonLoader.getFormGenRawJsonFromConnection(connectionName, contextUri).getRawJson();
-    }
-
-    @RequestMapping(method = RequestMethod.POST, path = "/info/update/batch")
-    @ResponseStatus(value = HttpStatus.OK)
-    public void updateFormGenInfoBatch(
-            @RequestParam(value = "connectionName") String connectionName,
-            @RequestParam(value = "numberOfUpdates") int numberOfUpdates) {
-
-        log.info("Running batch update on {} contexts of {}.", numberOfUpdates, connectionName);
-        contextService.getContexts(connectionName).stream()
-                .filter(PredicateUtils.not(Context::isProcessed))
-                .limit(numberOfUpdates).forEach(context -> {
-            try {
-                log.info("Processing {}", context.getUriString());
-                FormGenJsonLoader.getFormGenRawJsonFromConnection(connectionName, context.getUriString());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    @RequestMapping(method = RequestMethod.GET, path = "/info/contextStats")
-    @ResponseStatus(value = HttpStatus.OK)
-    public ContextsStatsDTO getContextsStats(
-            @RequestParam(value = "connectionName") String connectionName) {
-
-        int totalContexts = contextService.count(connectionName);
-        int processedContexts = metadataService.getConnectionCount(connectionName);
-        return new ContextsStatsDTO(totalContexts, processedContexts);
-    }
-
-    @RequestMapping(method = RequestMethod.GET, path = "/info/formStats")
-    @ResponseStatus(value = HttpStatus.OK)
-    public FormGenStatsDTO getFormGenStats(
-            @RequestParam(value = "connectionName") String connectionName) {
-
-        int totalContexts = contextService.count(connectionName);
-        int processedContexts = metadataService.getConnectionCount(connectionName);
-        int formGenInstances = instanceService.getConnectionCount(connectionName);
-        int formGenVersions = versionService.getConnectionCount(connectionName);
-        int nonEmptyContexts = metadataService.getConnectionNonEmptyCount(connectionName);
-
-        return new FormGenStatsDTO(totalContexts, processedContexts, formGenVersions, formGenInstances, nonEmptyContexts);
-    }
 }

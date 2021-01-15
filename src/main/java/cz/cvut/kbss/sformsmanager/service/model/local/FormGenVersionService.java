@@ -6,6 +6,7 @@ import cz.cvut.kbss.sformsmanager.persistence.dao.local.FormGenVersionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,5 +25,9 @@ public class FormGenVersionService {
 
     public int getConnectionCount(String connectionName) {
         return versionDAO.countAllInConnection(connectionName);
+    }
+
+    public List<FormGenVersion> findAllInConnection(String connectionName) {
+        return versionDAO.findAllInConnection(connectionName);
     }
 }
