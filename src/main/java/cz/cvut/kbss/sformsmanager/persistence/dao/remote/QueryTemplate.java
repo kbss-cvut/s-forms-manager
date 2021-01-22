@@ -1,11 +1,13 @@
 package cz.cvut.kbss.sformsmanager.persistence.dao.remote;
 
-import java.util.Date;
+import cz.cvut.kbss.sformsmanager.persistence.dao.response.StringAndDateResponse;
+import cz.cvut.kbss.sformsmanager.persistence.dao.response.StringIntDateStringResponse;
 
 public enum QueryTemplate {
-    FORMGEN_VERSION_HASH_QUERY("formGenVersionHash.ftl", String.class),
-    FORMGEN_INSTANCE_HASH_QUERY("formGenInstanceHash.ftl", String.class),
-    FORMGEN_SAVE_HASH_QUERY("formGenSaveHash.ftl", StringAndDateResponse.class);
+    REMOTE_FORMGEN_VERSION_HASH_QUERY("remote/formGenVersionHash.ftl", String.class),
+    REMOTE_FORMGEN_INSTANCE_HASH_QUERY("remote/formGenInstanceHash.ftl", String.class),
+    REMOTE_FORMGEN_SAVE_HASH_QUERY("remote/formGenSaveHash.ftl", StringAndDateResponse.class),
+    LOCAL_FORMGEN_SAVE_HASH_QUERY("local/latestFormGensWithHistoryCount.ftl", StringIntDateStringResponse.class);
 
     private final String queryName;
     private final Class resultType;
@@ -13,35 +15,6 @@ public enum QueryTemplate {
     QueryTemplate(String queryName, Class resultType) {
         this.queryName = queryName;
         this.resultType = resultType;
-    }
-
-    public static class StringAndDateResponse {
-        private String string;
-        private Date date;
-
-        public StringAndDateResponse() {
-        }
-
-        public StringAndDateResponse(String string, Date date) {
-            this.string = string;
-            this.date = date;
-        }
-
-        public void setString(String string) {
-            this.string = string;
-        }
-
-        public void setDate(Date date) {
-            this.date = date;
-        }
-
-        public String getString() {
-            return string;
-        }
-
-        public Date getDate() {
-            return date;
-        }
     }
 
     public String getQueryName() {

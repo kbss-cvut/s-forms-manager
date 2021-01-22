@@ -35,7 +35,6 @@ public class Vocabulary {
     public static final String p_appRepositoryUrl = URI_BASE + "appRepositoryUrl";
     public static final String p_key = URI_BASE + "key";
 
-
     /* General */
     public final static String DOC_URI = "http://onto.fel.cvut.cz/ontologies/documentation/";
     public static final String Question = DOC_URI + "question";

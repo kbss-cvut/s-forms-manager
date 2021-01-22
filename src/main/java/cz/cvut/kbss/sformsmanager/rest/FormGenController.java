@@ -14,11 +14,9 @@
  */
 package cz.cvut.kbss.sformsmanager.rest;
 
-import cz.cvut.kbss.sformsmanager.model.dto.FormGenMetadataDTO;
-import cz.cvut.kbss.sformsmanager.model.persisted.local.FormGenMetadata;
+import cz.cvut.kbss.sformsmanager.model.dto.FormGenSaveGroupInfoDTO;
 import cz.cvut.kbss.sformsmanager.service.data.FormGenJsonLoader;
 import cz.cvut.kbss.sformsmanager.service.model.local.FormGenMetadataService;
-import cz.cvut.kbss.sformsmanager.utils.OWLUtils;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +25,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URISyntaxException;
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/formGen")
@@ -44,20 +43,6 @@ public class FormGenController {
         this.metadataService = metadataService;
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/info/get")
-    public FormGenMetadataDTO getFormGenInfo(
-            @RequestParam(value = "connectionName") String connectionName,
-            @RequestParam(value = "contextUri") String contextUri) {
-
-        String key = OWLUtils.createInitialsAndConcatWithSlash(connectionName, contextUri);
-        Optional<FormGenMetadata> formGenMetadata = metadataService.findByKey(key);
-        if (formGenMetadata.isPresent()) {
-            return new FormGenMetadataDTO(formGenMetadata.get());
-        } else {
-            throw new NotFoundException("FormGenInfo " + key + " not found.");
-        }
-    }
-
     @RequestMapping(method = RequestMethod.POST, path = "s-forms-json-ld")
     public String getFormGenRawJson(
             @RequestParam(value = "connectionName") String connectionName,
@@ -67,4 +52,17 @@ public class FormGenController {
         return formGenJsonLoader.getFormGenRawJsonFromConnection(connectionName, contextUri).getRawJson();
     }
 
+    @RequestMapping(path = "/grouped")
+    public List<FormGenSaveGroupInfoDTO> getGroupedForms(@RequestParam(value = "connectionName") String connectionName) {
+
+        return metadataService.getLatestFormGenSaves(connectionName).stream()
+                .map(sids -> new FormGenSaveGroupInfoDTO(
+                        sids.getString(),
+                        sids.getInteger(),
+                        sids.getDate(),
+                        sids.getString1()
+                ))
+                .collect(Collectors.toList());
+
+    }
 }

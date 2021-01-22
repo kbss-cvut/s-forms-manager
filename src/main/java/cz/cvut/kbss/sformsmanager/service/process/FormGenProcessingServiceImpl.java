@@ -6,7 +6,7 @@ import cz.cvut.kbss.sformsmanager.model.persisted.local.FormGenVersion;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.FormGenInstanceDAO;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.FormGenMetadataDAO;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.FormGenVersionDAO;
-import cz.cvut.kbss.sformsmanager.persistence.dao.remote.QueryTemplate;
+import cz.cvut.kbss.sformsmanager.persistence.dao.response.StringAndDateResponse;
 import cz.cvut.kbss.sformsmanager.service.model.remote.ContextService;
 import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +60,7 @@ public class FormGenProcessingServiceImpl implements FormGenProcessingService {
         // formGen instance
         String saveHash = null;
         Date formGenCreated = null;
-        Optional<QueryTemplate.StringAndDateResponse> formGenSave = contextService.getFormGenSaveHash(connectionName, contextUri);
+        Optional<StringAndDateResponse> formGenSave = contextService.getFormGenSaveHash(connectionName, contextUri);
         if (formGenSave.isPresent()) {
             saveHash = formGenSave.get().getString();
             formGenCreated = formGenSave.get().getDate();

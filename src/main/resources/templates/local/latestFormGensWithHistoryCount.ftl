@@ -1,0 +1,15 @@
+SELECT ?hash ?count ?lastSaved ?contextUri
+WHERE {
+    {
+        SELECT ?hash (count(?hash) as ?count) (max(?created) as ?lastSaved)
+        WHERE {
+            ?x ?type <http://onto.fel.cvut.cz/ontologies/sformsmanager#FormGenMetadata> ;
+                <http://onto.fel.cvut.cz/ontologies/sformsmanager#connectionName> "${connectionName}";
+                <http://onto.fel.cvut.cz/ontologies/sformsmanager#formGenSaveHashCode> ?hash;
+                <http://onto.fel.cvut.cz/ontologies/sformsmanager#formGenCreated> ?created.
+        }
+        GROUP BY ?hash
+    }
+    ?b <http://onto.fel.cvut.cz/ontologies/sformsmanager#formGenCreated> ?lastSaved .
+    ?b <http://onto.fel.cvut.cz/ontologies/sformsmanager#contextUri> ?contextUri .
+}

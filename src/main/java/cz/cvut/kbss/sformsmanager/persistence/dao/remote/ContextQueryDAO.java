@@ -4,6 +4,7 @@ import cz.cvut.kbss.jopa.exceptions.NoResultException;
 import cz.cvut.kbss.jopa.model.EntityManager;
 import cz.cvut.kbss.sformsmanager.exception.PersistenceException;
 import cz.cvut.kbss.sformsmanager.persistence.base.ConnectionEntityManagerProvider;
+import cz.cvut.kbss.sformsmanager.persistence.dao.response.StringAndDateResponse;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -57,7 +58,7 @@ public class ContextQueryDAO {
         }
     }
 
-    public Optional<QueryTemplate.StringAndDateResponse> executeQuery(String connectionName, String contextUri, QueryTemplate queryTemplate) throws IOException, TemplateException {
+    public Optional<StringAndDateResponse> executeQuery(String connectionName, String contextUri, QueryTemplate queryTemplate) throws IOException, TemplateException {
         EntityManager em = entityManagerProvider.getEntityManagerFactory(connectionName);
 
         String query = queryFromTemplate(contextUri, queryTemplate);
@@ -67,7 +68,7 @@ public class ContextQueryDAO {
             if (response.getClass().isArray()) {
 
                 Object[] responseArray = (Object[]) response;
-                QueryTemplate.StringAndDateResponse sad = new QueryTemplate.StringAndDateResponse();
+                StringAndDateResponse sad = new StringAndDateResponse();
                 if (responseArray[0] != null)
                     sad.setString((String) responseArray[0]);
                 if (responseArray[1] != null)

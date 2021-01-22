@@ -4,6 +4,7 @@ import cz.cvut.kbss.sformsmanager.model.persisted.remote.Context;
 import cz.cvut.kbss.sformsmanager.persistence.dao.remote.ContextQueryDAO;
 import cz.cvut.kbss.sformsmanager.persistence.dao.remote.ContextRepository;
 import cz.cvut.kbss.sformsmanager.persistence.dao.remote.QueryTemplate;
+import cz.cvut.kbss.sformsmanager.persistence.dao.response.StringAndDateResponse;
 import cz.cvut.kbss.sformsmanager.service.model.local.FormGenMetadataService;
 import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,14 +55,14 @@ public class ContextService {
     }
 
     public String getFormGenVersionHash(String connectionName, String contextUri) throws IOException, TemplateException {
-        return contextQueryDAO.executeQuerySingleColumnResponse(connectionName, contextUri, QueryTemplate.FORMGEN_VERSION_HASH_QUERY);
+        return contextQueryDAO.executeQuerySingleColumnResponse(connectionName, contextUri, QueryTemplate.REMOTE_FORMGEN_VERSION_HASH_QUERY);
     }
 
     public String getFormGenInstanceHash(String connectionName, String contextUri) throws IOException, TemplateException {
-        return contextQueryDAO.executeQuerySingleColumnResponse(connectionName, contextUri, QueryTemplate.FORMGEN_INSTANCE_HASH_QUERY);
+        return contextQueryDAO.executeQuerySingleColumnResponse(connectionName, contextUri, QueryTemplate.REMOTE_FORMGEN_INSTANCE_HASH_QUERY);
     }
 
-    public Optional<QueryTemplate.StringAndDateResponse> getFormGenSaveHash(String connectionName, String contextUri) throws IOException, TemplateException {
-        return contextQueryDAO.executeQuery(connectionName, contextUri, QueryTemplate.FORMGEN_SAVE_HASH_QUERY);
+    public Optional<StringAndDateResponse> getFormGenSaveHash(String connectionName, String contextUri) throws IOException, TemplateException {
+        return contextQueryDAO.executeQuery(connectionName, contextUri, QueryTemplate.REMOTE_FORMGEN_SAVE_HASH_QUERY);
     }
 }
