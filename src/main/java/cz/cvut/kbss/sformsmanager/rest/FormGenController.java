@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,14 +54,14 @@ public class FormGenController {
     }
 
     @RequestMapping(path = "/grouped")
-    public List<FormGenSaveGroupInfoDTO> getGroupedForms(@RequestParam(value = "connectionName") String connectionName) {
+    public List<FormGenSaveGroupInfoDTO> getGroupedForms(@RequestParam(value = "connectionName") String connectionName) throws IOException {
 
-        return metadataService.getLatestFormGenSaves(connectionName).stream()
+        return metadataService.getFormGensWithHistoryCount(connectionName).stream()
                 .map(sids -> new FormGenSaveGroupInfoDTO(
-                        sids.getString(),
-                        sids.getInteger(),
-                        sids.getDate(),
-                        sids.getString1()
+                        sids.getFormGenSaveHash(),
+                        sids.getHistorySaves(),
+                        sids.getLastSaved(),
+                        sids.getLastSavedContextUri()
                 ))
                 .collect(Collectors.toList());
 

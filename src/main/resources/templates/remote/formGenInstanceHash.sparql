@@ -7,8 +7,7 @@ WHERE
             SELECT ?newOstr
             WHERE
             {
-                GRAPH <${contextUri}>
-                {
+                GRAPH ?contextUri {
                     ?s <http://onto.fel.cvut.cz/ontologies/form/has-question-origin> ?o .
                     ?s <http://onto.fel.cvut.cz/ontologies/documentation/has_answer> ?a .
                         OPTIONAL {?a <http://onto.fel.cvut.cz/ontologies/documentation/has_object_value> ?v1}  # object value, data value?

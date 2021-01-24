@@ -7,8 +7,7 @@ WHERE
             SELECT ?oStr
             WHERE
             {
-                GRAPH <${contextUri}>
-                {
+                GRAPH ?contextUri {
                     ?s <http://onto.fel.cvut.cz/ontologies/form/has-question-origin> ?o .
                     BIND (str(?o) as ?oStr)
                 }

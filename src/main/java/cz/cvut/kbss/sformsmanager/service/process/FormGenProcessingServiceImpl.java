@@ -6,9 +6,8 @@ import cz.cvut.kbss.sformsmanager.model.persisted.local.FormGenVersion;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.FormGenInstanceDAO;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.FormGenMetadataDAO;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.FormGenVersionDAO;
-import cz.cvut.kbss.sformsmanager.persistence.dao.response.StringAndDateResponse;
+import cz.cvut.kbss.sformsmanager.model.persisted.response.FormGenSaveDBResponse;
 import cz.cvut.kbss.sformsmanager.service.model.remote.ContextService;
-import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +34,7 @@ public class FormGenProcessingServiceImpl implements FormGenProcessingService {
     }
 
     @Transactional
-    public FormGenMetadata processFormGen(String connectionName, String contextUri) throws IOException, TemplateException {
+    public FormGenMetadata processFormGen(String connectionName, String contextUri) throws IOException {
 
         // formGen
         String formGenMetadataKey = FormGenMetadata.createKey(connectionName, contextUri);
@@ -44,7 +43,7 @@ public class FormGenProcessingServiceImpl implements FormGenProcessingService {
             return formGenMetadataOptional.get();
         }
 
-        String versionHash = contextService.getFormGenVersionHash(connectionName, contextUri);
+        String versionHash = contextService.getFormGenVersionIdentifier(connectionName, contextUri);
         String versionKey = FormGenVersion.createKey(connectionName, versionHash);
         Optional<FormGenVersion> versionTagOptional = versionDAO.findByKey(versionKey);
         FormGenVersion formGenVersion = versionTagOptional.orElse(
@@ -60,11 +59,9 @@ public class FormGenProcessingServiceImpl implements FormGenProcessingService {
         // formGen instance
         String saveHash = null;
         Date formGenCreated = null;
-        Optional<StringAndDateResponse> formGenSave = contextService.getFormGenSaveHash(connectionName, contextUri);
-        if (formGenSave.isPresent()) {
-            saveHash = formGenSave.get().getString();
-            formGenCreated = formGenSave.get().getDate();
-        }
+        FormGenSaveDBResponse formGenSave = contextService.getFormGenSaveHash(connectionName, contextUri);
+        saveHash = formGenSave.getFormGenSaveHash();
+        formGenCreated = formGenSave.getModified();
 
         FormGenMetadata formGenMetadata = new FormGenMetadata(formGenVersion, formGenInstance, saveHash, formGenCreated, contextUri, connectionName);
         return metadataDAO.update(formGenMetadata);

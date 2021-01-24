@@ -45,6 +45,12 @@ public class FormGenVersionController {
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, path = "/histogram")
     public Map<String, Map<Date, Long>> getVersionsHistogramData(@RequestParam(value = "connectionName") String connectionName) {
 
+        // get earliest and latest formgen date
+        // group by version
+        // init map with capacity of "latest - earliest"
+        // go through map, get month and increase occurence
+
+
         return metadataService.findAllInConnection(connectionName).stream()
                 .collect(Collectors.groupingBy(p -> p.getFormGenVersion().getVersion(),
                         Collectors.groupingBy(m -> DateUtils.round(m.getFormGenCreated(), Calendar.MONTH)

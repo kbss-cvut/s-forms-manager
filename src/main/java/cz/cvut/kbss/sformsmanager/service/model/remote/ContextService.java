@@ -1,19 +1,16 @@
 package cz.cvut.kbss.sformsmanager.service.model.remote;
 
 import cz.cvut.kbss.sformsmanager.model.persisted.remote.Context;
-import cz.cvut.kbss.sformsmanager.persistence.dao.remote.ContextQueryDAO;
 import cz.cvut.kbss.sformsmanager.persistence.dao.remote.ContextRepository;
-import cz.cvut.kbss.sformsmanager.persistence.dao.remote.QueryTemplate;
-import cz.cvut.kbss.sformsmanager.persistence.dao.response.StringAndDateResponse;
+import cz.cvut.kbss.sformsmanager.model.persisted.response.FormGenSaveDBResponse;
+import cz.cvut.kbss.sformsmanager.persistence.dao.remote.RemoteFormGenDAO;
 import cz.cvut.kbss.sformsmanager.service.model.local.FormGenMetadataService;
-import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -21,13 +18,13 @@ import java.util.stream.Collectors;
 public class ContextService {
 
     private final ContextRepository contextRepository;
-    private final ContextQueryDAO contextQueryDAO;
+    private final RemoteFormGenDAO remoteFormGenDAO;
     private final FormGenMetadataService formGenMetadataService;
 
     @Autowired
-    public ContextService(ContextRepository contextRepository, ContextQueryDAO contextQueryDAO, FormGenMetadataService formGenMetadataService) {
+    public ContextService(ContextRepository contextRepository, RemoteFormGenDAO remoteFormGenDAO, FormGenMetadataService formGenMetadataService) {
         this.contextRepository = contextRepository;
-        this.contextQueryDAO = contextQueryDAO;
+        this.remoteFormGenDAO = remoteFormGenDAO;
         this.formGenMetadataService = formGenMetadataService;
     }
 
@@ -54,15 +51,15 @@ public class ContextService {
                 .collect(Collectors.toList());
     }
 
-    public String getFormGenVersionHash(String connectionName, String contextUri) throws IOException, TemplateException {
-        return contextQueryDAO.executeQuerySingleColumnResponse(connectionName, contextUri, QueryTemplate.REMOTE_FORMGEN_VERSION_HASH_QUERY);
+    public String getFormGenVersionIdentifier(String connectionName, String contextUri) throws IOException {
+        return remoteFormGenDAO.getFormGenVersionIdentifier(connectionName, contextUri);
     }
 
-    public String getFormGenInstanceHash(String connectionName, String contextUri) throws IOException, TemplateException {
-        return contextQueryDAO.executeQuerySingleColumnResponse(connectionName, contextUri, QueryTemplate.REMOTE_FORMGEN_INSTANCE_HASH_QUERY);
+    public String getFormGenInstanceHash(String connectionName, String contextUri) throws IOException {
+        return remoteFormGenDAO.getFormGenInstanceIdentifier(connectionName, contextUri);
     }
 
-    public Optional<StringAndDateResponse> getFormGenSaveHash(String connectionName, String contextUri) throws IOException, TemplateException {
-        return contextQueryDAO.executeQuery(connectionName, contextUri, QueryTemplate.REMOTE_FORMGEN_SAVE_HASH_QUERY);
+    public FormGenSaveDBResponse getFormGenSaveHash(String connectionName, String contextUri) throws IOException {
+        return remoteFormGenDAO.getFormGenSaveIdentifier(connectionName, contextUri);
     }
 }

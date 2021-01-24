@@ -8,7 +8,6 @@ import cz.cvut.kbss.sformsmanager.persistence.dao.local.FormGenMetadataDAO;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.FormGenVersionDAO;
 import cz.cvut.kbss.sformsmanager.service.model.remote.ContextService;
 import cz.cvut.kbss.sformsmanager.utils.OWLUtils;
-import freemarker.template.TemplateException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -62,7 +61,7 @@ public class FormGenProcessingServiceTest {
     }
 
     @Test
-    public void processNewFormGen() throws IOException, TemplateException {
+    public void processNewFormGen() throws IOException {
 
         FormGenMetadata metadata = processingService.processFormGen(CONNECTION_NAME, CONTEXT_URI);
         assertThat(metadata.getFormGenVersion().getVersion()).isEqualTo(VERSION);
@@ -76,14 +75,14 @@ public class FormGenProcessingServiceTest {
     }
 
     @Test
-    public void processTheSameFormGenTwice() throws IOException, TemplateException {
+    public void processTheSameFormGenTwice() throws IOException {
         FormGenMetadata metadata1 = processingService.processFormGen(CONNECTION_NAME, CONTEXT_URI);
         FormGenMetadata metadata2 = processingService.processFormGen(CONNECTION_NAME, CONTEXT_URI);
         assertThat(metadata1).isEqualTo(metadata2);
     }
 
     @Test
-    public void processFormGenWithExistingVersion() throws IOException, TemplateException {
+    public void processFormGenWithExistingVersion() throws IOException {
         FormGenMetadata metadata1 = processingService.processFormGen(CONNECTION_NAME, CONTEXT_URI);
 
         when(versionTagDAO.findByKey(anyString())).thenReturn(Optional.of(metadata1.getFormGenVersion()));
@@ -92,7 +91,7 @@ public class FormGenProcessingServiceTest {
     }
 
     @Test
-    public void processExistingFormGen() throws IOException, TemplateException {
+    public void processExistingFormGen() throws IOException {
         FormGenMetadata metadata1 = processingService.processFormGen(CONNECTION_NAME, CONTEXT_URI);
         when(versionTagDAO.findByKey(anyString())).thenReturn(Optional.of(metadata1.getFormGenVersion()));
         when(metadataDAO.findByKey(anyString())).thenReturn(Optional.of(metadata1));
@@ -102,7 +101,7 @@ public class FormGenProcessingServiceTest {
     }
 
     @Test
-    public void processAnotherFormGen() throws IOException, TemplateException {
+    public void processAnotherFormGen() throws IOException {
         String versionTagKey = OWLUtils.createInitialsAndConcatWithSlash(formGenRawJson.getConnectionName(), HASH_CODE);
         FormGenVersion expectedVersion = new FormGenVersion("study-manager", null, formGenRawJson.getConnectionName() + versionTagDAO.count(), versionTagKey, CONTEXT_URI);
         when(versionTagDAO.findByKey(anyString())).thenReturn(Optional.of(expectedVersion));

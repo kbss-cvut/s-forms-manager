@@ -1,0 +1,14 @@
+SELECT ?formGenSaveHash ?modified
+WHERE
+{
+    graph ?contextUri {
+        ?s a <http://vfn.cz/ontologies/study-manager/patient-record> .
+        ?s <http://purl.org/dc/terms/created> ?cre
+        OPTIONAL {?s <http://purl.org/dc/terms/modifed> ?mod}
+
+        BIND(COALESCE(?mod,?cre) as ?modified)
+
+        BIND (str(?s) as ?patientStr)
+        BIND (md5(?patientStr) as ?formGenSaveHash)
+    }
+}

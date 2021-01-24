@@ -4,33 +4,32 @@ import cz.cvut.kbss.jopa.model.EntityManager;
 import cz.cvut.kbss.sformsmanager.exception.PersistenceException;
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.FormGenMetadata;
-import cz.cvut.kbss.sformsmanager.persistence.dao.remote.QueryTemplate;
-import cz.cvut.kbss.sformsmanager.persistence.dao.response.StringIntDateStringResponse;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
+import cz.cvut.kbss.sformsmanager.model.persisted.response.FormGenListingElementWithHistory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
 
 import java.io.IOException;
-import java.io.StringWriter;
 import java.net.URI;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.nio.file.Files;
+import java.util.List;
+
+import static cz.cvut.kbss.sformsmanager.persistence.dao.remote.RemoteFormGenDAO.CLASSPATH_PREFIX;
+
 
 @Component
 public class FormGenMetadataDAO extends LocalWithConnectionBaseDAO<FormGenMetadata> {
 
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(FormGenMetadataDAO.class);
 
-    private final freemarker.template.Configuration templateCfg;
+    private final String FORMGEN_LISTING_ELEMENT_WITH_HISTORY = CLASSPATH_PREFIX + "templates/local/formListingWithHistory.sparql";
+
 
     @Autowired
-    protected FormGenMetadataDAO(EntityManager em, Configuration templateCfg) {
+    protected FormGenMetadataDAO(EntityManager em) {
         super(em, FormGenMetadata.class);
-        this.templateCfg = templateCfg;
     }
 
     public int countAllNonEmptyInConnection(@NonNull String connectionName) {
@@ -47,42 +46,16 @@ public class FormGenMetadataDAO extends LocalWithConnectionBaseDAO<FormGenMetada
         }
     }
 
-    private String queryFromTemplate(QueryTemplate queryTemplate, String connectionName) throws IOException, TemplateException {
-        // get the query from template
-        Template temp = templateCfg.getTemplate(queryTemplate.getQueryName());
-        Map templateParameters = new HashMap();
-        templateParameters.put("connectionName", connectionName);
-        StringWriter stringWriter = new StringWriter();
-        temp.process(templateParameters, stringWriter);
-
-        return stringWriter.toString();
-    }
-
-    public List<StringIntDateStringResponse> getLatestFormGensWithHistoryCount(@NonNull String connectionName) {
+    public List<FormGenListingElementWithHistory> getFormListingWithHistory(String connectionName) throws IOException {
         try {
-            String query = queryFromTemplate(QueryTemplate.LOCAL_FORMGEN_SAVE_HASH_QUERY, connectionName);
+            String query = new String(Files.readAllBytes(ResourceUtils.getFile(FORMGEN_LISTING_ELEMENT_WITH_HISTORY).toPath()));
+            query = query.replace("?connectionName", "<" + URI.create(connectionName) + ">");
+            return em.createNativeQuery(query, FormGenListingElementWithHistory.class)
+//                    .setParameter("?connectionName", connectionName)
+                    .getResultList();
 
-            List<Object> response = em.createNativeQuery(query).getResultList();
-            if (response.isEmpty()) {
-                return new ArrayList<>();
-            }
-            if (response.get(0).getClass().isArray()) {
-                return response.stream().map(o -> { // TODO: make that part of the object itself
-                    Object[] responseArray = (Object[]) o;
-                    StringIntDateStringResponse sad = new StringIntDateStringResponse();
-                    sad.setString((String) responseArray[0]);
-                    sad.setInteger((Integer) responseArray[1]);
-                    sad.setDate((Date) responseArray[2]);
-                    sad.setString1((String) responseArray[3]);
-                    return sad;
-                }).collect(Collectors.toList());
-
-            } else {
-                throw new PersistenceException("Query returns different type than expected.");
-            }
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            throw new PersistenceException("Could not run 'count' on " + typeUri.toString() + ".", e);
+        } catch (IOException e) {
+            throw new IOException("Query from file could not be found!", e);
         }
     }
 }

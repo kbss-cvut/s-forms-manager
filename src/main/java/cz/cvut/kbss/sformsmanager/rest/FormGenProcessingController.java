@@ -18,7 +18,6 @@ import cz.cvut.kbss.sformsmanager.model.persisted.remote.Context;
 import cz.cvut.kbss.sformsmanager.service.model.remote.ContextService;
 import cz.cvut.kbss.sformsmanager.service.process.FormGenProcessingService;
 import cz.cvut.kbss.sformsmanager.utils.PredicateUtils;
-import freemarker.template.TemplateException;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,7 +45,7 @@ public class FormGenProcessingController {
     public void updateFormGenInfo(
             @RequestParam(value = "connectionName") String connectionName,
             @RequestParam(value = "contextUri") String contextUri)
-            throws IOException, TemplateException {
+            throws IOException {
 
         processingService.processFormGen(connectionName, contextUri);
     }

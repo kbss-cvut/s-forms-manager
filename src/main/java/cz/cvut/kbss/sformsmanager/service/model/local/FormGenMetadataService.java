@@ -3,10 +3,11 @@ package cz.cvut.kbss.sformsmanager.service.model.local;
 
 import cz.cvut.kbss.sformsmanager.model.persisted.local.FormGenMetadata;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.FormGenMetadataDAO;
-import cz.cvut.kbss.sformsmanager.persistence.dao.response.StringIntDateStringResponse;
+import cz.cvut.kbss.sformsmanager.model.persisted.response.FormGenListingElementWithHistory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -48,8 +49,8 @@ public class FormGenMetadataService {
         return formGenMetadataDAO.findAllInConnection(connectionName);
     }
 
-    public List<StringIntDateStringResponse> getLatestFormGenSaves(String connectionName) {
-        return formGenMetadataDAO.getLatestFormGensWithHistoryCount(connectionName);
+    public List<FormGenListingElementWithHistory> getFormGensWithHistoryCount(String connectionName) throws IOException {
+        return formGenMetadataDAO.getFormListingWithHistory(connectionName);
     }
 
 }

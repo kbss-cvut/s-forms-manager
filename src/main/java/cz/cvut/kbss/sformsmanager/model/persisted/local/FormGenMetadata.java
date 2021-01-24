@@ -26,7 +26,7 @@ public class FormGenMetadata extends LocalEntity implements Serializable, HasCon
 
     @ParticipationConstraints(nonEmpty = true)
     @OWLDataProperty(iri = Vocabulary.p_formGen_created)
-    private Date formGenCreated;
+    private Date formGenCreated; // TODO: make modified
 
     @ParticipationConstraints(nonEmpty = true)
     @OWLDataProperty(iri = Vocabulary.p_contextUri)
