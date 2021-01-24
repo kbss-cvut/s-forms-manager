@@ -71,6 +71,4 @@ public class RemoteFormGenDAO extends RemoteEntityDAO {
             throw new IOException("Query from file could not be found!", e);
         }
     }
-
-
 }

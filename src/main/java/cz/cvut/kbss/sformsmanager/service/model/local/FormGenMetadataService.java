@@ -2,8 +2,10 @@ package cz.cvut.kbss.sformsmanager.service.model.local;
 
 
 import cz.cvut.kbss.sformsmanager.model.persisted.local.FormGenMetadata;
+import cz.cvut.kbss.sformsmanager.model.persisted.response.FormGenLatestAndNewestDateDBResponse;
+import cz.cvut.kbss.sformsmanager.model.persisted.response.FormGenLatestSavesResponseDB;
+import cz.cvut.kbss.sformsmanager.model.persisted.response.FormGenVersionHistogramDBResponse;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.FormGenMetadataDAO;
-import cz.cvut.kbss.sformsmanager.model.persisted.response.FormGenListingElementWithHistory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,8 +51,15 @@ public class FormGenMetadataService {
         return formGenMetadataDAO.findAllInConnection(connectionName);
     }
 
-    public List<FormGenListingElementWithHistory> getFormGensWithHistoryCount(String connectionName) throws IOException {
+    public List<FormGenLatestSavesResponseDB> getFormGensWithHistoryCount(String connectionName) throws IOException {
         return formGenMetadataDAO.getFormListingWithHistory(connectionName);
     }
 
+    public FormGenLatestAndNewestDateDBResponse getHistogramBounds(String connectionName) throws IOException {
+        return formGenMetadataDAO.getOldestAndLatestDate(connectionName);
+    }
+
+    public List<FormGenVersionHistogramDBResponse> getHistogramData(String connectionName) throws IOException {
+        return formGenMetadataDAO.getVersionHistogramDataByConnectionName(connectionName);
+    }
 }

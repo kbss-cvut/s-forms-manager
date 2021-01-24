@@ -1,9 +1,11 @@
 package cz.cvut.kbss.sformsmanager.rest;
 
 import cz.cvut.kbss.sformsmanager.model.dto.FormGenVersionDTO;
+import cz.cvut.kbss.sformsmanager.model.dto.FormGenVersionHistogramDTO;
+import cz.cvut.kbss.sformsmanager.model.persisted.response.FormGenLatestAndNewestDateDBResponse;
+import cz.cvut.kbss.sformsmanager.model.persisted.response.FormGenVersionHistogramDBResponse;
 import cz.cvut.kbss.sformsmanager.service.model.local.FormGenMetadataService;
 import cz.cvut.kbss.sformsmanager.service.model.local.FormGenVersionService;
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -42,18 +44,38 @@ public class FormGenVersionController {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Returns map of versions with month occurrence of form completions.
+     * <p/>
+     * Length of the array depends on the first and the latest completed (processed) forms.
+     *
+     * @param connectionName
+     * @return month occurrence map of the form completions
+     * @throws IOException if the query couldn't be completed
+     */
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, path = "/histogram")
-    public Map<String, Map<Date, Long>> getVersionsHistogramData(@RequestParam(value = "connectionName") String connectionName) {
+    public FormGenVersionHistogramDTO getVersionsHistogramData(@RequestParam(value = "connectionName") String connectionName) throws IOException {
 
-        // get earliest and latest formgen date
-        // group by version
-        // init map with capacity of "latest - earliest"
-        // go through map, get month and increase occurence
+        FormGenLatestAndNewestDateDBResponse bounds = metadataService.getHistogramBounds(connectionName);
+        List<FormGenVersionHistogramDBResponse> histogram = metadataService.getHistogramData(connectionName);
 
+        int datesRange = (bounds.getLatestYear() - bounds.getEarliestYear()) * 12 + (bounds.getLatestMonth() - bounds.getEarliestMonth()) + 1;
+        Map<String, Integer[]> histogramsByVersion = new HashMap<>();
 
-        return metadataService.findAllInConnection(connectionName).stream()
-                .collect(Collectors.groupingBy(p -> p.getFormGenVersion().getVersion(),
-                        Collectors.groupingBy(m -> DateUtils.round(m.getFormGenCreated(), Calendar.MONTH)
-                                , Collectors.counting())));
+        for (FormGenVersionHistogramDBResponse e : histogram) {
+            if (!histogramsByVersion.containsKey(e.getVersion())) {
+                histogramsByVersion.put(e.getVersion(), new Integer[datesRange]);
+            }
+            Integer[] versionOccurrenceArray = histogramsByVersion.get(e.getVersion());
+            int occurencePosition = (e.getYear() - bounds.getEarliestYear()) * 12 + (e.getMonth() - bounds.getEarliestMonth());
+
+            versionOccurrenceArray[occurencePosition] = e.getCount();
+        }
+
+        return new FormGenVersionHistogramDTO(histogramsByVersion,
+                bounds.getEarliestYear(),
+                bounds.getEarliestMonth(),
+                bounds.getLatestYear(),
+                bounds.getLatestMonth());
     }
 }

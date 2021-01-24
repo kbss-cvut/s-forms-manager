@@ -4,7 +4,9 @@ import cz.cvut.kbss.jopa.model.EntityManager;
 import cz.cvut.kbss.sformsmanager.exception.PersistenceException;
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.FormGenMetadata;
-import cz.cvut.kbss.sformsmanager.model.persisted.response.FormGenListingElementWithHistory;
+import cz.cvut.kbss.sformsmanager.model.persisted.response.FormGenLatestAndNewestDateDBResponse;
+import cz.cvut.kbss.sformsmanager.model.persisted.response.FormGenLatestSavesResponseDB;
+import cz.cvut.kbss.sformsmanager.model.persisted.response.FormGenVersionHistogramDBResponse;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
@@ -24,7 +26,9 @@ public class FormGenMetadataDAO extends LocalWithConnectionBaseDAO<FormGenMetada
 
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(FormGenMetadataDAO.class);
 
-    private final String FORMGEN_LISTING_ELEMENT_WITH_HISTORY = CLASSPATH_PREFIX + "templates/local/formListingWithHistory.sparql";
+    private final String FORMGEN_LISTING_ELEMENT_WITH_HISTORY_FILE = CLASSPATH_PREFIX + "templates/local/formListingWithHistory.sparql";
+    private final String FORMGEN_OLDEST_LATEST_DATE_FILE = CLASSPATH_PREFIX + "templates/local/newestAndOldestFormGen.sparql";
+    private final String FORMGEN_VERSION_HISTOGRAM_FILE = CLASSPATH_PREFIX + "templates/local/versionHistogram.sparql";
 
 
     @Autowired
@@ -46,16 +50,40 @@ public class FormGenMetadataDAO extends LocalWithConnectionBaseDAO<FormGenMetada
         }
     }
 
-    public List<FormGenListingElementWithHistory> getFormListingWithHistory(String connectionName) throws IOException {
+    public List<FormGenLatestSavesResponseDB> getFormListingWithHistory(String connectionName) throws IOException {
         try {
-            String query = new String(Files.readAllBytes(ResourceUtils.getFile(FORMGEN_LISTING_ELEMENT_WITH_HISTORY).toPath()));
-            query = query.replace("?connectionName", "<" + URI.create(connectionName) + ">");
-            return em.createNativeQuery(query, FormGenListingElementWithHistory.class)
-//                    .setParameter("?connectionName", connectionName)
+            String query = new String(Files.readAllBytes(ResourceUtils.getFile(FORMGEN_LISTING_ELEMENT_WITH_HISTORY_FILE).toPath()));
+            return em.createNativeQuery(query, "FormGenLatestSavesResults")
+                    .setParameter("connectionName", connectionName)
                     .getResultList();
 
         } catch (IOException e) {
             throw new IOException("Query from file could not be found!", e);
         }
     }
+
+    public FormGenLatestAndNewestDateDBResponse getOldestAndLatestDate(String connectionName) throws IOException {
+        try {
+            String query = new String(Files.readAllBytes(ResourceUtils.getFile(FORMGEN_OLDEST_LATEST_DATE_FILE).toPath()));
+            return (FormGenLatestAndNewestDateDBResponse) em.createNativeQuery(query, "FormGenLatestAndNewestDateResults")
+                    .setParameter("connectionName", connectionName)
+                    .getSingleResult();
+
+        } catch (IOException e) {
+            throw new IOException("Query from file could not be found!", e);
+        }
+    }
+
+    public List<FormGenVersionHistogramDBResponse> getVersionHistogramDataByConnectionName(String connectionName) throws IOException {
+        try {
+            String query = new String(Files.readAllBytes(ResourceUtils.getFile(FORMGEN_VERSION_HISTOGRAM_FILE).toPath()));
+            return (List<FormGenVersionHistogramDBResponse>) em.createNativeQuery(query, "FormGenVersionHistogramResults")
+                    .setParameter("connectionName", connectionName)
+                    .getResultList();
+
+        } catch (IOException e) {
+            throw new IOException("Query from file could not be found!", e);
+        }
+    }
+
 }

@@ -4,9 +4,9 @@ WHERE {
             <http://onto.fel.cvut.cz/ontologies/sformsmanager#connectionName> ?connectionName ;
             <http://onto.fel.cvut.cz/ontologies/sformsmanager#formGenSaveHashCode> ?hash ;
             <http://onto.fel.cvut.cz/ontologies/sformsmanager#formGenCreated> ?created ;
-            <http://onto.fel.cvut.cz/ontologies/sformsmanager#assignedFormGenVersion> ?vObject ;
+            <http://onto.fel.cvut.cz/ontologies/sformsmanager#assignedFormGenVersion> ?vObject .
 
-        ?vObject <http://onto.fel.cvut.cz/ontologies/sformsmanager#formGenVersion> ?version .
+		?vObject <http://onto.fel.cvut.cz/ontologies/sformsmanager#formGenVersion> ?version .
 
         BIND ( year(xsd:dateTime(?created)) as ?year )
         BIND ( month(xsd:dateTime(?created)) as ?month )
