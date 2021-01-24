@@ -1,8 +1,8 @@
 package cz.cvut.kbss.sformsmanager.service.model.remote;
 
 import cz.cvut.kbss.sformsmanager.model.persisted.remote.Context;
-import cz.cvut.kbss.sformsmanager.persistence.dao.remote.ContextRepository;
 import cz.cvut.kbss.sformsmanager.model.persisted.response.FormGenSaveDBResponse;
+import cz.cvut.kbss.sformsmanager.persistence.dao.remote.ContextRepository;
 import cz.cvut.kbss.sformsmanager.persistence.dao.remote.RemoteFormGenDAO;
 import cz.cvut.kbss.sformsmanager.service.model.local.FormGenMetadataService;
 import org.springframework.beans.factory.annotation.Autowired;

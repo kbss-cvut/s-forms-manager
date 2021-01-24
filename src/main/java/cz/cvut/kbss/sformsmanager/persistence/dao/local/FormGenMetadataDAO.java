@@ -20,7 +20,6 @@ import java.util.List;
 
 import static cz.cvut.kbss.sformsmanager.persistence.dao.remote.RemoteFormGenDAO.CLASSPATH_PREFIX;
 
-
 @Component
 public class FormGenMetadataDAO extends LocalWithConnectionBaseDAO<FormGenMetadata> {
 
@@ -83,6 +82,19 @@ public class FormGenMetadataDAO extends LocalWithConnectionBaseDAO<FormGenMetada
 
         } catch (IOException e) {
             throw new IOException("Query from file could not be found!", e);
+        }
+    }
+
+    public List<FormGenMetadata> findAllWithSaveHash(@NonNull String connectionName, @NonNull String saveHash) {
+        try {
+            return em.createNativeQuery(
+                    "SELECT ?x WHERE { ?x a ?type ;?hasSaveHash ?saveHash }", FormGenMetadata.class)
+                    .setParameter("hasSaveHash", URI.create(Vocabulary.p_save_hash))
+                    .setParameter("saveHash", saveHash)
+                    .setParameter("type", typeUri).getResultList();
+        } catch (RuntimeException e) {
+            log.error(e.getMessage());
+            throw new PersistenceException("Couldn't find history for " + typeUri.toString() + ".", e);
         }
     }
 

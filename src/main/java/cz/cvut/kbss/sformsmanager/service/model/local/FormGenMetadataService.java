@@ -51,6 +51,10 @@ public class FormGenMetadataService {
         return formGenMetadataDAO.findAllInConnection(connectionName);
     }
 
+    public List<FormGenMetadata> findHistoryOfFormGen(String connectionName, String saveHash) {
+        return formGenMetadataDAO.findAllWithSaveHash(connectionName, saveHash);
+    }
+
     public List<FormGenLatestSavesResponseDB> getFormGensWithHistoryCount(String connectionName) throws IOException {
         return formGenMetadataDAO.getFormListingWithHistory(connectionName);
     }

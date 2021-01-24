@@ -14,6 +14,7 @@
  */
 package cz.cvut.kbss.sformsmanager.rest;
 
+import cz.cvut.kbss.sformsmanager.model.dto.FormGenMetadataDTO;
 import cz.cvut.kbss.sformsmanager.model.dto.FormGenSaveGroupInfoDTO;
 import cz.cvut.kbss.sformsmanager.service.data.FormGenJsonLoader;
 import cz.cvut.kbss.sformsmanager.service.model.local.FormGenMetadataService;
@@ -53,8 +54,8 @@ public class FormGenController {
         return formGenJsonLoader.getFormGenRawJsonFromConnection(connectionName, contextUri).getRawJson();
     }
 
-    @RequestMapping(path = "/grouped")
-    public List<FormGenSaveGroupInfoDTO> getGroupedForms(@RequestParam(value = "connectionName") String connectionName) throws IOException {
+    @RequestMapping(path = "/latestSaves")
+    public List<FormGenSaveGroupInfoDTO> getFormGenLatests(@RequestParam(value = "connectionName") String connectionName) throws IOException {
 
         return metadataService.getFormGensWithHistoryCount(connectionName).stream()
                 .map(sids -> new FormGenSaveGroupInfoDTO(
@@ -64,6 +65,13 @@ public class FormGenController {
                         sids.getLastSavedContextUri()
                 ))
                 .collect(Collectors.toList());
+    }
 
+    @RequestMapping(path = "/history")
+    public List<FormGenMetadataDTO> getFormGenHistory(@RequestParam(value = "connectionName") String connectionName, @RequestParam(value = "saveHash") String saveHash) {
+
+        return metadataService.findHistoryOfFormGen(connectionName, saveHash).stream()
+                .map(FormGenMetadataDTO::new)
+                .collect(Collectors.toList());
     }
 }

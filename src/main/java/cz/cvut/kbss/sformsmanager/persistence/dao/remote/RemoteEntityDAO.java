@@ -2,10 +2,7 @@ package cz.cvut.kbss.sformsmanager.persistence.dao.remote;
 
 import cz.cvut.kbss.jopa.model.EntityManager;
 import cz.cvut.kbss.sformsmanager.persistence.base.ConnectionEntityManagerProvider;
-import cz.cvut.kbss.sformsmanager.utils.OWLUtils;
 import org.slf4j.Logger;
-
-import java.net.URI;
 
 public abstract class RemoteEntityDAO<T> {
 
