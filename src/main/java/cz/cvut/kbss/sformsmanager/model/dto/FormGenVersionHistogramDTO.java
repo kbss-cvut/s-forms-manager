@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class FormGenVersionHistogramDTO {
 
-    private final Map<String, Integer[]> histogramData;
+    private final Map<String, int[]> histogramData;
 
     private final int earliestYear;
 
@@ -14,7 +14,7 @@ public class FormGenVersionHistogramDTO {
 
     private final int latestMonth;
 
-    public FormGenVersionHistogramDTO(Map<String, Integer[]> histogramData, int earliestYear, int earliestMonth, int latestYear, int latestMonth) {
+    public FormGenVersionHistogramDTO(Map<String, int[]> histogramData, int earliestYear, int earliestMonth, int latestYear, int latestMonth) {
         this.histogramData = histogramData;
         this.earliestYear = earliestYear;
         this.earliestMonth = earliestMonth;
@@ -22,7 +22,7 @@ public class FormGenVersionHistogramDTO {
         this.latestMonth = latestMonth;
     }
 
-    public Map<String, Integer[]> getHistogramData() {
+    public Map<String, int[]> getHistogramData() {
         return histogramData;
     }
 

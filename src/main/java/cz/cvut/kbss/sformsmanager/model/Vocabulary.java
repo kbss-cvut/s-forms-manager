@@ -23,10 +23,12 @@ public class Vocabulary {
     public static final String FormGenInstance = URI_BASE + "FormGenInstance";
     public static final String p_assigned_version = URI_BASE + "assignedFormGenVersion";
     public static final String p_assigned_instance = URI_BASE + "assignedFormGenInstance";
-    public static final String p_version = URI_BASE + "formGenVersion";
+    public static final String p_versionName = URI_BASE + "versionName";
     public static final String p_save_hash = URI_BASE + "formGenSaveHashCode";
     public static final String p_formGen_created = URI_BASE + "formGenCreated";
+    public static final String p_formGen_modified = URI_BASE + "formGenModified";
     public static final String p_contextUri = URI_BASE + "contextUri";
+    public static final String p_synonym = URI_BASE + "synonym";
     public static final String p_connectionName = URI_BASE + "connectionName";
 
     public static final String Connection = URI_BASE + "Connection";

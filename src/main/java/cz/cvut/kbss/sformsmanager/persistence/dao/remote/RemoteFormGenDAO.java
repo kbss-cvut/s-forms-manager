@@ -40,12 +40,6 @@ public class RemoteFormGenDAO extends RemoteEntityDAO {
         }
     }
 
-//    query = new String(Files.readAllBytes(ResourceUtils.getFile(CLASSPATH_PREFIX + "templates/getEverythingInContext.ftl").toPath()));
-//    query = query.replace("${contextUri}", contextUri);
-//em.createNativeQuery(query)
-////        .setParameter("contextUri", URI.create(contextUri))
-//            .getResultList().stream().filter(o -> ((Object[])o)[2].equals("http://purl.org/dc/terms/modified")).collect(Collectors.toList());
-
     public String getFormGenInstanceIdentifier(String connectionName, String contextUri) throws IOException {
         EntityManager em = getEntityManagerByConnection(connectionName);
         try {

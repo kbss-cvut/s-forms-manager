@@ -2,36 +2,40 @@ package cz.cvut.kbss.sformsmanager.model.dto;
 
 import cz.cvut.kbss.sformsmanager.model.persisted.local.FormGenMetadata;
 
+import java.util.Date;
+
 public final class FormGenMetadataDTO {
 
-    private final String version;
+    private final String versionName;
+
+    private final String synonym;
 
     private final String instance;
 
-    private final String created;
+    private final Date created;
+
+    private final Date modified;
 
     private final String contextUri;
 
     private final String saveHash;
 
     public FormGenMetadataDTO(FormGenMetadata formGenMetadata) {
-        this.version = formGenMetadata.getFormGenVersion().getVersion();
+        this.versionName = formGenMetadata.getFormGenVersion().getVersionName();
+        this.synonym = formGenMetadata.getFormGenVersion().getSynonym();
         this.instance = formGenMetadata.getFormGenInstance().getUri().toString();
-        this.created = formGenMetadata.getFormGenCreated().toString();
+        this.created = formGenMetadata.getFormGenCreated();
+        this.modified = formGenMetadata.getFormGenModified();
         this.contextUri = formGenMetadata.getContextUri();
         this.saveHash = formGenMetadata.getFormGenSaveHash();
     }
 
-    public String getVersion() {
-        return this.version;
+    public String getVersionName() {
+        return this.versionName;
     }
 
     public String getInstance() {
         return instance;
-    }
-
-    public String getCreated() {
-        return created;
     }
 
     public String getContextUri() {
@@ -40,5 +44,17 @@ public final class FormGenMetadataDTO {
 
     public String getSaveHash() {
         return saveHash;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public Date getModified() {
+        return modified;
+    }
+
+    public String getSynonym() {
+        return synonym;
     }
 }

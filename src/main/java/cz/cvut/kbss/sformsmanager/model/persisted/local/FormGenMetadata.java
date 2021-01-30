@@ -26,7 +26,11 @@ public class FormGenMetadata extends LocalEntity implements Serializable, HasCon
 
     @ParticipationConstraints(nonEmpty = true)
     @OWLDataProperty(iri = Vocabulary.p_formGen_created)
-    private Date formGenCreated; // TODO: make modified
+    private Date formGenCreated;
+
+    @ParticipationConstraints(nonEmpty = true)
+    @OWLDataProperty(iri = Vocabulary.p_formGen_modified)
+    private Date formGenModified;
 
     @ParticipationConstraints(nonEmpty = true)
     @OWLDataProperty(iri = Vocabulary.p_contextUri)
@@ -39,22 +43,24 @@ public class FormGenMetadata extends LocalEntity implements Serializable, HasCon
     public FormGenMetadata() {
     }
 
-    public FormGenMetadata(URI uri, FormGenVersion formGenVersion, FormGenInstance formGenInstance, String formGenSaveHash, Date formGenCreated, String contextUri, String connectionName) {
+    public FormGenMetadata(URI uri, FormGenVersion formGenVersion, FormGenInstance formGenInstance, String formGenSaveHash, Date formGenCreated, Date formGenModified, String contextUri, String connectionName) {
         super(uri, createKey(connectionName, contextUri));
         this.formGenVersion = formGenVersion;
         this.formGenInstance = formGenInstance;
         this.formGenSaveHash = formGenSaveHash;
         this.formGenCreated = formGenCreated;
+        this.formGenModified = formGenModified;
         this.contextUri = contextUri;
         this.connectionName = connectionName;
     }
 
-    public FormGenMetadata(FormGenVersion formGenVersion, FormGenInstance formGenInstance, String formGenSaveHash, Date formGenCreated, String contextUri, String connectionName) {
+    public FormGenMetadata(FormGenVersion formGenVersion, FormGenInstance formGenInstance, String formGenSaveHash, Date formGenCreated, Date formGenModified, String contextUri, String connectionName) {
         super(createKey(connectionName, contextUri));
         this.formGenVersion = formGenVersion;
         this.formGenInstance = formGenInstance;
         this.formGenSaveHash = formGenSaveHash;
         this.formGenCreated = formGenCreated;
+        this.formGenModified = formGenModified;
         this.contextUri = contextUri;
         this.connectionName = connectionName;
     }
@@ -108,6 +114,7 @@ public class FormGenMetadata extends LocalEntity implements Serializable, HasCon
         this.formGenInstance = formGenInstance;
     }
 
+
     public static String createKey(String connectionName, String contextUri) {
         return OWLUtils.createInitialsAndConcatWithSlash(connectionName, contextUri);
     }
@@ -128,5 +135,13 @@ public class FormGenMetadata extends LocalEntity implements Serializable, HasCon
     @Override
     public int hashCode() {
         return Objects.hashCode(formGenVersion, formGenInstance, formGenSaveHash, formGenCreated, contextUri, connectionName);
+    }
+
+    public Date getFormGenModified() {
+        return formGenModified;
+    }
+
+    public void setFormGenModified(Date formGenModified) {
+        this.formGenModified = formGenModified;
     }
 }

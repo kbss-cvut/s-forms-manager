@@ -20,12 +20,16 @@ public class FormGenVersion extends LocalEntity implements Serializable, HasConn
      * Consists of connection name initials and its numbering.
      */
     @ParticipationConstraints(nonEmpty = true)
-    @OWLDataProperty(iri = Vocabulary.p_version)
-    private String version; // e.g. v/sm/15
+    @OWLDataProperty(iri = Vocabulary.p_versionName)
+    private String versionName; // e.g. v/sm/15
 
     @ParticipationConstraints(nonEmpty = true)
     @OWLDataProperty(iri = Vocabulary.p_contextUri)
     private String sampleContextUri;
+
+    @ParticipationConstraints()
+    @OWLDataProperty(iri = Vocabulary.p_synonym)
+    private String synonym;
 
     @ParticipationConstraints(nonEmpty = true)
     @OWLDataProperty(iri = Vocabulary.p_connectionName)
@@ -37,23 +41,23 @@ public class FormGenVersion extends LocalEntity implements Serializable, HasConn
     public FormGenVersion(String connectionName, int versionNumbering, String hash, String sampleContextUri) {
         super(createKey(connectionName, hash));
         this.connectionName = connectionName;
-        this.version = createVersion(connectionName, versionNumbering);
+        this.versionName = createVersion(connectionName, versionNumbering);
         this.sampleContextUri = sampleContextUri;
     }
 
-    public FormGenVersion(String connectionName, URI uri, String version, String key, String sampleContextUri) {
+    public FormGenVersion(String connectionName, URI uri, String versionName, String key, String sampleContextUri) {
         super(uri, key);
         this.connectionName = connectionName;
-        this.version = version;
+        this.versionName = versionName;
         this.sampleContextUri = sampleContextUri;
     }
 
-    public String getVersion() {
-        return version;
+    public String getVersionName() {
+        return versionName;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
+    public void setVersionName(String versionName) {
+        this.versionName = versionName;
     }
 
     public String getConnectionName() {
@@ -91,12 +95,20 @@ public class FormGenVersion extends LocalEntity implements Serializable, HasConn
         if (o == null || getClass() != o.getClass()) return false;
         FormGenVersion that = (FormGenVersion) o;
         return Objects.equal(getUri(), that.getUri()) &&
-                Objects.equal(version, that.version) &&
+                Objects.equal(versionName, that.versionName) &&
                 Objects.equal(getKey(), that.getKey());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getUri(), version, getKey());
+        return Objects.hashCode(getUri(), versionName, getKey());
+    }
+
+    public String getSynonym() {
+        return synonym;
+    }
+
+    public void setSynonym(String synonym) {
+        this.synonym = synonym;
     }
 }

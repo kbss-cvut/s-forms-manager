@@ -7,31 +7,31 @@ import cz.cvut.kbss.jopa.model.annotations.VariableResult;
 @SparqlResultSetMapping(name = "FormGenVersionHistogramResults",
         classes = {
                 @ConstructorResult(targetClass = FormGenVersionHistogramDBResponse.class, variables = {
-                        @VariableResult(name = "version", type = String.class),
+                        @VariableResult(name = "versionName", type = String.class),
                         @VariableResult(name = "year", type = Integer.class),
                         @VariableResult(name = "month", type = Integer.class),
                         @VariableResult(name = "count", type = Integer.class),
                 })
         })
 public class FormGenVersionHistogramDBResponse {
-    private String version;
+    private String versionName;
     private int year;
     private int month;
     private int count;
 
-    public FormGenVersionHistogramDBResponse(String version, Integer year, Integer month, Integer count) {
-        this.version = version;
+    public FormGenVersionHistogramDBResponse(String versionName, Integer year, Integer month, Integer count) {
+        this.versionName = versionName;
         this.year = year;
         this.month = month;
         this.count = count;
     }
 
-    public String getVersion() {
-        return version;
+    public String getVersionName() {
+        return versionName;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
+    public void setVersionName(String versionName) {
+        this.versionName = versionName;
     }
 
     public int getYear() {

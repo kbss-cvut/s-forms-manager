@@ -1,4 +1,4 @@
-SELECT ?version ?year ?month (count(*) as ?count)
+SELECT ?versionName ?year ?month (count(*) as ?count)
 WHERE {
         ?x ?type <http://onto.fel.cvut.cz/ontologies/sformsmanager#FormGenMetadata> ;
             <http://onto.fel.cvut.cz/ontologies/sformsmanager#connectionName> ?connectionName ;
@@ -6,9 +6,11 @@ WHERE {
             <http://onto.fel.cvut.cz/ontologies/sformsmanager#formGenCreated> ?created ;
             <http://onto.fel.cvut.cz/ontologies/sformsmanager#assignedFormGenVersion> ?vObject .
 
-		?vObject <http://onto.fel.cvut.cz/ontologies/sformsmanager#formGenVersion> ?version .
+		?vObject <http://onto.fel.cvut.cz/ontologies/sformsmanager#versionName> ?versionInternalName .
+		OPTIONAL { ?vObject <http://onto.fel.cvut.cz/ontologies/sformsmanager#synonym> ?synonym . }
 
+        BIND(COALESCE(?synonym, ?versionInternalName) as ?versionName)
         BIND ( year(xsd:dateTime(?created)) as ?year )
         BIND ( month(xsd:dateTime(?created)) as ?month )
 }
-GROUP BY ?version ?year ?month
+GROUP BY ?versionName ?year ?month

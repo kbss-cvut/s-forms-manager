@@ -5,6 +5,7 @@ import cz.cvut.kbss.sformsmanager.model.persisted.local.FormGenVersion;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.FormGenVersionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,11 +24,20 @@ public class FormGenVersionService {
         return versionDAO.findByKey(key);
     }
 
+    public Optional<FormGenVersion> findByVersionName(String versionName) {
+        return versionDAO.findByVersionName(versionName);
+    }
+
     public int getConnectionCount(String connectionName) {
         return versionDAO.countAllInConnection(connectionName);
     }
 
     public List<FormGenVersion> findAllInConnection(String connectionName) {
         return versionDAO.findAllInConnection(connectionName);
+    }
+
+    @Transactional
+    public void update(FormGenVersion version) {
+        versionDAO.update(version);
     }
 }

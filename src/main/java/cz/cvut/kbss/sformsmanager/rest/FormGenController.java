@@ -61,8 +61,9 @@ public class FormGenController {
                 .map(sids -> new FormGenSaveGroupInfoDTO(
                         sids.getFormGenSaveHash(),
                         sids.getHistorySaves(),
-                        sids.getLastSaved(),
-                        sids.getLastSavedContextUri()
+                        sids.getCreated(),
+                        sids.getLastModified(),
+                        sids.getLastModifiedContextUri()
                 ))
                 .collect(Collectors.toList());
     }
@@ -72,6 +73,7 @@ public class FormGenController {
 
         return metadataService.findHistoryOfFormGen(connectionName, saveHash).stream()
                 .map(FormGenMetadataDTO::new)
+                .sorted((o1, o2) -> o2.getModified().compareTo(o1.getModified())) // reverse order
                 .collect(Collectors.toList());
     }
 }

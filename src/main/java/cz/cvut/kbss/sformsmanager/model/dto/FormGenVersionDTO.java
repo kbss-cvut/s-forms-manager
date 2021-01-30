@@ -2,7 +2,7 @@ package cz.cvut.kbss.sformsmanager.model.dto;
 
 public final class FormGenVersionDTO {
 
-    private final String version;
+    private final String versionName;
 
     private final String internalUri;
 
@@ -10,15 +10,18 @@ public final class FormGenVersionDTO {
 
     private final int numberOfInstances;
 
-    public FormGenVersionDTO(String version, String internalUri, String sampleContextUri, int numberOfInstances) {
-        this.version = version;
+    private final String synonym;
+
+    public FormGenVersionDTO(String versionName, String internalUri, String sampleContextUri, int numberOfInstances, String synonym) {
+        this.versionName = versionName;
         this.internalUri = internalUri;
         this.sampleContextUri = sampleContextUri;
         this.numberOfInstances = numberOfInstances;
+        this.synonym = synonym;
     }
 
-    public String getVersion() {
-        return version;
+    public String getVersionName() {
+        return versionName;
     }
 
     public String getInternalUri() {
@@ -31,5 +34,9 @@ public final class FormGenVersionDTO {
 
     public int getNumberOfInstances() {
         return numberOfInstances;
+    }
+
+    public String getSynonym() {
+        return synonym;
     }
 }

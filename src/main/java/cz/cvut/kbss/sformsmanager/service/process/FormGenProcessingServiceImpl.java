@@ -57,13 +57,12 @@ public class FormGenProcessingServiceImpl implements FormGenProcessingService {
                 new FormGenInstance(connectionName, contextUri, instanceHash));
 
         // formGen instance
-        String saveHash = null;
-        Date formGenCreated = null;
         FormGenSaveDBResponse formGenSave = contextService.getFormGenSaveHash(connectionName, contextUri);
-        saveHash = formGenSave.getFormGenSaveHash();
-        formGenCreated = formGenSave.getModified();
+        String saveHash = formGenSave.getFormGenSaveHash();
+        Date formGenCreated = formGenSave.getCreated();
+        Date formGenModified = formGenSave.getModified() != null ? formGenSave.getModified() : formGenSave.getCreated();
 
-        FormGenMetadata formGenMetadata = new FormGenMetadata(formGenVersion, formGenInstance, saveHash, formGenCreated, contextUri, connectionName);
+        FormGenMetadata formGenMetadata = new FormGenMetadata(formGenVersion, formGenInstance, saveHash, formGenCreated, formGenModified, contextUri, connectionName);
         return metadataDAO.update(formGenMetadata);
     }
 }

@@ -8,14 +8,17 @@ public final class FormGenSaveGroupInfoDTO {
 
     private final int count;
 
-    private final Date lastSaved;
+    private final Date created;
+
+    private final Date lastModified;
 
     private final String contextUri;
 
-    public FormGenSaveGroupInfoDTO(String saveHash, int count, Date lastSaved, String contextUri) {
+    public FormGenSaveGroupInfoDTO(String saveHash, int count, Date created, Date lastModified, String contextUri) {
         this.saveHash = saveHash;
         this.count = count;
-        this.lastSaved = lastSaved;
+        this.created = created;
+        this.lastModified = lastModified;
         this.contextUri = contextUri;
     }
 
@@ -27,8 +30,12 @@ public final class FormGenSaveGroupInfoDTO {
         return count;
     }
 
-    public Date getLastSaved() {
-        return lastSaved;
+    public Date getCreated() {
+        return created;
+    }
+
+    public Date getLastModified() {
+        return lastModified;
     }
 
     public String getContextUri() {

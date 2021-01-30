@@ -64,7 +64,7 @@ public class FormGenProcessingServiceTest {
     public void processNewFormGen() throws IOException {
 
         FormGenMetadata metadata = processingService.processFormGen(CONNECTION_NAME, CONTEXT_URI);
-        assertThat(metadata.getFormGenVersion().getVersion()).isEqualTo(VERSION);
+        assertThat(metadata.getFormGenVersion().getVersionName()).isEqualTo(VERSION);
         assertThat(metadata.getFormGenVersion().getKey()).isNotNull();
 
         String expectedKey = OWLUtils.createInitialsAndConcatWithSlash(CONNECTION_NAME, CONTEXT_URI);

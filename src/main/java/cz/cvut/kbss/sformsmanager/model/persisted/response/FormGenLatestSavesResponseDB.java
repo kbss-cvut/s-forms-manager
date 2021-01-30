@@ -11,11 +11,11 @@ import java.util.Date;
                 @ConstructorResult(targetClass = FormGenLatestSavesResponseDB.class, variables = {
                         @VariableResult(name = "formGenSaveHash", type = String.class),
                         @VariableResult(name = "historySaves", type = Integer.class),
-                        @VariableResult(name = "lastSaved", type = Date.class),
-                        @VariableResult(name = "lastSavedContextUri", type = String.class),
+                        @VariableResult(name = "created", type = Date.class),
+                        @VariableResult(name = "lastModified", type = Date.class),
+                        @VariableResult(name = "lastModifiedContextUri", type = String.class),
                 })
         })
-
 public class FormGenLatestSavesResponseDB {
 
     /**
@@ -28,21 +28,21 @@ public class FormGenLatestSavesResponseDB {
      */
     private int historySaves;
 
-    /**
-     * Date of latest save.
-     */
-    private Date lastSaved;
+    private Date created;
+
+    private Date lastModified;
 
     /**
      * Context URI of formGen of the last save.
      */
-    private String lastSavedContextUri;
+    private String lastModifiedContextUri;
 
-    public FormGenLatestSavesResponseDB(String formGenSaveHash, Integer historySaves, Date lastSaved, String lastSavedContextUri) {
+    public FormGenLatestSavesResponseDB(String formGenSaveHash, Integer historySaves, Date created, Date lastModified, String lastModifiedContextUri) {
         this.formGenSaveHash = formGenSaveHash;
         this.historySaves = historySaves;
-        this.lastSaved = lastSaved;
-        this.lastSavedContextUri = lastSavedContextUri;
+        this.created = created;
+        this.lastModified = lastModified;
+        this.lastModifiedContextUri = lastModifiedContextUri;
     }
 
     public String getFormGenSaveHash() {
@@ -61,19 +61,27 @@ public class FormGenLatestSavesResponseDB {
         this.historySaves = historySaves;
     }
 
-    public Date getLastSaved() {
-        return lastSaved;
+    public Date getCreated() {
+        return created;
     }
 
-    public void setLastSaved(Date lastSaved) {
-        this.lastSaved = lastSaved;
+    public void setCreated(Date created) {
+        this.created = created;
     }
 
-    public String getLastSavedContextUri() {
-        return lastSavedContextUri;
+    public Date getLastModified() {
+        return lastModified;
     }
 
-    public void setLastSavedContextUri(String lastSavedContextUri) {
-        this.lastSavedContextUri = lastSavedContextUri;
+    public void setLastModified(Date lastModified) {
+        this.lastModified = lastModified;
+    }
+
+    public String getLastModifiedContextUri() {
+        return lastModifiedContextUri;
+    }
+
+    public void setLastModifiedContextUri(String lastModifiedContextUri) {
+        this.lastModifiedContextUri = lastModifiedContextUri;
     }
 }
