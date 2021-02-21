@@ -66,4 +66,8 @@ public class FormGenMetadataService {
     public List<FormGenVersionHistogramDBResponse> getHistogramData(String connectionName) throws IOException {
         return formGenMetadataDAO.getVersionHistogramDataByConnectionName(connectionName);
     }
+
+    public List<FormGenMetadata> runSearchQuery(String searchQuery) {
+        return formGenMetadataDAO.runSearchQuery(searchQuery);
+    }
 }

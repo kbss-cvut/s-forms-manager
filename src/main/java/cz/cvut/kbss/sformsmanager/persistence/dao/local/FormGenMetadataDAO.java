@@ -98,4 +98,12 @@ public class FormGenMetadataDAO extends LocalWithConnectionBaseDAO<FormGenMetada
         }
     }
 
+    public List<FormGenMetadata> runSearchQuery(String searchQuery) {
+        try {
+            return em.createNativeQuery(searchQuery, FormGenMetadata.class).getResultList();
+        } catch (RuntimeException e) {
+            log.error(e.getMessage());
+            throw new PersistenceException("Couldn't run search query: " + searchQuery, e);
+        }
+    }
 }

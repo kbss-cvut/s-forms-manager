@@ -14,12 +14,16 @@
  */
 package cz.cvut.kbss.sformsmanager.config;
 
+import freemarker.template.TemplateExceptionHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.client.RestTemplate;
+
+import java.io.IOException;
 
 @Configuration
 @EnableTransactionManagement
@@ -31,4 +35,17 @@ public class ServiceConfig {
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
+
+    @Bean
+    public freemarker.template.Configuration freemakerConfiguration() throws IOException {
+        freemarker.template.Configuration cfg = new freemarker.template.Configuration(freemarker.template.Configuration.VERSION_2_3_29);
+        cfg.setDirectoryForTemplateLoading(ResourceUtils.getFile("classpath:templates"));
+        cfg.setDefaultEncoding("UTF-8");
+        cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+        cfg.setLogTemplateExceptions(false);
+        cfg.setWrapUncheckedExceptions(true);
+        cfg.setFallbackOnNullLoopVariable(false);
+        return cfg;
+    }
+
 }
