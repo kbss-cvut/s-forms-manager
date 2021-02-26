@@ -7,38 +7,42 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
+import static cz.cvut.kbss.sformsmanager.model.Vocabulary.*;
 import static cz.cvut.kbss.sformsmanager.utils.PredicateUtils.not;
 
 
 public class SearchQueryBuilder {
+
+    private static final Prefix[] POSSIBLE_PREFIXES = {
+            new Prefix("formsmanager", URI_BASE),
+            new Prefix("doc", DOC_URI),
+            new Prefix("form", FORM_URI)};
 
     private static final String SEARCH_QUERY_FILE = "searchQueryTemplate.ftl";
 
     @Autowired
     private freemarker.template.Configuration templateCfg;
 
-    static int i = 0;
-
-    public boolean latestSaves;
     private final Map<String, Object> templateParameters = new HashMap<>();
+    private final Set<Prefix> usedPrefixes = new HashSet<>();
 
     public SearchQueryBuilder(freemarker.template.Configuration templateCfg) {
         this.templateCfg = templateCfg;
-        setupDefaultParameters();
-        i++;
+        setupVocabulary();
     }
 
-    private void setupDefaultParameters() {
-        templateParameters.put("classURI", Vocabulary.FormGenMetadata);
-        templateParameters.put("versionAssignedURI", Vocabulary.p_assigned_version);
-        templateParameters.put("versionClassURI", Vocabulary.p_versionName);
-        templateParameters.put("saveHashURI", Vocabulary.p_save_hash);
-        templateParameters.put("synonymURI", Vocabulary.p_synonym);
+    private void setupVocabulary() {
+        addVocabularyParameter("classURI", Vocabulary.FormGenMetadata);
+        addVocabularyParameter("versionAssignedURI", Vocabulary.p_assigned_version);
+        addVocabularyParameter("saveHashURI", Vocabulary.p_save_hash);
+        addVocabularyParameter("synonymURI", Vocabulary.p_synonym);
+        addVocabularyParameter("formGenMetadataURI", Vocabulary.FormGenMetadata);
+        addVocabularyParameter("connectionNameURI", Vocabulary.p_connectionName);
+        addVocabularyParameter("formGenSaveHashURI", Vocabulary.p_save_hash);
+        addVocabularyParameter("formGenModifiedURI", Vocabulary.p_formGen_modified);
     }
 
     public void setVersions(List<String> versions) {
@@ -66,6 +70,8 @@ public class SearchQueryBuilder {
     }
 
     public String build() throws IOException, TemplateException {
+        templateParameters.put("prefixes", usedPrefixes);
+
         Template temp = templateCfg.getTemplate(SEARCH_QUERY_FILE);
         StringWriter stringWriter = new StringWriter();
         temp.process(templateParameters, stringWriter);
@@ -79,5 +85,34 @@ public class SearchQueryBuilder {
                 .map(String::trim)
                 .distinct()
                 .collect(Collectors.toList());
+    }
+
+    private void addVocabularyParameter(String parameterName, String vocabulary) {
+        Optional<Prefix> usedPrefixOpt = Arrays.stream(POSSIBLE_PREFIXES).filter(prefix -> vocabulary.contains(prefix.getUri())).findAny();
+        if (usedPrefixOpt.isPresent()) {
+            Prefix usedPrefix = usedPrefixOpt.get();
+            usedPrefixes.add(usedPrefix);
+            templateParameters.put(parameterName, usedPrefix.getName() + ":" + vocabulary.substring(usedPrefix.getUri().length()));
+        } else {
+            templateParameters.put(parameterName, vocabulary);
+        }
+    }
+
+    public static class Prefix {
+        private final String name;
+        private final String uri;
+
+        private Prefix(String name, String uri) {
+            this.name = name;
+            this.uri = uri;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getUri() {
+            return uri;
+        }
     }
 }
