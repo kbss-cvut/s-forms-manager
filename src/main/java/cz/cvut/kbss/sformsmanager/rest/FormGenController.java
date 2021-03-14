@@ -14,6 +14,7 @@
  */
 package cz.cvut.kbss.sformsmanager.rest;
 
+import cz.cvut.kbss.sformsmanager.model.dto.FormGenLatestSavesListingDTO;
 import cz.cvut.kbss.sformsmanager.model.dto.FormGenMetadataDTO;
 import cz.cvut.kbss.sformsmanager.model.dto.FormGenSaveGroupInfoDTO;
 import cz.cvut.kbss.sformsmanager.service.data.FormGenJsonLoader;
@@ -50,14 +51,14 @@ public class FormGenController {
             @RequestParam(value = "connectionName") String connectionName,
             @RequestParam(value = "contextUri") String contextUri
     ) throws URISyntaxException {
-
         return formGenJsonLoader.getFormGenRawJsonFromConnection(connectionName, contextUri).getRawJson();
     }
 
     @RequestMapping(path = "/latestSaves")
-    public List<FormGenSaveGroupInfoDTO> getFormGenLatests(@RequestParam(value = "connectionName") String connectionName) throws IOException {
+    public FormGenLatestSavesListingDTO getFormGenLatests(@RequestParam(value = "connectionName") String connectionName) throws IOException {
 
-        return metadataService.getFormGensWithHistoryCount(connectionName).stream()
+        int totalFormGens = metadataService.getConnectionCount(connectionName);
+        List<FormGenSaveGroupInfoDTO> latestSaves = metadataService.getFormGensWithHistoryCount(connectionName).stream()
                 .map(sids -> new FormGenSaveGroupInfoDTO(
                         sids.getFormGenSaveHash(),
                         sids.getHistorySaves(),
@@ -66,6 +67,8 @@ public class FormGenController {
                         sids.getLastModifiedContextUri()
                 ))
                 .collect(Collectors.toList());
+
+        return new FormGenLatestSavesListingDTO(latestSaves, totalFormGens);
     }
 
     @RequestMapping(path = "/history")

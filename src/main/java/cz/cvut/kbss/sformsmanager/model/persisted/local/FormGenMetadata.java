@@ -114,9 +114,12 @@ public class FormGenMetadata extends LocalEntity implements Serializable, HasCon
         this.formGenInstance = formGenInstance;
     }
 
-
     public static String createKey(String connectionName, String contextUri) {
-        return OWLUtils.createInitialsAndConcatWithSlash(connectionName, contextUri);
+        return createKey(connectionName, URI.create(contextUri));
+    }
+
+    public static String createKey(String connectionName, URI contextUri) {
+        return OWLUtils.createInitialsAndConcatWithSlash(connectionName, contextUri.toString());
     }
 
     @Override

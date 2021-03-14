@@ -8,12 +8,16 @@ import cz.cvut.kbss.sformsmanager.model.persisted.response.FormGenLatestAndNewes
 import cz.cvut.kbss.sformsmanager.model.persisted.response.FormGenVersionHistogramDBResponse;
 import cz.cvut.kbss.sformsmanager.service.model.local.FormGenMetadataService;
 import cz.cvut.kbss.sformsmanager.service.model.local.FormGenVersionService;
+import cz.cvut.kbss.sformsmanager.service.process.FormGenVersionCompareService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -26,11 +30,13 @@ public class FormGenVersionController {
 
     private final FormGenMetadataService metadataService;
     private final FormGenVersionService versionService;
+    private final FormGenVersionCompareService versionCompareService;
 
     @Autowired
-    public FormGenVersionController(FormGenMetadataService metadataService, FormGenVersionService versionService) {
+    public FormGenVersionController(FormGenMetadataService metadataService, FormGenVersionService versionService, FormGenVersionCompareService versionCompareService) {
         this.metadataService = metadataService;
         this.versionService = versionService;
+        this.versionCompareService = versionCompareService;
     }
 
     @RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -60,6 +66,16 @@ public class FormGenVersionController {
                         metadataService.getConnectionCountByVersion(connectionName, version.getUri().toString()),
                         version.getSynonym()))
                 .collect(Collectors.toList());
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/compare")
+    public String getFormGenRawJson(
+            @RequestParam(value = "connectionName") String connectionName,
+            @RequestParam(value = "version1") String version1,
+            @RequestParam(value = "version2") String version2
+    ) throws IOException, URISyntaxException {
+        versionCompareService.getMergedVersionsJson(connectionName, version1, version2);
+        return new String(Files.readAllBytes(ResourceUtils.getFile("classpath:form_with_categories.json").toPath()));
     }
 
     /**

@@ -16,7 +16,7 @@ package cz.cvut.kbss.sformsmanager.rest;
 
 import cz.cvut.kbss.sformsmanager.model.persisted.remote.Context;
 import cz.cvut.kbss.sformsmanager.service.model.remote.ContextService;
-import cz.cvut.kbss.sformsmanager.service.process.FormGenProcessingService;
+import cz.cvut.kbss.sformsmanager.service.process.RemoteDataProcessingOrchestrator;
 import cz.cvut.kbss.sformsmanager.utils.PredicateUtils;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +24,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.net.URI;
 
 @RestController
 @RequestMapping("/formGen/processing")
@@ -32,10 +33,10 @@ public class FormGenProcessingController {
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(FormGenProcessingController.class);
 
     private final ContextService contextService;
-    private final FormGenProcessingService processingService;
+    private final RemoteDataProcessingOrchestrator processingService;
 
     @Autowired
-    public FormGenProcessingController(ContextService contextService, FormGenProcessingService processingService) {
+    public FormGenProcessingController(ContextService contextService, RemoteDataProcessingOrchestrator processingService) {
         this.contextService = contextService;
         this.processingService = processingService;
     }
@@ -47,7 +48,7 @@ public class FormGenProcessingController {
             @RequestParam(value = "contextUri") String contextUri)
             throws IOException {
 
-        processingService.processFormGen(connectionName, contextUri);
+        processingService.processDataSnapshotInRemoteContext(connectionName, URI.create(contextUri));
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/batch")
@@ -59,13 +60,14 @@ public class FormGenProcessingController {
         log.info("Running batch update on {} contexts of {}.", numberOfUpdates, connectionName);
         contextService.getContexts(connectionName).stream()
                 .filter(PredicateUtils.not(Context::isProcessed))
-                .limit(numberOfUpdates).forEach(context -> {
-            try {
-                log.info("Processing {}", context.getUriString());
-                processingService.processFormGen(connectionName, context.getUriString());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+                .limit(numberOfUpdates).forEach(
+                context -> {
+                    try {
+                        log.info("Processing {}", context.getUriString());
+                        processingService.processDataSnapshotInRemoteContext(connectionName, URI.create(context.getUriString()));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 }

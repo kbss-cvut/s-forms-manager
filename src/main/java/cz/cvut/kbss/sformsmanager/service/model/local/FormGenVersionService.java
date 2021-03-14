@@ -28,6 +28,10 @@ public class FormGenVersionService {
         return versionDAO.findByVersionName(versionName);
     }
 
+    public Optional<FormGenVersion> findByVersionNameOrSynonym(String versionOrSynonym) {
+        return versionDAO.findByVersionNameOrSynonym(versionOrSynonym);
+    }
+
     public int getConnectionCount(String connectionName) {
         return versionDAO.countAllInConnection(connectionName);
     }

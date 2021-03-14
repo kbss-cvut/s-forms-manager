@@ -15,6 +15,7 @@
 package cz.cvut.kbss.sformsmanager.rest;
 
 import cz.cvut.kbss.sformsmanager.model.dto.FormGenMetadataDTO;
+import cz.cvut.kbss.sformsmanager.model.dto.FormGenMetadataListingDTO;
 import cz.cvut.kbss.sformsmanager.service.model.local.FormGenMetadataService;
 import cz.cvut.kbss.sformsmanager.service.process.SearchQueryBuilder;
 import freemarker.template.TemplateException;
@@ -62,26 +63,40 @@ public class SearchController {
 
     @PostMapping(path = "/runQuery")
     @ResponseStatus(value = HttpStatus.OK)
-    public List<FormGenMetadataDTO> runSearchQuery(
-            @RequestBody RunQueryRequestBody body) {
+    public FormGenMetadataListingDTO runSearchQuery(
+            @RequestBody SearchQueryRequest request) {
 
-        return metadataService.runSearchQuery(body.getQuery()).stream()
-                .map(FormGenMetadataDTO::new).collect(Collectors.toList());
+        int totalFormGens = metadataService.getConnectionCount(request.getConnectionName());
+        List<FormGenMetadataDTO> formGens = metadataService.runSearchQuery(request.getQuery()).stream()
+                .map(FormGenMetadataDTO::new)
+                .collect(Collectors.toList());
+
+        return new FormGenMetadataListingDTO(formGens, totalFormGens);
 
     }
 
-    private static class RunQueryRequestBody {
-        private String version;
+    private static class SearchQueryRequest {
+        private String query;
 
-        public RunQueryRequestBody() {
+        private String connectionName;
+
+        public SearchQueryRequest() {
+        }
+
+        public String getConnectionName() {
+            return connectionName;
+        }
+
+        public void setConnectionName(String connectionName) {
+            this.connectionName = connectionName;
         }
 
         public String getQuery() {
-            return version;
+            return query;
         }
 
         public void setQuery(String query) {
-            this.version = query;
+            this.query = query;
         }
     }
 }

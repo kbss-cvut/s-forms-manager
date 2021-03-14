@@ -37,6 +37,7 @@ public class SearchQueryBuilder {
     private void setupVocabulary() {
         addVocabularyParameter("classURI", Vocabulary.FormGenMetadata);
         addVocabularyParameter("versionAssignedURI", Vocabulary.p_assigned_version);
+        addVocabularyParameter("versionClassURI", Vocabulary.p_versionName);
         addVocabularyParameter("saveHashURI", Vocabulary.p_save_hash);
         addVocabularyParameter("synonymURI", Vocabulary.p_synonym);
         addVocabularyParameter("formGenMetadataURI", Vocabulary.FormGenMetadata);
@@ -48,7 +49,7 @@ public class SearchQueryBuilder {
     public void setVersions(List<String> versions) {
         List<String> fixedVersions = prepareParameters(versions);
         if (!fixedVersions.isEmpty()) {
-            templateParameters.put("versions", versions);
+            templateParameters.put("versions", fixedVersions);
         }
     }
 

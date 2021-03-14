@@ -1,12 +1,12 @@
 package cz.cvut.kbss.sformsmanager.model.persisted.local;
 
+import com.google.common.base.Objects;
 import cz.cvut.kbss.jopa.model.annotations.Id;
 import cz.cvut.kbss.jopa.model.annotations.MappedSuperclass;
 import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
 import cz.cvut.kbss.jopa.model.annotations.ParticipationConstraints;
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
 import cz.cvut.kbss.sformsmanager.model.persisted.HasUniqueKey;
-import cz.cvut.kbss.sformsmanager.utils.OWLUtils;
 
 import java.net.URI;
 
@@ -39,10 +39,6 @@ public class LocalEntity implements HasUniqueKey {
         return key;
     }
 
-    public void setKey(String connectionName, String contextUri) {
-        this.key = OWLUtils.createInitialsAndConcatWithSlash(connectionName, contextUri);
-    }
-
     public URI getUri() {
         return uri;
     }
@@ -55,4 +51,17 @@ public class LocalEntity implements HasUniqueKey {
         this.key = key;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof LocalEntity)) return false;
+        LocalEntity that = (LocalEntity) o;
+        return Objects.equal(getUri(), that.getUri()) &&
+                Objects.equal(getKey(), that.getKey());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getUri(), getKey());
+    }
 }

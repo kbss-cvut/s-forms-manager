@@ -4,7 +4,7 @@ import cz.cvut.kbss.sformsmanager.model.dto.FormGenRawJson;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.Connection;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.ConnectionDAO;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.FormGenMetadataDAO;
-import cz.cvut.kbss.sformsmanager.service.process.FormGenProcessingService;
+import cz.cvut.kbss.sformsmanager.service.process.RemoteDataProcessingOrchestrator;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,18 +22,18 @@ public class FormGenJsonLoader {
     private final RemoteDataLoader dataLoader;
     private final ConnectionDAO connectionDAO;
     private final FormGenMetadataDAO formGenMetadataDAO;
-    private final FormGenProcessingService formGenProcessingService;
+    private final RemoteDataProcessingOrchestrator remoteDataProcessingOrchestrator;
 
     private static final String REPOSITORY_URL_PARAM = "repositoryUrl";
     private static final String FORMGEN_REPOSITORY_URL_PARAM = "formGenRepositoryUrl";
     private static final String RECORD_GRAPH_ID_PARAM = "recordGraphId";
 
     @Autowired
-    public FormGenJsonLoader(RemoteDataLoader dataLoader, ConnectionDAO connectionDAO, FormGenMetadataDAO formGenMetadataDAO, FormGenProcessingService formGenProcessingService) {
+    public FormGenJsonLoader(RemoteDataLoader dataLoader, ConnectionDAO connectionDAO, FormGenMetadataDAO formGenMetadataDAO, RemoteDataProcessingOrchestrator remoteDataProcessingOrchestrator) {
         this.dataLoader = dataLoader;
         this.connectionDAO = connectionDAO;
         this.formGenMetadataDAO = formGenMetadataDAO;
-        this.formGenProcessingService = formGenProcessingService;
+        this.remoteDataProcessingOrchestrator = remoteDataProcessingOrchestrator;
     }
 
     /**

@@ -1,0 +1,13 @@
+SELECT ?recordCreateDate ?recordModifiedDate ?remoteRecordURI ?question
+WHERE
+{
+    graph ?contextUri {
+        ?s a <http://vfn.cz/ontologies/study-manager/patient-record> .
+        ?s <http://purl.org/dc/terms/created> ?recordCreateDate .
+        OPTIONAL {?s <http://purl.org/dc/terms/modifed> ?recordModifiedDateOptional .}
+        OPTIONAL {?s <http://vfn.cz/ontologies/study-manager/has-question> ?question .}
+
+        BIND(COALESCE(?recordModifiedDateOptional,?recordCreateDate) as ?recordModifiedDate)
+        BIND (str(?s) as ?remoteRecordURI)
+    }
+}

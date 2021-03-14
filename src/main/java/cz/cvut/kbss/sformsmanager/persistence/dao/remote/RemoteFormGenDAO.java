@@ -1,7 +1,7 @@
 package cz.cvut.kbss.sformsmanager.persistence.dao.remote;
 
 import cz.cvut.kbss.jopa.model.EntityManager;
-import cz.cvut.kbss.sformsmanager.model.persisted.response.FormGenSaveDBResponse;
+import cz.cvut.kbss.sformsmanager.model.persisted.response.FormGenLatestSavesResponseDB;
 import cz.cvut.kbss.sformsmanager.persistence.base.ConnectionEntityManagerProvider;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +27,11 @@ public class RemoteFormGenDAO extends RemoteEntityDAO {
         super(entityManagerProvider, RemoteFormGenDAO.class);
     }
 
-    public FormGenSaveDBResponse getFormGenSaveIdentifier(String connectionName, String contextUri) throws IOException {
+    public FormGenLatestSavesResponseDB getFormGenSaveIdentifier(String connectionName, String contextUri) throws IOException {
         EntityManager em = getEntityManagerByConnection(connectionName);
         try {
             String query = new String(Files.readAllBytes(ResourceUtils.getFile(FORMGEN_SAVE_QUERY_FILE).toPath()));
-            return (FormGenSaveDBResponse) em.createNativeQuery(query, "FormGenSaveDBResponseResults")
+            return (FormGenLatestSavesResponseDB) em.createNativeQuery(query, "FormGenSaveDBResponseResults")
                     .setParameter("contextUri", URI.create(contextUri))
                     .getSingleResult();
 

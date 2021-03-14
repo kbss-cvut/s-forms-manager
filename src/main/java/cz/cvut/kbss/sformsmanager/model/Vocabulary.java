@@ -37,6 +37,42 @@ public class Vocabulary {
     public static final String p_appRepositoryUrl = URI_BASE + "appRepositoryUrl";
     public static final String p_key = URI_BASE + "key";
 
+    // new
+    public static final String QuestionTemplateSnapshot = URI_BASE + "QuestionTemplateSnapshot";
+    public static final String QuestionTemplate = URI_BASE + "QuestionTemplate";
+    public static final String QuestionTemplateVersion = URI_BASE + "QuestionTemplateVersion";
+    public static final String p_hasQuestionTemplateSnapshot = URI_BASE + "p_hasQuestionTemplateSnapshot";
+
+    public static final String FormTemplateSnapshot = URI_BASE + "FormTemplateSnapshot";
+    public static final String FormTemplate = URI_BASE + "FormTemplate";
+    public static final String FormTemplateVersion = URI_BASE + "FormTemplateVersion";
+
+    public static final String SubmittedAnswer = URI_BASE + "SubmittedAnswer";
+
+    public static final String Record = URI_BASE + "RecordSnapshot";
+    public static final String RecordSnapshot = URI_BASE + "RecordSnapshot";
+    public static final String RecordVersion = URI_BASE + "RecordVersion";
+    public static final String p_recordCreated = URI_BASE + "recordCreated";
+    public static final String p_recordSnapshotCreated = URI_BASE + "recordSnapshotCreated";
+    public static final String p_hasRecordVersions = URI_BASE + "hasRecordVersions";
+
+    public static final String p_originPathsHash = URI_BASE + "questionOriginPathHash";
+    public static final String p_originPath = URI_BASE + "questionOriginPath";
+    public static final String p_hasQuestionTemplateSnapshots = URI_BASE + "hasQuestionTemplateSnapshots";
+    public static final String p_hasFormTemplate = URI_BASE + "hasFormTemplate";
+    public static final String p_hasFormTemplateSnapshots = URI_BASE + "hasFormTemplateSnapshots";
+    public static final String p_hasFormTemplateVersion = URI_BASE + "hasFormTemplateVersion";
+    public static final String p_hasFormTemplateVersions = URI_BASE + "hasFormTemplateVersions";
+    public static final String p_hasFormTemplateVersionKey = URI_BASE + "hasFormTemplateVersionKey";
+    public static final String p_hasRecordSnapshots = URI_BASE + "hasRecordSnapshots";
+    public static final String p_hasRecordSnapshot = URI_BASE + "hasRecordSnapshot";
+    public static final String p_hasRecord = URI_BASE + "hasRecord";
+    public static final String p_hasRecordVersion = URI_BASE + "hasRecordVersion";
+    public static final String p_hasSubmittedAnswers = URI_BASE + "hasSubmittedAnswers";
+    public static final String p_hasAnswerValue = URI_BASE + "hasAnswerValue";
+    public static final String p_hasSubQuestionTemplates = URI_BASE + "hasSubQuestions";
+    public static final String p_hasSubmittedAnswersHash = URI_BASE + "hasSubmittedAnswersHash";
+
     /* General */
     public final static String DOC_URI = "http://onto.fel.cvut.cz/ontologies/documentation/";
     public static final String Question = DOC_URI + "question";
@@ -49,4 +85,5 @@ public class Vocabulary {
     /* Study Manager */
     public final static String VFN_STUDY_MANAGER_URI = "http://vfn.cz/ontologies/study-manager/"; // TODO: this is supposed to be configurable per connection, vfn is not project specific
     public static final String Patient = VFN_STUDY_MANAGER_URI + "patient-record";
+
 }
