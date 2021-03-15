@@ -1,15 +1,17 @@
 package cz.cvut.kbss.sformsmanager.model.persisted.local.gen2;
 
 
-import cz.cvut.kbss.jopa.model.annotations.*;
+import cz.cvut.kbss.jopa.model.annotations.FetchType;
+import cz.cvut.kbss.jopa.model.annotations.OWLClass;
+import cz.cvut.kbss.jopa.model.annotations.OWLObjectProperty;
+import cz.cvut.kbss.jopa.model.annotations.ParticipationConstraints;
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
-import cz.cvut.kbss.sformsmanager.model.persisted.HasConnection;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.LocalEntity;
 
 import java.io.Serializable;
 
 @OWLClass(iri = Vocabulary.FormTemplateVersion)
-public class FormTemplateVersion extends LocalEntity implements Serializable, HasConnection {
+public class FormTemplateVersion extends LocalEntity implements Serializable {
 
     @ParticipationConstraints
     @OWLObjectProperty(iri = Vocabulary.p_hasFormTemplate, fetch = FetchType.LAZY)
@@ -19,28 +21,15 @@ public class FormTemplateVersion extends LocalEntity implements Serializable, Ha
     @OWLObjectProperty(iri = Vocabulary.p_hasQuestionTemplateSnapshot, fetch = FetchType.EAGER)
     private QuestionTemplateSnapshot questionTemplateSnapshot;
 
-    @Transient
-    private String connectionName;
-
     // key is sorted all the QUESTION-ORIGINS -> hash
 
     public FormTemplateVersion() {
     }
 
-    public FormTemplateVersion(String questionOriginsHash, FormTemplate formTemplate, QuestionTemplateSnapshot questionTemplateSnapshot, String connectionName) {
+    public FormTemplateVersion(String questionOriginsHash, FormTemplate formTemplate, QuestionTemplateSnapshot questionTemplateSnapshot) {
         super(questionOriginsHash);
         this.formTemplate = formTemplate;
         this.questionTemplateSnapshot = questionTemplateSnapshot;
-        this.connectionName = connectionName;
-    }
-
-    @Override
-    public String getConnectionName() {
-        return connectionName;
-    }
-
-    public void setConnectionName(String connectionName) {
-        this.connectionName = connectionName;
     }
 
     public QuestionTemplateSnapshot getQuestionTemplateSnapshot() {

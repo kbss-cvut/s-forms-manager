@@ -1,30 +1,30 @@
 package cz.cvut.kbss.sformsmanager.model.dto;
 
 
-import cz.cvut.kbss.sformsmanager.model.persisted.local.Connection;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.Project;
 
-public class ConnectionDTO {
+public class ProjectDTO {
 
     private String formGenRepositoryUrl;
     private String formGenServiceUrl;
     private String appRepositoryUrl;
     private String connectionName;
 
-    public ConnectionDTO() {
+    public ProjectDTO() {
     }
 
-    public ConnectionDTO(String formGenRepositoryUrl, String formGenServiceUrl, String appRepositoryUrl, String connectionName) {
+    public ProjectDTO(String formGenRepositoryUrl, String formGenServiceUrl, String appRepositoryUrl, String connectionName) {
         this.formGenRepositoryUrl = formGenRepositoryUrl;
         this.formGenServiceUrl = formGenServiceUrl;
         this.appRepositoryUrl = appRepositoryUrl;
         this.connectionName = connectionName;
     }
 
-    public ConnectionDTO(Connection connection) {
-        this.formGenRepositoryUrl = connection.getFormGenRepositoryUrl();
-        this.formGenServiceUrl = connection.getFormGenServiceUrl();
-        this.appRepositoryUrl = connection.getAppRepositoryUrl();
-        this.connectionName = connection.getKey();
+    public ProjectDTO(Project project) {
+        this.formGenRepositoryUrl = project.getFormGenRepositoryUrl();
+        this.formGenServiceUrl = project.getFormGenServiceUrl();
+        this.appRepositoryUrl = project.getAppRepositoryUrl();
+        this.connectionName = project.getKey();
     }
 
     public String getFormGenRepositoryUrl() {

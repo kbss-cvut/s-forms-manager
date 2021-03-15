@@ -1,8 +1,10 @@
 package cz.cvut.kbss.sformsmanager.model.persisted.local.gen2;
 
-import cz.cvut.kbss.jopa.model.annotations.*;
+import cz.cvut.kbss.jopa.model.annotations.OWLClass;
+import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
+import cz.cvut.kbss.jopa.model.annotations.OWLObjectProperty;
+import cz.cvut.kbss.jopa.model.annotations.Sequence;
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
-import cz.cvut.kbss.sformsmanager.model.persisted.HasConnection;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.LocalEntity;
 
 import java.io.Serializable;
@@ -10,7 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 @OWLClass(iri = Vocabulary.QuestionTemplateSnapshot)
-public class QuestionTemplateSnapshot extends LocalEntity implements Serializable, HasConnection {
+public class QuestionTemplateSnapshot extends LocalEntity implements Serializable {
 
     @Sequence
     @OWLObjectProperty(iri = Vocabulary.p_hasQuestionTemplateSnapshots)
@@ -30,9 +32,6 @@ public class QuestionTemplateSnapshot extends LocalEntity implements Serializabl
 
     // key is the QUESTION-ORIGIN-PATH + FORM-TEMPLATE-VERSION -> hash
 
-    @Transient
-    private String connectionName;
-
     public QuestionTemplateSnapshot() {
     }
 
@@ -42,8 +41,7 @@ public class QuestionTemplateSnapshot extends LocalEntity implements Serializabl
             List<QuestionTemplateSnapshot> questionTemplateSnapshots,
             String questionOriginPath,
             String questionOrigin,
-            Set<SubmittedAnswer> answers,
-            String connectionName) {
+            Set<SubmittedAnswer> answers) {
 
         super(formTemplateVersionAndOriginPathHashKey);
         this.formTemplateVersionKey = formTemplateVersionKey;
@@ -51,7 +49,6 @@ public class QuestionTemplateSnapshot extends LocalEntity implements Serializabl
         this.questionOriginPath = questionOriginPath;
         this.questionOrigin = questionOrigin;
         this.answers = answers;
-        this.connectionName = connectionName;
     }
 
     public String getQuestionOriginPath() {
@@ -68,15 +65,6 @@ public class QuestionTemplateSnapshot extends LocalEntity implements Serializabl
 
     public void setAnswers(Set<SubmittedAnswer> answers) {
         this.answers = answers;
-    }
-
-    @Override
-    public String getConnectionName() {
-        return connectionName;
-    }
-
-    public void setConnectionName(String connectionName) {
-        this.connectionName = connectionName;
     }
 
     public String getQuestionOrigin() {

@@ -3,7 +3,6 @@ package cz.cvut.kbss.sformsmanager.model.persisted.local;
 import com.google.common.base.Objects;
 import cz.cvut.kbss.jopa.model.annotations.*;
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
-import cz.cvut.kbss.sformsmanager.model.persisted.HasConnection;
 import cz.cvut.kbss.sformsmanager.utils.OWLUtils;
 
 import java.io.Serializable;
@@ -11,7 +10,7 @@ import java.net.URI;
 import java.util.Date;
 
 @OWLClass(iri = Vocabulary.FormGenMetadata)
-public class FormGenMetadata extends LocalEntity implements Serializable, HasConnection {
+public class FormGenMetadata extends LocalEntity implements Serializable {
 
     @ParticipationConstraints()
     @OWLObjectProperty(iri = Vocabulary.p_assigned_version, fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
@@ -33,7 +32,7 @@ public class FormGenMetadata extends LocalEntity implements Serializable, HasCon
     private Date formGenModified;
 
     @ParticipationConstraints(nonEmpty = true)
-    @OWLDataProperty(iri = Vocabulary.p_contextUri)
+    @OWLDataProperty(iri = Vocabulary.p_hasRemoteContextURI)
     private String contextUri;
 
     @ParticipationConstraints(nonEmpty = true)

@@ -41,7 +41,7 @@ public class FormGenVersionCompareServiceImpl implements FormGenVersionCompareSe
 //        FormGenVersion formGenVersion2 = versionService.findByVersionNameOrSynonym(versionName2)
 //                .orElseThrow(() -> new VersionNotFoundException(versionName2 + " version not found!"));
 
-        FormGenRawJson versionJson1 = formGenJsonLoader.getFormGenRawJsonFromConnection(connectionName, formGenVersion1.getSampleContextUri());
+        FormGenRawJson versionJson1 = formGenJsonLoader.getFormGenRawJson(connectionName, formGenVersion1.getSampleContextUri());
 //        FormGenRawJson versionJson2 = formGenJsonLoader.getFormGenRawJsonFromConnection(connectionName, formGenVersion2.getSampleContextUri());
         FormGenRawJson versionJson2 = null;
         try {

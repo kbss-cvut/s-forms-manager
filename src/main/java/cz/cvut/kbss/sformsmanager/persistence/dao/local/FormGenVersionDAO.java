@@ -4,6 +4,7 @@ import cz.cvut.kbss.jopa.exceptions.NoResultException;
 import cz.cvut.kbss.jopa.model.EntityManager;
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.FormGenVersion;
+import cz.cvut.kbss.sformsmanager.persistence.dao.LocalEntityBaseDAO;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
@@ -13,7 +14,7 @@ import java.net.URI;
 import java.util.Optional;
 
 @Component
-public class FormGenVersionDAO extends LocalWithConnectionBaseDAO<FormGenVersion> {
+public class FormGenVersionDAO extends LocalEntityBaseDAO<FormGenVersion> {
 
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(FormGenVersionDAO.class);
 

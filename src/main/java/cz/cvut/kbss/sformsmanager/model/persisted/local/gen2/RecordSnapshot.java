@@ -2,7 +2,6 @@ package cz.cvut.kbss.sformsmanager.model.persisted.local.gen2;
 
 import cz.cvut.kbss.jopa.model.annotations.*;
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
-import cz.cvut.kbss.sformsmanager.model.persisted.HasConnection;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.LocalEntity;
 
 import java.io.Serializable;
@@ -11,7 +10,7 @@ import java.util.Date;
 import java.util.Set;
 
 @OWLClass(iri = Vocabulary.RecordSnapshot)
-public class RecordSnapshot extends LocalEntity implements Serializable, HasConnection {
+public class RecordSnapshot extends LocalEntity implements Serializable {
 
     @OWLObjectProperty(iri = Vocabulary.p_hasRecord, fetch = FetchType.LAZY)
     private Record record;
@@ -31,18 +30,15 @@ public class RecordSnapshot extends LocalEntity implements Serializable, HasConn
     private Date recordSnapshotCreated;
 
     @ParticipationConstraints(nonEmpty = true)
-    @OWLObjectProperty(iri = Vocabulary.p_contextUri)
+    @OWLObjectProperty(iri = Vocabulary.p_hasRemoteContextURI)
     private URI remoteContextURI;
 
     // key is the RECORD-URI -> hash
 
-    @Transient
-    private String connectionName; // used for creating sparql descriptor
-
     public RecordSnapshot() {
     }
 
-    public RecordSnapshot(String recordUriHashKey, Record record, RecordVersion recordVersion, FormTemplateVersion formTemplateVersion, Set<SubmittedAnswer> answers, Date recordSnapshotCreated, URI remoteContextURI, String connectionName) {
+    public RecordSnapshot(String recordUriHashKey, Record record, RecordVersion recordVersion, FormTemplateVersion formTemplateVersion, Set<SubmittedAnswer> answers, Date recordSnapshotCreated, URI remoteContextURI) {
         super(recordUriHashKey);
         this.record = record;
         this.recordVersion = recordVersion;
@@ -50,7 +46,6 @@ public class RecordSnapshot extends LocalEntity implements Serializable, HasConn
         this.answers = answers;
         this.recordSnapshotCreated = recordSnapshotCreated;
         this.remoteContextURI = remoteContextURI;
-        this.connectionName = connectionName;
     }
 
     public RecordVersion getRecordVersion() {
@@ -83,15 +78,6 @@ public class RecordSnapshot extends LocalEntity implements Serializable, HasConn
 
     public void setRemoteContextURI(URI remoteContextURI) {
         this.remoteContextURI = remoteContextURI;
-    }
-
-    @Override
-    public String getConnectionName() {
-        return connectionName;
-    }
-
-    public void setConnectionName(String connectionName) {
-        this.connectionName = connectionName;
     }
 
     public Set<SubmittedAnswer> getAnswers() {

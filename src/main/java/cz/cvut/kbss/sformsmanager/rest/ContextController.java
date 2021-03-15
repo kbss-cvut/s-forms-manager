@@ -25,15 +25,15 @@ public class ContextController {
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<ContextDTO> getContexts(@RequestParam(value = "connectionName") String connectionName) {
-        return contextService.getContexts(connectionName).stream().map(ContextDTO::new).collect(Collectors.toList());
+    public List<ContextDTO> getContexts(@RequestParam(value = "projectName") String projectName) {
+        return contextService.getContexts(projectName).stream().map(ContextDTO::new).collect(Collectors.toList());
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, path = "/paginated")
-    public Paginated<ContextDTO> getPaginatedContexts(@RequestParam(value = "connectionName") String connectionName, Integer offset, Integer limit) {
-        int totalItems = contextService.count(connectionName);
+    public Paginated<ContextDTO> getPaginatedContexts(@RequestParam(value = "projectName") String projectName, Integer offset, Integer limit) {
+        int totalItems = contextService.count(projectName);
 
-        List<ContextDTO> list = contextService.getPaginatedContexts(connectionName, offset, limit).stream().map(ContextDTO::new).collect(Collectors.toList());
+        List<ContextDTO> list = contextService.getPaginatedContexts(projectName, offset, limit).stream().map(ContextDTO::new).collect(Collectors.toList());
         return new Paginated<>(totalItems, offset, limit, list);
     }
 

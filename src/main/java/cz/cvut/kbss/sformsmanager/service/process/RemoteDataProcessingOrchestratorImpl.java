@@ -1,5 +1,6 @@
 package cz.cvut.kbss.sformsmanager.service.process;
 
+import cz.cvut.kbss.sformsmanager.model.Vocabulary;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.gen2.*;
 import cz.cvut.kbss.sformsmanager.model.persisted.response.QuestionSnapshotRemoteData;
 import cz.cvut.kbss.sformsmanager.model.persisted.response.RecordSnapshotRemoteData;
@@ -58,87 +59,89 @@ public class RemoteDataProcessingOrchestratorImpl implements RemoteDataProcessin
     }
 
     @Transactional
-    public void processDataSnapshotInRemoteContext(String connectionName, URI contextUri) throws IOException { // TODO: make this URI not String
+    public void processDataSnapshotInRemoteContext(String projectDescriptorName, URI contextUri) throws IOException {
+
+        // TODO: use Optional.getOrElse and extract redundant code
 
         // LOAD REMOTE DATA: record snapshot
-        RecordSnapshotRemoteData recordRemoteData = recordRemoteDAO.getRecordSnapshot(connectionName, contextUri);
+        RecordSnapshotRemoteData recordRemoteData = recordRemoteDAO.getRecordSnapshot(projectDescriptorName, contextUri);
         String recordSnapshotKey = ObjectUtils.getStringHashCode(contextUri);
 
         // Record
         String recordKey = recordRemoteData.getRemoteRecordURI() + "/" + recordRemoteData.getRecordCreateDate();
-        Optional<Record> recordOpt = recordDAO.findByKey(recordKey);
+        Optional<Record> recordOpt = recordDAO.findByKey(projectDescriptorName, recordKey);
         Record record;
         if (recordOpt.isPresent()) {
             record = recordOpt.get();
         } else {
-            record = recordDAO.update(new Record(recordKey, null, recordRemoteData.getRecordCreateDate(), connectionName));
+            record = recordDAO.update(projectDescriptorName, new Record(recordKey, null, recordRemoteData.getRecordCreateDate()));
         }
 
         if (recordRemoteData.getQuestion() == null) {
             // initial record: no questions or answers variant
 
             // persist without RecordVersion and without FormTemplateVersion
-            RecordSnapshot recordSnapshot = new RecordSnapshot(recordSnapshotKey, record, null, null, null, recordRemoteData.getRecordModifiedDate(), contextUri, connectionName);
-            recordSnapshotDAO.persist(recordSnapshot);
+            RecordSnapshot recordSnapshot = new RecordSnapshot(recordSnapshotKey, record, null, null, null, recordRemoteData.getRecordModifiedDate(), contextUri);
+            recordSnapshotDAO.persist(projectDescriptorName, recordSnapshot);
             return;
         }
 
         // LOAD REMOTE DATA: question and answers snapshot
-        QuestionSnapshotRemoteData qaRemoteData = questionsSnapshotRemoteDataDAO.getQuestionsAndAnswersSnapshot(connectionName, contextUri, recordRemoteData.getQuestion());
+        QuestionSnapshotRemoteData qaRemoteData = questionsSnapshotRemoteDataDAO.getQuestionsAndAnswersSnapshot(projectDescriptorName, contextUri, recordRemoteData.getQuestion());
 
         // PROCESS the questions tree
         QuestionTreeRemoteDataProcessor processor = new QuestionTreeRemoteDataProcessor(qaRemoteData);
         processor.process();
 
         // Answers
-        Map<String, SubmittedAnswer> submittedAnswerMap = mapToSubmittedAnswersAndPersistEventually(processor.getAnsweredQuestions(), connectionName);
+        Map<String, SubmittedAnswer> submittedAnswerMap = mapToSubmittedAnswersAndPersistEventually(processor.getAnsweredQuestions(), projectDescriptorName);
 
         // FormTemplate
         String formTemplateKey = ObjectUtils.getStringHashCode(processor.getRootQuestionOrigin());
-        Optional<FormTemplate> formTemplateOpt = formTemplateDAO.findByKey(formTemplateKey);
+        Optional<FormTemplate> formTemplateOpt = formTemplateDAO.findByKey(projectDescriptorName, formTemplateKey);
 
         FormTemplate formTemplate;
         if (formTemplateOpt.isPresent()) {
             formTemplate = formTemplateOpt.get();
         } else {
-            formTemplate = new FormTemplate(formTemplateKey, connectionName);
-            formTemplate = formTemplateDAO.update(formTemplate);
+            formTemplate = new FormTemplate(formTemplateKey);
+            formTemplate = formTemplateDAO.update(projectDescriptorName, formTemplate);
         }
 
         // FormTemplateVersion
         String formTemplateVersionKey = processor.getAllQuestionOriginsPathsHash();
-        Optional<FormTemplateVersion> formTemplateVersionOpt = formTemplateVersionDAO.findByKey(formTemplateVersionKey);
+        Optional<FormTemplateVersion> formTemplateVersionOpt = formTemplateVersionDAO.findByKey(projectDescriptorName, formTemplateVersionKey);
 
         FormTemplateVersion formTemplateVersion;
         if (formTemplateVersionOpt.isPresent()) {
             formTemplateVersion = formTemplateVersionOpt.get();
-            addSubmittedAnswersToExistingQuestionTemplateSnapshots(formTemplateVersion, submittedAnswerMap);
+            addSubmittedAnswersToExistingQuestionTemplateSnapshots(projectDescriptorName, formTemplateVersion, submittedAnswerMap);
         } else {
             QuestionTemplateSnapshot questionTemplateSnapshot = createQuestionTemplateSnapshotsWithAnswers(
                     processor.getQuestionOriginsAndTheirPaths(),
                     submittedAnswerMap,
                     qaRemoteData,
                     formTemplateVersionKey,
-                    connectionName);
-            formTemplateVersion = new FormTemplateVersion(formTemplateVersionKey, formTemplate, questionTemplateSnapshot, connectionName);
+                    projectDescriptorName);
+            formTemplateVersion = new FormTemplateVersion(formTemplateVersionKey, formTemplate, questionTemplateSnapshot);
         }
-        formTemplateVersionDAO.update(formTemplateVersion);
+        formTemplateVersionDAO.update(projectDescriptorName, formTemplateVersion);
 
         // RecordVersion
         String recordVersionKey = recordRemoteData.getRemoteRecordURI() + "/" + processor.getAllQuestionOriginsAndAnswersHash();
-        Optional<RecordVersion> recordVersionOpt = recordVersionDAO.findByKey(recordVersionKey);
+        Optional<RecordVersion> recordVersionOpt = recordVersionDAO.findByKey(projectDescriptorName, recordVersionKey);
 
         RecordVersion recordVersion;
         if (recordVersionOpt.isPresent()) {
             recordVersion = recordVersionOpt.get();
         } else {
-            recordVersion = new RecordVersion(recordVersionKey, record, connectionName);
-            recordVersion = recordVersionDAO.update(recordVersion);
+            recordVersion = new RecordVersion(recordVersionKey, record);
+            recordVersion = recordVersionDAO.update(projectDescriptorName, recordVersion);
         }
 
         // RecordSnapshot
-        RecordSnapshot recordSnapshot = new RecordSnapshot(recordSnapshotKey, record, recordVersion, formTemplateVersion, new HashSet<>(submittedAnswerMap.values()), recordRemoteData.getRecordModifiedDate(), contextUri, connectionName);
-        recordSnapshotDAO.persist(recordSnapshot);
+        RecordSnapshot recordSnapshot = new RecordSnapshot(recordSnapshotKey, record, recordVersion, formTemplateVersion, new HashSet<>(submittedAnswerMap.values()), recordRemoteData.getRecordModifiedDate(), contextUri);
+        recordSnapshotDAO.persist(projectDescriptorName, recordSnapshot);
     }
 
     private QuestionTemplateSnapshot createQuestionTemplateSnapshotsWithAnswers(
@@ -146,40 +149,36 @@ public class RemoteDataProcessingOrchestratorImpl implements RemoteDataProcessin
             Map<String, SubmittedAnswer> submittedAnswerMap,
             QuestionSnapshotRemoteData questionTreeRemoteData,
             String formTemplateVersionKey,
-            String connectionName) {
+            String projectDescriptorName) {
 
         QuestionTemplateSnapshotTreeBuilder qtsTreeBuilder = new QuestionTemplateSnapshotTreeBuilder(
                 questionTreeRemoteData,
                 questionOriginAndTheirPaths,
                 formTemplateVersionKey,
                 submittedAnswerMap,
-                connectionName,
-                questionTemplateSnapshotDAO::update);
+                projectDescriptorName,
+                entity -> questionTemplateSnapshotDAO.update(projectDescriptorName, entity));
 
         return qtsTreeBuilder.process();
     }
 
-    private void addSubmittedAnswersToExistingQuestionTemplateSnapshots(FormTemplateVersion formTemplateVersion, Map<String, SubmittedAnswer> submittedAnswerMap) {
-        List<QuestionTemplateSnapshot> questionTemplateSnapshots = questionTemplateSnapshotDAO.findByFormTemplateVersionURI(formTemplateVersion);
+    private void addSubmittedAnswersToExistingQuestionTemplateSnapshots(String projectDescriptorName, FormTemplateVersion formTemplateVersion, Map<String, SubmittedAnswer> submittedAnswerMap) {
+        List<QuestionTemplateSnapshot> questionTemplateSnapshots = questionTemplateSnapshotDAO.findAllWhere(projectDescriptorName, Vocabulary.p_hasFormTemplateVersionKey, formTemplateVersion.getKey());
         questionTemplateSnapshots.stream().forEach(qts -> {
             SubmittedAnswer sa;
             if ((sa = submittedAnswerMap.get(qts.getQuestionOrigin())) != null) {
                 boolean added = qts.getAnswers().add(sa);
-                if (added) questionTemplateSnapshotDAO.persist(qts);
+                if (added) questionTemplateSnapshotDAO.persist(projectDescriptorName, qts);
             }
         });
     }
 
-    private Map<String, SubmittedAnswer> mapToSubmittedAnswersAndPersistEventually(Map<String, String> answeredQuestions, String connectionName) {
+    private Map<String, SubmittedAnswer> mapToSubmittedAnswersAndPersistEventually(Map<String, String> answeredQuestions, String projectDesciptorName) {
         // the result is question-origin-1 -> SubmittedAnswer(with question-origin-1)
         return answeredQuestions.entrySet().stream().map(entry -> {
             String answerKey = ObjectUtils.getStringHashCode(entry.getKey() + entry.getValue()); // question-origin + answer-value
-            return submittedAnswerDAO.findByKey(answerKey)
-                    .orElseGet(() -> submittedAnswerDAO.update(new SubmittedAnswer(answerKey, entry.getValue(), entry.getKey(), connectionName)));
+            return submittedAnswerDAO.findByKey(projectDesciptorName, answerKey)
+                    .orElseGet(() -> submittedAnswerDAO.update(projectDesciptorName, new SubmittedAnswer(answerKey, entry.getValue(), entry.getKey())));
         }).collect(Collectors.toMap(SubmittedAnswer::getQuestionOrigin, Function.identity()));
     }
-
-//    private QuestionTemplateSnapshot mergeAnswers(QuestionTemplateSnapshot originalSnapshot, QuestionTemplateSnapshot newSnapshot) {
-//
-//    }
 }

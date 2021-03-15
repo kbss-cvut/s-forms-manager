@@ -51,7 +51,7 @@ public class FormGenController {
             @RequestParam(value = "connectionName") String connectionName,
             @RequestParam(value = "contextUri") String contextUri
     ) throws URISyntaxException {
-        return formGenJsonLoader.getFormGenRawJsonFromConnection(connectionName, contextUri).getRawJson();
+        return formGenJsonLoader.getFormGenRawJson(connectionName, contextUri).getRawJson();
     }
 
     @RequestMapping(path = "/latestSaves")

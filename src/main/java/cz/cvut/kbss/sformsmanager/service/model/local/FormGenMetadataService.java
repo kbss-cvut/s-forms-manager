@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class FormGenMetadataService {
@@ -26,17 +25,20 @@ public class FormGenMetadataService {
     }
 
     public Optional<FormGenMetadata> findByKey(String key) {
-        return formGenMetadataDAO.findByKey(key);
+        return Optional.empty();
+//        return formGenMetadataDAO.findByKey(key);
     }
 
     public Set<String> findProcessedForms(String connectionName) {
-        return formGenMetadataDAO.findAllInConnection(connectionName).stream()
-                .map(metadata -> metadata.getContextUri())
-                .collect(Collectors.toSet());
+        return null;
+//        return formGenMetadataDAO.findAllInConnection(connectionName).stream() // TODO: move to RecordSnapshotDAO, get only REMOTE URI
+//                .map(metadata -> metadata.getContextUri())
+//                .collect(Collectors.toSet());
     }
 
     public int getConnectionCount(String connectionName) {
-        return formGenMetadataDAO.countAllInConnection(connectionName);
+        return 0;
+//        return formGenMetadataDAO.countAllInConnection(connectionName);
     }
 
     public int getConnectionNonEmptyCount(String connectionName) {
@@ -44,11 +46,13 @@ public class FormGenMetadataService {
     }
 
     public int getConnectionCountByVersion(String connectionName, String versionKey) {
-        return formGenMetadataDAO.countAllInConnectionByVersion(connectionName, versionKey);
+        return 0;
+//        return formGenMetadataDAO.countAllInConnectionByVersion(connectionName, versionKey);
     }
 
     public List<FormGenMetadata> findAllInConnection(String connectionName) {
-        return formGenMetadataDAO.findAllInConnection(connectionName);
+        return null;
+//        return formGenMetadataDAO.findAllInConnection(connectionName);
     }
 
     public List<FormGenMetadata> findHistoryOfFormGen(String connectionName, String saveHash) {

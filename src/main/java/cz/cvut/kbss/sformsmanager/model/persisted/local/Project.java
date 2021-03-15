@@ -10,8 +10,8 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import java.io.Serializable;
 
-@OWLClass(iri = Vocabulary.Connection)
-public class Connection extends LocalEntity implements Serializable, HasUniqueKey {
+@OWLClass(iri = Vocabulary.Project)
+public class Project extends LocalEntity implements Serializable, HasUniqueKey {
 
     @NotBlank
     @ParticipationConstraints(nonEmpty = true)
@@ -28,11 +28,11 @@ public class Connection extends LocalEntity implements Serializable, HasUniqueKe
     @OWLDataProperty(iri = Vocabulary.p_appRepositoryUrl)
     private String appRepositoryUrl;
 
-    public Connection() {
+    public Project() {
     }
 
-    public Connection(String formGenRepositoryUrl, String formGenServiceUrl, String appRepositoryUrl, String connectionName) {
-        super(connectionName);
+    public Project(String formGenRepositoryUrl, String formGenServiceUrl, String appRepositoryUrl, String projectName) {
+        super(projectName);
         this.formGenRepositoryUrl = formGenRepositoryUrl;
         this.formGenServiceUrl = formGenServiceUrl;
         this.appRepositoryUrl = appRepositoryUrl;

@@ -65,6 +65,6 @@ public class QuestionTemplateSnapshotTreeBuilder {
                 questionOrigin,
                 new HashSet<SubmittedAnswer>() {{
                     add(answerMap.get(questionOrigin));
-                }}, connectionName);
+                }});
     }
 }

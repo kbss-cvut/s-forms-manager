@@ -2,14 +2,13 @@ package cz.cvut.kbss.sformsmanager.model.persisted.local.gen2;
 
 import cz.cvut.kbss.jopa.model.annotations.*;
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
-import cz.cvut.kbss.sformsmanager.model.persisted.HasConnection;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.LocalEntity;
 
 import java.io.Serializable;
 import java.util.List;
 
 @OWLClass(iri = Vocabulary.QuestionTemplate)
-public class QuestionTemplate extends LocalEntity implements Serializable, HasConnection {
+public class QuestionTemplate extends LocalEntity implements Serializable {
 
     @OWLObjectProperty(iri = Vocabulary.p_hasFormTemplate)
     // TODO: can be LAZILY loaded objects @ParticipationConstraints(nonEmpty = true)?
@@ -25,17 +24,13 @@ public class QuestionTemplate extends LocalEntity implements Serializable, HasCo
 
     // key is the QUESTION-ORIGIN -> hash
 
-    @Transient
-    private String connectionName;
-
     public QuestionTemplate() {
     }
 
-    public QuestionTemplate(String questionOriginHashKey, String questionOrigin, List<QuestionTemplateSnapshot> questionTemplateSnapshots, String connectionName) {
+    public QuestionTemplate(String questionOriginHashKey, String questionOrigin, List<QuestionTemplateSnapshot> questionTemplateSnapshots) {
         super(questionOriginHashKey);
         this.questionOrigin = questionOrigin;
         this.questionTemplateSnapshots = questionTemplateSnapshots;
-        this.connectionName = connectionName;
     }
 
     public String getQuestionOrigin() {
@@ -52,14 +47,5 @@ public class QuestionTemplate extends LocalEntity implements Serializable, HasCo
 
     public void setSnapshots(List<QuestionTemplateSnapshot> questionTemplateSnapshots) {
         this.questionTemplateSnapshots = questionTemplateSnapshots;
-    }
-
-    @Override
-    public String getConnectionName() {
-        return connectionName;
-    }
-
-    public void setConnectionName(String connectionName) {
-        this.connectionName = connectionName;
     }
 }

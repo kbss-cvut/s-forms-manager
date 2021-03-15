@@ -1,7 +1,7 @@
 package cz.cvut.kbss.sformsmanager.persistence.dao.remote;
 
 import cz.cvut.kbss.sformsmanager.model.persisted.response.QuestionSnapshotRemoteData;
-import cz.cvut.kbss.sformsmanager.persistence.base.ConnectionEntityManagerProvider;
+import cz.cvut.kbss.sformsmanager.persistence.base.RemoteProjectEntityManagerProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import java.net.URI;
 public class QuestionTemplateSnapshotRemoteDAO extends RemoteEntityDAO<QuestionSnapshotRemoteData> {
 
     @Autowired
-    protected QuestionTemplateSnapshotRemoteDAO(ConnectionEntityManagerProvider entityManagerProvider) {
+    protected QuestionTemplateSnapshotRemoteDAO(RemoteProjectEntityManagerProvider entityManagerProvider) {
         super(entityManagerProvider, QuestionSnapshotRemoteData.class);
     }
 

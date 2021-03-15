@@ -1,15 +1,14 @@
 package cz.cvut.kbss.sformsmanager.service.model.remote;
 
 import cz.cvut.kbss.sformsmanager.model.persisted.remote.Context;
-import cz.cvut.kbss.sformsmanager.model.persisted.response.FormGenLatestSavesResponseDB;
+import cz.cvut.kbss.sformsmanager.persistence.dao.local.RecordSnapshotDAO;
 import cz.cvut.kbss.sformsmanager.persistence.dao.remote.ContextRepository;
-import cz.cvut.kbss.sformsmanager.persistence.dao.remote.RemoteFormGenDAO;
 import cz.cvut.kbss.sformsmanager.service.model.local.FormGenMetadataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -18,48 +17,32 @@ import java.util.stream.Collectors;
 public class ContextService {
 
     private final ContextRepository contextRepository;
-    private final RemoteFormGenDAO remoteFormGenDAO;
     private final FormGenMetadataService formGenMetadataService;
+    private final RecordSnapshotDAO recordSnapshotDAO;
 
     @Autowired
-    public ContextService(ContextRepository contextRepository, RemoteFormGenDAO remoteFormGenDAO, FormGenMetadataService formGenMetadataService) {
+    public ContextService(ContextRepository contextRepository, FormGenMetadataService formGenMetadataService, RecordSnapshotDAO recordSnapshotDAO) {
         this.contextRepository = contextRepository;
-        this.remoteFormGenDAO = remoteFormGenDAO;
         this.formGenMetadataService = formGenMetadataService;
+        this.recordSnapshotDAO = recordSnapshotDAO;
     }
 
     @Transactional
-    public int count(String connectionName) {
-        return contextRepository.count(connectionName);
+    public int count(String projectName) {
+        return contextRepository.count(projectName);
     }
 
-    public List<Context> getContextsWithoutProcessed(String connectionName) {
-        return contextRepository.findAll(connectionName);
-    }
-
-    public List<Context> getContexts(String connectionName) {
-        Set<String> processedContexts = formGenMetadataService.findProcessedForms(connectionName);
-        return contextRepository.findAll(connectionName).stream()
+    public List<Context> getContexts(String projectName) {
+        Set<String> processedContexts = new HashSet<>(recordSnapshotDAO.findSnapshotRemoteURIs(projectName));
+        return contextRepository.findAll(projectName).stream()
                 .map(context -> new Context(context.getUriString(), processedContexts.contains(context.getUriString())))
                 .collect(Collectors.toList());
     }
 
-    public List<Context> getPaginatedContexts(String connectionName, int offset, int limit) {
-        Set<String> processedContexts = formGenMetadataService.findProcessedForms(connectionName);
-        return contextRepository.findPaginated(connectionName, offset, limit).stream()
+    public List<Context> getPaginatedContexts(String projectName, int offset, int limit) {
+        Set<String> processedContexts = new HashSet<>(recordSnapshotDAO.findSnapshotRemoteURIs(projectName));
+        return contextRepository.findPaginated(projectName, offset, limit).stream()
                 .map(context -> new Context(context.getUriString(), processedContexts.contains(context.getUriString())))
                 .collect(Collectors.toList());
-    }
-
-    public String getFormGenVersionIdentifier(String connectionName, String contextUri) throws IOException {
-        return remoteFormGenDAO.getFormGenVersionIdentifier(connectionName, contextUri);
-    }
-
-    public String getFormGenInstanceHash(String connectionName, String contextUri) throws IOException {
-        return remoteFormGenDAO.getFormGenInstanceIdentifier(connectionName, contextUri);
-    }
-
-    public FormGenLatestSavesResponseDB getFormGenSaveHash(String connectionName, String contextUri) throws IOException {
-        return remoteFormGenDAO.getFormGenSaveIdentifier(connectionName, contextUri);
     }
 }

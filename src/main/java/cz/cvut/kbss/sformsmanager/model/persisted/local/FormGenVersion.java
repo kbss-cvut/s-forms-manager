@@ -5,14 +5,13 @@ import cz.cvut.kbss.jopa.model.annotations.OWLClass;
 import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
 import cz.cvut.kbss.jopa.model.annotations.ParticipationConstraints;
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
-import cz.cvut.kbss.sformsmanager.model.persisted.HasConnection;
 import cz.cvut.kbss.sformsmanager.utils.OWLUtils;
 
 import java.io.Serializable;
 import java.net.URI;
 
 @OWLClass(iri = Vocabulary.FormGenVersion)
-public class FormGenVersion extends LocalEntity implements Serializable, HasConnection {
+public class FormGenVersion extends LocalEntity implements Serializable {
 
     /**
      * Represent a version of FormGenMetadata.
@@ -24,7 +23,7 @@ public class FormGenVersion extends LocalEntity implements Serializable, HasConn
     private String versionName; // e.g. v/sm/15
 
     @ParticipationConstraints(nonEmpty = true)
-    @OWLDataProperty(iri = Vocabulary.p_contextUri)
+    @OWLDataProperty(iri = Vocabulary.p_hasRemoteContextURI)
     private String sampleContextUri;
 
     @ParticipationConstraints()

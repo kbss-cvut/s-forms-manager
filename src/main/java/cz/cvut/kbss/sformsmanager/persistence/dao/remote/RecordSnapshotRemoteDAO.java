@@ -1,7 +1,7 @@
 package cz.cvut.kbss.sformsmanager.persistence.dao.remote;
 
 import cz.cvut.kbss.sformsmanager.model.persisted.response.RecordSnapshotRemoteData;
-import cz.cvut.kbss.sformsmanager.persistence.base.ConnectionEntityManagerProvider;
+import cz.cvut.kbss.sformsmanager.persistence.base.RemoteProjectEntityManagerProvider;
 import cz.cvut.kbss.sformsmanager.utils.QueryUtils;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class RecordSnapshotRemoteDAO extends RemoteEntityDAO {
     private static final String FORMGEN_SAVE_QUERY_FILE = CLASSPATH_PREFIX + "templates/remote/recordSnapshotRemoteData.sparql";
 
     @Autowired
-    protected RecordSnapshotRemoteDAO(ConnectionEntityManagerProvider entityManagerProvider) {
+    protected RecordSnapshotRemoteDAO(RemoteProjectEntityManagerProvider entityManagerProvider) {
         super(entityManagerProvider, RecordSnapshotRemoteDAO.class);
     }
 

@@ -27,15 +27,17 @@ public class Vocabulary {
     public static final String p_save_hash = URI_BASE + "formGenSaveHashCode";
     public static final String p_formGen_created = URI_BASE + "formGenCreated";
     public static final String p_formGen_modified = URI_BASE + "formGenModified";
-    public static final String p_contextUri = URI_BASE + "contextUri";
+    public static final String p_hasRemoteContextURI = URI_BASE + "hasRemoteContextURI";
     public static final String p_synonym = URI_BASE + "synonym";
     public static final String p_connectionName = URI_BASE + "connectionName";
 
-    public static final String Connection = URI_BASE + "Connection";
+    public static final String Project = URI_BASE + "Project";
     public static final String p_repositoryUrl = URI_BASE + "repositoryUrl";
     public static final String p_serviceUrl = URI_BASE + "serviceUrl";
     public static final String p_appRepositoryUrl = URI_BASE + "appRepositoryUrl";
     public static final String p_key = URI_BASE + "key";
+
+    public static final String ProjectContext = URI_BASE + "ProjectContext";
 
     // new
     public static final String QuestionTemplateSnapshot = URI_BASE + "QuestionTemplateSnapshot";

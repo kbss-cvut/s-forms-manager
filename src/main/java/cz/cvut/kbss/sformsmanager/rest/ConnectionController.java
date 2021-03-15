@@ -14,9 +14,9 @@
  */
 package cz.cvut.kbss.sformsmanager.rest;
 
-import cz.cvut.kbss.sformsmanager.model.dto.ConnectionDTO;
-import cz.cvut.kbss.sformsmanager.model.persisted.local.Connection;
-import cz.cvut.kbss.sformsmanager.service.model.local.ConnectionService;
+import cz.cvut.kbss.sformsmanager.model.dto.ProjectDTO;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.Project;
+import cz.cvut.kbss.sformsmanager.service.model.local.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -29,67 +29,67 @@ import java.util.stream.Collectors;
 @RequestMapping("/connections")
 public class ConnectionController {
 
-    private final ConnectionService connectionService;
+    private final ProjectService projectService;
 
     @Autowired
-    public ConnectionController(ConnectionService connectionService) {
-        this.connectionService = connectionService;
+    public ConnectionController(ProjectService projectService) {
+        this.projectService = projectService;
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/names")
     public List<String> findAllNames() {
 
-        List<Connection> formGenMetadata = connectionService.findAll();
+        List<Project> formGenMetadata = projectService.findAll();
         return formGenMetadata.stream().map(connection -> connection.getKey()).collect(Collectors.toList());
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/all")
-    public List<ConnectionDTO> findAll() {
+    public List<ProjectDTO> findAll() {
 
-        List<Connection> formGenMetadata = connectionService.findAll();
-        return formGenMetadata.stream().map(ConnectionDTO::new).collect(Collectors.toList());
+        List<Project> formGenMetadata = projectService.findAll();
+        return formGenMetadata.stream().map(ProjectDTO::new).collect(Collectors.toList());
     }
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
-    public void create(@RequestBody ConnectionDTO connectionDTO) {
+    public void create(@RequestBody ProjectDTO projectDTO) {
 
-        Connection connection = new Connection(
-                connectionDTO.getFormGenRepositoryUrl(),
-                connectionDTO.getFormGenServiceUrl(),
-                connectionDTO.getAppRepositoryUrl(),
-                connectionDTO.getConnectionName()
+        Project project = new Project(
+                projectDTO.getFormGenRepositoryUrl(),
+                projectDTO.getFormGenServiceUrl(),
+                projectDTO.getAppRepositoryUrl(),
+                projectDTO.getConnectionName()
         );
-        connectionService.create(connection);
+        projectService.create(project);
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ConnectionDTO find(@RequestParam(value = "connectionName") String connectionName) {
+    public ProjectDTO find(@RequestParam(value = "connectionName") String connectionName) {
 
-        Optional<Connection> connection = connectionService.findByKey(connectionName);
-        return connection.map(ConnectionDTO::new)
+        Optional<Project> connection = projectService.findByKey(connectionName);
+        return connection.map(ProjectDTO::new)
                 .orElseThrow(() -> new NotFoundException("FormGenInfo " + connectionName + " not found."));
     }
 
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseStatus(value = HttpStatus.OK)
-    public void update(@RequestParam(value = "Connection") ConnectionDTO connectionDTO) {
+    public void update(@RequestParam(value = "projectDTO") ProjectDTO projectDTO) {
 
-        Connection connection = new Connection(
-                connectionDTO.getFormGenRepositoryUrl(),
-                connectionDTO.getFormGenServiceUrl(),
-                connectionDTO.getAppRepositoryUrl(),
-                connectionDTO.getConnectionName()
+        Project project = new Project(
+                projectDTO.getFormGenRepositoryUrl(),
+                projectDTO.getFormGenServiceUrl(),
+                projectDTO.getAppRepositoryUrl(),
+                projectDTO.getConnectionName()
         );
-        connectionService.update(connection); // TODO: might not work
+        projectService.update(project); // TODO: might not work
     }
 
     @RequestMapping(method = RequestMethod.DELETE)
     public void delete(@RequestBody String connectionName) {
 
-        Optional<Connection> connection = connectionService.findByKey(connectionName);
+        Optional<Project> connection = projectService.findByKey(connectionName);
         if (connection.isPresent()) {
-            connectionService.delete(connection.get());
+            projectService.delete(connection.get());
         }
     }
 

@@ -19,10 +19,10 @@ public class FormGenInstanceService {
     }
 
     public Optional<FormGenInstance> findByKey(String key) {
-        return instanceDAO.findByKey(key);
+        return Optional.empty();
     }
 
     public int getConnectionCount(String connectionName) {
-        return instanceDAO.countAllInConnection(connectionName);
+        return 0;
     }
 }

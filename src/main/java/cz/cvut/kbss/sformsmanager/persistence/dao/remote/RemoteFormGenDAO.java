@@ -2,7 +2,7 @@ package cz.cvut.kbss.sformsmanager.persistence.dao.remote;
 
 import cz.cvut.kbss.jopa.model.EntityManager;
 import cz.cvut.kbss.sformsmanager.model.persisted.response.FormGenLatestSavesResponseDB;
-import cz.cvut.kbss.sformsmanager.persistence.base.ConnectionEntityManagerProvider;
+import cz.cvut.kbss.sformsmanager.persistence.base.RemoteProjectEntityManagerProvider;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,12 +23,12 @@ public class RemoteFormGenDAO extends RemoteEntityDAO {
     private static final String FORMGEN_INSTANCE_QUERY_FILE = CLASSPATH_PREFIX + "templates/remote/formGenInstanceHash.sparql";
 
     @Autowired
-    protected RemoteFormGenDAO(ConnectionEntityManagerProvider entityManagerProvider) {
+    protected RemoteFormGenDAO(RemoteProjectEntityManagerProvider entityManagerProvider) {
         super(entityManagerProvider, RemoteFormGenDAO.class);
     }
 
-    public FormGenLatestSavesResponseDB getFormGenSaveIdentifier(String connectionName, String contextUri) throws IOException {
-        EntityManager em = getEntityManagerByConnection(connectionName);
+    public FormGenLatestSavesResponseDB getFormGenSaveIdentifier(String projectDescriptorName, String contextUri) throws IOException {
+        EntityManager em = getEntityManagerByConnection(projectDescriptorName);
         try {
             String query = new String(Files.readAllBytes(ResourceUtils.getFile(FORMGEN_SAVE_QUERY_FILE).toPath()));
             return (FormGenLatestSavesResponseDB) em.createNativeQuery(query, "FormGenSaveDBResponseResults")
@@ -40,8 +40,8 @@ public class RemoteFormGenDAO extends RemoteEntityDAO {
         }
     }
 
-    public String getFormGenInstanceIdentifier(String connectionName, String contextUri) throws IOException {
-        EntityManager em = getEntityManagerByConnection(connectionName);
+    public String getFormGenInstanceIdentifier(String projectDescriptorName, String contextUri) throws IOException {
+        EntityManager em = getEntityManagerByConnection(projectDescriptorName);
         try {
             String query = new String(Files.readAllBytes(ResourceUtils.getFile(FORMGEN_INSTANCE_QUERY_FILE).toPath()));
             return em.createNativeQuery(query, String.class)
@@ -53,8 +53,8 @@ public class RemoteFormGenDAO extends RemoteEntityDAO {
         }
     }
 
-    public String getFormGenVersionIdentifier(String connectionName, String contextUri) throws IOException {
-        EntityManager em = getEntityManagerByConnection(connectionName);
+    public String getFormGenVersionIdentifier(String projectDescriptorName, String contextUri) throws IOException {
+        EntityManager em = getEntityManagerByConnection(projectDescriptorName);
         try {
             String query = new String(Files.readAllBytes(ResourceUtils.getFile(FORMGEN_VERSION_QUERY_FILE).toPath()));
             return em.createNativeQuery(query, String.class)

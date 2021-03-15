@@ -7,6 +7,7 @@ import cz.cvut.kbss.sformsmanager.model.persisted.local.FormGenMetadata;
 import cz.cvut.kbss.sformsmanager.model.persisted.response.FormGenLatestAndNewestDateDBResponse;
 import cz.cvut.kbss.sformsmanager.model.persisted.response.FormGenLatestSavesResponseDB;
 import cz.cvut.kbss.sformsmanager.model.persisted.response.FormGenVersionHistogramDBResponse;
+import cz.cvut.kbss.sformsmanager.persistence.dao.LocalEntityBaseDAO;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
@@ -21,7 +22,7 @@ import java.util.List;
 import static cz.cvut.kbss.sformsmanager.persistence.dao.remote.RemoteFormGenDAO.CLASSPATH_PREFIX;
 
 @Component
-public class FormGenMetadataDAO extends LocalWithConnectionBaseDAO<FormGenMetadata> {
+public class FormGenMetadataDAO extends LocalEntityBaseDAO<FormGenMetadata> {
 
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(FormGenMetadataDAO.class);
 

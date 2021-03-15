@@ -19,6 +19,7 @@ import cz.cvut.kbss.sformsmanager.model.dto.FormGenStatsDTO;
 import cz.cvut.kbss.sformsmanager.service.model.local.FormGenInstanceService;
 import cz.cvut.kbss.sformsmanager.service.model.local.FormGenMetadataService;
 import cz.cvut.kbss.sformsmanager.service.model.local.FormGenVersionService;
+import cz.cvut.kbss.sformsmanager.service.model.local.RecordService;
 import cz.cvut.kbss.sformsmanager.service.model.remote.ContextService;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,35 +36,37 @@ public class ConnectionStatsController {
     private final FormGenInstanceService instanceService;
     private final FormGenVersionService versionService;
     private final ContextService contextService;
+    private final RecordService recordService;
 
     @Autowired
-    public ConnectionStatsController(FormGenMetadataService metadataService, FormGenInstanceService instanceService, FormGenVersionService versionService, ContextService contextService) {
+    public ConnectionStatsController(FormGenMetadataService metadataService, FormGenInstanceService instanceService, FormGenVersionService versionService, ContextService contextService, RecordService recordService) {
         this.metadataService = metadataService;
         this.instanceService = instanceService;
         this.versionService = versionService;
         this.contextService = contextService;
+        this.recordService = recordService;
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/contexts")
     @ResponseStatus(value = HttpStatus.OK)
     public ContextsStatsDTO getContextsStats(
-            @RequestParam(value = "connectionName") String connectionName) {
+            @RequestParam(value = "projectName") String projectName) {
 
-        int totalContexts = contextService.count(connectionName);
-        int processedContexts = metadataService.getConnectionCount(connectionName);
+        int totalContexts = contextService.count(projectName);
+        int processedContexts = recordService.countRecordSnapshots(projectName);
         return new ContextsStatsDTO(totalContexts, processedContexts);
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/forms")
     @ResponseStatus(value = HttpStatus.OK)
     public FormGenStatsDTO getFormGenStats(
-            @RequestParam(value = "connectionName") String connectionName) {
+            @RequestParam(value = "projectName") String projectName) {
 
-        int totalContexts = contextService.count(connectionName);
-        int processedContexts = metadataService.getConnectionCount(connectionName);
-        int formGenInstances = instanceService.getConnectionCount(connectionName);
-        int formGenVersions = versionService.getConnectionCount(connectionName);
-        int nonEmptyContexts = metadataService.getConnectionNonEmptyCount(connectionName);
+        int totalContexts = contextService.count(projectName);
+        int processedContexts = metadataService.getConnectionCount(projectName);
+        int formGenInstances = instanceService.getConnectionCount(projectName);
+        int formGenVersions = versionService.getConnectionCount(projectName);
+        int nonEmptyContexts = metadataService.getConnectionNonEmptyCount(projectName);
 
         return new FormGenStatsDTO(totalContexts, processedContexts, formGenVersions, formGenInstances, nonEmptyContexts);
     }

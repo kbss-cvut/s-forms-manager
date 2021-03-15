@@ -21,7 +21,8 @@ public class FormGenVersionService {
     }
 
     public Optional<FormGenVersion> findByKey(String key) {
-        return versionDAO.findByKey(key);
+        return Optional.empty();
+//        return versionDAO.findByKey(key);
     }
 
     public Optional<FormGenVersion> findByVersionName(String versionName) {
@@ -33,15 +34,17 @@ public class FormGenVersionService {
     }
 
     public int getConnectionCount(String connectionName) {
-        return versionDAO.countAllInConnection(connectionName);
+        return 0;
+//        versionDAO.countAllInConnection(connectionName);
     }
 
     public List<FormGenVersion> findAllInConnection(String connectionName) {
-        return versionDAO.findAllInConnection(connectionName);
+        return null;
+//        versionDAO.findAllInConnection(connectionName);
     }
 
     @Transactional
     public void update(FormGenVersion version) {
-        versionDAO.update(version);
+//        versionDAO.update(version);
     }
 }

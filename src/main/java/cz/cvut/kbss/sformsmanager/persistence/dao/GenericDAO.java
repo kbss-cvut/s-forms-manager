@@ -1,7 +1,5 @@
 package cz.cvut.kbss.sformsmanager.persistence.dao;
 
-import cz.cvut.kbss.jopa.model.EntityManager;
-
 import java.net.URI;
 import java.util.Collection;
 import java.util.List;
@@ -19,7 +17,14 @@ public interface GenericDAO<T> {
      *
      * @return All known instances
      */
-    List<T> findAll(EntityManager em);
+    List<T> findAll(String projectDescriptorName);
+
+    /**
+     * Finds all instances of the class that fit the where condition.
+     *
+     * @return All known instances that fit the condition
+     */
+    List<T> findAllWhere(String projectDescriptorName, String propertyName, String value);
 
     /**
      * Finds entity instance with the specified identifier.
@@ -28,34 +33,28 @@ public interface GenericDAO<T> {
      * @return {@code Optional} containing the matching entity instance or an empty {@code Optional }if no such instance
      * exists
      */
-    Optional<T> find(EntityManager em, URI id);
+    Optional<T> find(URI id);
 
     /**
-     * Gets a reference to an instance with the specified identifier.
-     * <p>
-     * Note that the reference is initially an empty object wth all attributes loaded lazily and the corresponding
-     * persistence context has to be available for the loading. This method should be useful for removal and update
-     * operations.
+     * Finds first entity instance that fits the where condition.
      *
-     * @param id Identifier
-     * @return {@code Optional} containing a reference to a matching instance or an empty {@code Optional }if no such
-     * instance exists
+     * @return First instance that fits the condition
      */
-    Optional<T> getReference(EntityManager em, URI id);
+    Optional<T> findFirstWhere(String projectDescriptorName, String propertyName, String value);
 
     /**
      * Persists the specified entity.
      *
      * @param entity Entity to persist
      */
-    void persist(EntityManager em, T entity);
+    void persist(String projectDescriptorName, T entity);
 
     /**
      * Persists the specified instances.
      *
      * @param entities Entities to persist
      */
-    void persist(EntityManager em, Collection<T> entities);
+    void persist(String projectDescriptorName, Collection<T> entities);
 
     /**
      * Updates the specified entity.
@@ -63,21 +62,21 @@ public interface GenericDAO<T> {
      * @param entity Entity to update
      * @return The updated entity. Use it for further processing, as it could be a completely different instance
      */
-    T update(EntityManager em, T entity);
+    T update(String projectDescriptorName, T entity);
 
     /**
      * Removes the specified entity.
      *
      * @param entity Entity to remove
      */
-    void remove(EntityManager em, T entity);
+    void remove(String projectDescriptorName, T entity);
 
     /**
      * Removes an entity with the specified id.
      *
      * @param id Entity identifier
      */
-    void remove(EntityManager em, URI id);
+    void remove(URI id);
 
     /**
      * Checks whether an entity with the specified id exists (and has the type managed by this DAO).
@@ -85,7 +84,19 @@ public interface GenericDAO<T> {
      * @param id Entity identifier
      * @return {@literal true} if entity exists, {@literal false} otherwise
      */
-    boolean exists(EntityManager em, URI id);
+    boolean exists(URI id);
 
-    int count(EntityManager em);
+    /**
+     * Retrieves number of entities of the specified type.
+     *
+     * @return
+     */
+    int count(String projectDescriptorName);
+
+    /**
+     * Retrieves number of entities of the specified type that fit the where condition.
+     *
+     * @return
+     */
+    int countWhere(String projectDescriptorName, String propertyName, String value);
 }

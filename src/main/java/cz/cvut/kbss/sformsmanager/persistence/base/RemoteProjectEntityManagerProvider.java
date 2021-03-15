@@ -5,8 +5,8 @@ import cz.cvut.kbss.jopa.model.EntityManager;
 import cz.cvut.kbss.jopa.model.EntityManagerFactory;
 import cz.cvut.kbss.jopa.model.JOPAPersistenceProperties;
 import cz.cvut.kbss.jopa.model.JOPAPersistenceProvider;
-import cz.cvut.kbss.sformsmanager.model.persisted.local.Connection;
-import cz.cvut.kbss.sformsmanager.persistence.dao.local.ConnectionDAO;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.Project;
+import cz.cvut.kbss.sformsmanager.persistence.dao.local.ProjectDAO;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,36 +18,36 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 @Component
-public class ConnectionEntityManagerProvider {
+public class RemoteProjectEntityManagerProvider {
 
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(ConnectionEntityManagerProvider.class);
-    private final ConnectionDAO connectionDAO;
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(RemoteProjectEntityManagerProvider.class);
+    private final ProjectDAO projectDAO;
 
     private final ConcurrentMap<String, EntityManager> activeEntityManagerMap = new ConcurrentHashMap();
 
     @Autowired
-    public ConnectionEntityManagerProvider(ConnectionDAO connectionDAO) {
-        this.connectionDAO = connectionDAO;
+    public RemoteProjectEntityManagerProvider(ProjectDAO projectDAO) {
+        this.projectDAO = projectDAO;
     }
 
-    public EntityManager getEntityManagerFactory(String connectionName) {
-        if (activeEntityManagerMap.containsKey(connectionName) && activeEntityManagerMap.get(connectionName).isOpen()) {
-            return activeEntityManagerMap.get(connectionName);
+    public EntityManager getEntityManagerFactory(String projectDescriptorName) {
+        if (activeEntityManagerMap.containsKey(projectDescriptorName) && activeEntityManagerMap.get(projectDescriptorName).isOpen()) {
+            return activeEntityManagerMap.get(projectDescriptorName);
         }
 
-        Connection connection = connectionDAO.findByKey(connectionName).orElseThrow(
-                () -> new RuntimeException(String.format("Repository connection with connectionName '%s' does not exist.", connectionName)));
+        Project project = projectDAO.findByKey(projectDescriptorName, projectDescriptorName).orElseThrow(
+                () -> new RuntimeException(String.format("Project '%s' does not exist.", projectDescriptorName)));
 
         final Map<String, String> properties = new HashMap<>();
-        properties.put(JOPAPersistenceProperties.ONTOLOGY_PHYSICAL_URI_KEY, connection.getFormGenRepositoryUrl());
+        properties.put(JOPAPersistenceProperties.ONTOLOGY_PHYSICAL_URI_KEY, project.getFormGenRepositoryUrl());
         properties.put(JOPAPersistenceProperties.DATA_SOURCE_CLASS, "cz.cvut.kbss.ontodriver.sesame.SesameDataSource");
         properties.put(JOPAPersistenceProperties.SCAN_PACKAGE, "cz.cvut.kbss.sformsmanager.model.persisted");
         properties.put(JOPAPersistenceProperties.JPA_PERSISTENCE_PROVIDER, JOPAPersistenceProvider.class.getName());
 
-        log.info("Creating repository connection with connectionName {}.", connectionName);
+        log.info("Creating project connection with name {}.", projectDescriptorName);
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("sformsmanager", properties);
         EntityManager em = emf.createEntityManager();
-        activeEntityManagerMap.put(connectionName, em);
+        activeEntityManagerMap.put(projectDescriptorName, em);
         return em;
     }
 
