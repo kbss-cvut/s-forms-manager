@@ -74,6 +74,7 @@ public class RemoteDataProcessingOrchestratorImpl implements RemoteDataProcessin
         if (recordOpt.isPresent()) {
             record = recordOpt.get();
         } else {
+            record = new Record(recordKey, null, recordRemoteData.getRecordCreateDate());
             record = recordDAO.update(projectDescriptorName, new Record(recordKey, null, recordRemoteData.getRecordCreateDate()));
         }
 
@@ -123,9 +124,12 @@ public class RemoteDataProcessingOrchestratorImpl implements RemoteDataProcessin
                     qaRemoteData,
                     formTemplateVersionKey,
                     projectDescriptorName);
-            formTemplateVersion = new FormTemplateVersion(formTemplateVersionKey, formTemplate, questionTemplateSnapshot);
+            formTemplateVersion = new FormTemplateVersion(formTemplateVersionKey, formTemplate, questionTemplateSnapshot, null, contextUri);
         }
         formTemplateVersionDAO.update(projectDescriptorName, formTemplateVersion);
+
+        // re-update Record
+        record = recordDAO.update(projectDescriptorName, new Record(recordKey, formTemplate, recordRemoteData.getRecordCreateDate()));
 
         // RecordVersion
         String recordVersionKey = recordRemoteData.getRemoteRecordURI() + "/" + processor.getAllQuestionOriginsAndAnswersHash();

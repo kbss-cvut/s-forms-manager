@@ -1,11 +1,14 @@
 package cz.cvut.kbss.sformsmanager.model.persisted.local.gen2;
 
-import cz.cvut.kbss.jopa.model.annotations.*;
+import cz.cvut.kbss.jopa.model.annotations.OWLClass;
+import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
+import cz.cvut.kbss.jopa.model.annotations.OWLObjectProperty;
+import cz.cvut.kbss.jopa.model.annotations.ParticipationConstraints;
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.LocalEntity;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 @OWLClass(iri = Vocabulary.QuestionTemplate)
 public class QuestionTemplate extends LocalEntity implements Serializable {
@@ -14,9 +17,8 @@ public class QuestionTemplate extends LocalEntity implements Serializable {
     // TODO: can be LAZILY loaded objects @ParticipationConstraints(nonEmpty = true)?
     private FormTemplate formTemplate;
 
-    @Sequence
     @OWLObjectProperty(iri = Vocabulary.p_hasQuestionTemplateSnapshots)
-    private List<QuestionTemplateSnapshot> questionTemplateSnapshots;
+    private Set<QuestionTemplateSnapshot> questionTemplateSnapshots;
 
     @ParticipationConstraints(nonEmpty = true)
     @OWLDataProperty(iri = Vocabulary.p_originPath)
@@ -27,7 +29,7 @@ public class QuestionTemplate extends LocalEntity implements Serializable {
     public QuestionTemplate() {
     }
 
-    public QuestionTemplate(String questionOriginHashKey, String questionOrigin, List<QuestionTemplateSnapshot> questionTemplateSnapshots) {
+    public QuestionTemplate(String questionOriginHashKey, String questionOrigin, Set<QuestionTemplateSnapshot> questionTemplateSnapshots) {
         super(questionOriginHashKey);
         this.questionOrigin = questionOrigin;
         this.questionTemplateSnapshots = questionTemplateSnapshots;
@@ -41,11 +43,11 @@ public class QuestionTemplate extends LocalEntity implements Serializable {
         this.questionOrigin = questionOrigin;
     }
 
-    public List<QuestionTemplateSnapshot> getSnapshots() {
+    public Set<QuestionTemplateSnapshot> getSnapshots() {
         return questionTemplateSnapshots;
     }
 
-    public void setSnapshots(List<QuestionTemplateSnapshot> questionTemplateSnapshots) {
+    public void setSnapshots(Set<QuestionTemplateSnapshot> questionTemplateSnapshots) {
         this.questionTemplateSnapshots = questionTemplateSnapshots;
     }
 }

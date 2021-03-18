@@ -13,11 +13,11 @@ import java.util.Date;
 public class FormGenMetadata extends LocalEntity implements Serializable {
 
     @ParticipationConstraints()
-    @OWLObjectProperty(iri = Vocabulary.p_assigned_version, fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @OWLObjectProperty(iri = Vocabulary.p_hasVersion, fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private FormGenVersion formGenVersion;
 
     @ParticipationConstraints()
-    @OWLObjectProperty(iri = Vocabulary.p_assigned_instance, fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @OWLObjectProperty(iri = Vocabulary.p_hasInstance, fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private FormGenInstance formGenInstance;
 
     @OWLDataProperty(iri = Vocabulary.p_save_hash)

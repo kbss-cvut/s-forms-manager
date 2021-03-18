@@ -1,22 +1,22 @@
 <#list prefixes as prefix>
-PREFIX ${prefix.name}: <${prefix.uri}>
+    PREFIX ${prefix.name}: <${prefix.uri}>
 </#list>
 
 SELECT ?x
 WHERE {
-    ?x a ${classURI} .
+?x a ${classURI} .
 
 <#if latestSavesOnly??>
     # latest saves only
     {
-        SELECT ?formGenSaveHash (max(?modified) as ?lastModified)
-        WHERE {
-        ?m ?type ${formGenMetadataURI} ;
-           ${connectionNameURI} ?connectionName ;
-           ${formGenSaveHashURI} ?formGenSaveHash ;
-           ${formGenModifiedURI} ?modified .
-        }
-        GROUP BY ?formGenSaveHash
+    SELECT ?formGenSaveHash (max(?modified) as ?lastModified)
+    WHERE {
+    ?m ?type ${formGenMetadataURI} ;
+    ${connectionNameURI} ?connectionName ;
+    ${formGenSaveHashURI} ?formGenSaveHash ;
+    ${formGenModifiedURI} ?modified .
+    }
+    GROUP BY ?formGenSaveHash
     }
 
     ?x ${formGenModifiedURI} ?lastModified .

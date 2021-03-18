@@ -1,35 +1,45 @@
 package cz.cvut.kbss.sformsmanager.model.persisted.local.gen2;
 
 
-import cz.cvut.kbss.jopa.model.annotations.FetchType;
 import cz.cvut.kbss.jopa.model.annotations.OWLClass;
+import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
 import cz.cvut.kbss.jopa.model.annotations.OWLObjectProperty;
 import cz.cvut.kbss.jopa.model.annotations.ParticipationConstraints;
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.LocalEntity;
 
 import java.io.Serializable;
+import java.net.URI;
 
 @OWLClass(iri = Vocabulary.FormTemplateVersion)
 public class FormTemplateVersion extends LocalEntity implements Serializable {
 
-    @ParticipationConstraints
-    @OWLObjectProperty(iri = Vocabulary.p_hasFormTemplate, fetch = FetchType.LAZY)
+    @ParticipationConstraints(nonEmpty = true)
+    @OWLObjectProperty(iri = Vocabulary.p_hasFormTemplate)
     private FormTemplate formTemplate;
 
-    @ParticipationConstraints
-    @OWLObjectProperty(iri = Vocabulary.p_hasQuestionTemplateSnapshot, fetch = FetchType.EAGER)
+    @ParticipationConstraints(nonEmpty = true)
+    @OWLObjectProperty(iri = Vocabulary.p_hasQuestionTemplateSnapshot)
     private QuestionTemplateSnapshot questionTemplateSnapshot;
+
+    @ParticipationConstraints(nonEmpty = true)
+    @OWLDataProperty(iri = Vocabulary.p_hasRemoteContextURI)
+    private String sampleRemoteContextURI; // TODO: when this is URI, it's throwing unsupported literal type: java.net.URI
+
+    @OWLDataProperty(iri = Vocabulary.p_internalName)
+    private String internalName;
 
     // key is sorted all the QUESTION-ORIGINS -> hash
 
     public FormTemplateVersion() {
     }
 
-    public FormTemplateVersion(String questionOriginsHash, FormTemplate formTemplate, QuestionTemplateSnapshot questionTemplateSnapshot) {
+    public FormTemplateVersion(String questionOriginsHash, FormTemplate formTemplate, QuestionTemplateSnapshot questionTemplateSnapshot, String internalName, URI sampleRemoteContextURI) {
         super(questionOriginsHash);
         this.formTemplate = formTemplate;
         this.questionTemplateSnapshot = questionTemplateSnapshot;
+        this.internalName = internalName;
+        this.sampleRemoteContextURI = sampleRemoteContextURI.toString();
     }
 
     public QuestionTemplateSnapshot getQuestionTemplateSnapshot() {
@@ -46,5 +56,21 @@ public class FormTemplateVersion extends LocalEntity implements Serializable {
 
     public void setFormTemplate(FormTemplate formTemplate) {
         this.formTemplate = formTemplate;
+    }
+
+    public String getInternalName() {
+        return internalName;
+    }
+
+    public void setInternalName(String internalName) {
+        this.internalName = internalName;
+    }
+
+    public String getSampleRemoteContextURI() {
+        return sampleRemoteContextURI;
+    }
+
+    public void setSampleRemoteContextURI(URI sampleRemoteContextURI) {
+        this.sampleRemoteContextURI = sampleRemoteContextURI.toString();
     }
 }

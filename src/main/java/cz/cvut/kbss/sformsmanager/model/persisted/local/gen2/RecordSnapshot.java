@@ -1,6 +1,9 @@
 package cz.cvut.kbss.sformsmanager.model.persisted.local.gen2;
 
-import cz.cvut.kbss.jopa.model.annotations.*;
+import cz.cvut.kbss.jopa.model.annotations.OWLClass;
+import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
+import cz.cvut.kbss.jopa.model.annotations.OWLObjectProperty;
+import cz.cvut.kbss.jopa.model.annotations.ParticipationConstraints;
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.LocalEntity;
 
@@ -12,17 +15,16 @@ import java.util.Set;
 @OWLClass(iri = Vocabulary.RecordSnapshot)
 public class RecordSnapshot extends LocalEntity implements Serializable {
 
-    @OWLObjectProperty(iri = Vocabulary.p_hasRecord, fetch = FetchType.LAZY)
+    @OWLObjectProperty(iri = Vocabulary.p_hasRecord)
     private Record record;
 
-    @OWLObjectProperty(iri = Vocabulary.p_hasRecordVersion, fetch = FetchType.LAZY)
+    @OWLObjectProperty(iri = Vocabulary.p_hasRecordVersion)
     private RecordVersion recordVersion;
 
-    @OWLObjectProperty(iri = Vocabulary.p_hasFormTemplateVersion, fetch = FetchType.LAZY)
+    @OWLObjectProperty(iri = Vocabulary.p_hasFormTemplateVersion)
     private FormTemplateVersion formTemplateVersion;
 
-    @Sequence
-    @OWLObjectProperty(iri = Vocabulary.p_hasSubmittedAnswers, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @OWLObjectProperty(iri = Vocabulary.p_hasSubmittedAnswers)
     private Set<SubmittedAnswer> answers;
 
     @ParticipationConstraints(nonEmpty = true)

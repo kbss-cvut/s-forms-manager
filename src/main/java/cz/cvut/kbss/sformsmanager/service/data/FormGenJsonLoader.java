@@ -2,9 +2,7 @@ package cz.cvut.kbss.sformsmanager.service.data;
 
 import cz.cvut.kbss.sformsmanager.model.dto.FormGenRawJson;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.Project;
-import cz.cvut.kbss.sformsmanager.persistence.dao.local.FormGenMetadataDAO;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.ProjectDAO;
-import cz.cvut.kbss.sformsmanager.service.process.RemoteDataProcessingOrchestrator;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +25,7 @@ public class FormGenJsonLoader {
     private static final String RECORD_GRAPH_ID_PARAM = "recordGraphId";
 
     @Autowired
-    public FormGenJsonLoader(RemoteDataLoader dataLoader, ProjectDAO projectDAO, FormGenMetadataDAO formGenMetadataDAO, RemoteDataProcessingOrchestrator remoteDataProcessingOrchestrator) {
+    public FormGenJsonLoader(RemoteDataLoader dataLoader, ProjectDAO projectDAO) {
         this.dataLoader = dataLoader;
         this.projectDAO = projectDAO;
     }

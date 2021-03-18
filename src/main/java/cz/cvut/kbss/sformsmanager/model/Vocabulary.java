@@ -21,14 +21,14 @@ public class Vocabulary {
     public static final String FormGenMetadata = URI_BASE + "FormGenMetadata";
     public static final String FormGenVersion = URI_BASE + "FormGenVersion";
     public static final String FormGenInstance = URI_BASE + "FormGenInstance";
-    public static final String p_assigned_version = URI_BASE + "assignedFormGenVersion";
-    public static final String p_assigned_instance = URI_BASE + "assignedFormGenInstance";
+    public static final String p_hasVersion = URI_BASE + "hasFormGenVersion";
+    public static final String p_hasInstance = URI_BASE + "hasFormGenInstance";
     public static final String p_versionName = URI_BASE + "versionName";
     public static final String p_save_hash = URI_BASE + "formGenSaveHashCode";
     public static final String p_formGen_created = URI_BASE + "formGenCreated";
     public static final String p_formGen_modified = URI_BASE + "formGenModified";
     public static final String p_hasRemoteContextURI = URI_BASE + "hasRemoteContextURI";
-    public static final String p_synonym = URI_BASE + "synonym";
+    public static final String p_internalName = URI_BASE + "internalName";
     public static final String p_connectionName = URI_BASE + "connectionName";
 
     public static final String Project = URI_BASE + "Project";
@@ -51,7 +51,7 @@ public class Vocabulary {
 
     public static final String SubmittedAnswer = URI_BASE + "SubmittedAnswer";
 
-    public static final String Record = URI_BASE + "RecordSnapshot";
+    public static final String Record = URI_BASE + "Record";
     public static final String RecordSnapshot = URI_BASE + "RecordSnapshot";
     public static final String RecordVersion = URI_BASE + "RecordVersion";
     public static final String p_recordCreated = URI_BASE + "recordCreated";
@@ -72,7 +72,7 @@ public class Vocabulary {
     public static final String p_hasRecordVersion = URI_BASE + "hasRecordVersion";
     public static final String p_hasSubmittedAnswers = URI_BASE + "hasSubmittedAnswers";
     public static final String p_hasAnswerValue = URI_BASE + "hasAnswerValue";
-    public static final String p_hasSubQuestionTemplates = URI_BASE + "hasSubQuestions";
+    public static final String p_hasSubQuestionTemplates = URI_BASE + "hasSubQuestionTemplates";
     public static final String p_hasSubmittedAnswersHash = URI_BASE + "hasSubmittedAnswersHash";
 
     /* General */

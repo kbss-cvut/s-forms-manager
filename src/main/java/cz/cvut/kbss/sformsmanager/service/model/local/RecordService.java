@@ -18,6 +18,14 @@ public class RecordService {
         this.recordVersionDAO = recordVersionDAO;
     }
 
+    public int countRecords(String projectName) {
+        return recordDAO.count(projectName);
+    }
+
+    public int countRecordVersions(String projectName) {
+        return recordVersionDAO.count(projectName);
+    }
+
     public int countRecordSnapshots(String projectName) {
         return recordSnapshotDAO.count(projectName);
     }

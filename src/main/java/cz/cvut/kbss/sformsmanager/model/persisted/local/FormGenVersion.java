@@ -27,7 +27,7 @@ public class FormGenVersion extends LocalEntity implements Serializable {
     private String sampleContextUri;
 
     @ParticipationConstraints()
-    @OWLDataProperty(iri = Vocabulary.p_synonym)
+    @OWLDataProperty(iri = Vocabulary.p_internalName)
     private String synonym;
 
     @ParticipationConstraints(nonEmpty = true)

@@ -36,10 +36,10 @@ public class SearchQueryBuilder {
 
     private void setupVocabulary() {
         addVocabularyParameter("classURI", Vocabulary.FormGenMetadata);
-        addVocabularyParameter("versionAssignedURI", Vocabulary.p_assigned_version);
+        addVocabularyParameter("versionAssignedURI", Vocabulary.p_hasVersion);
         addVocabularyParameter("versionClassURI", Vocabulary.p_versionName);
         addVocabularyParameter("saveHashURI", Vocabulary.p_save_hash);
-        addVocabularyParameter("synonymURI", Vocabulary.p_synonym);
+        addVocabularyParameter("synonymURI", Vocabulary.p_internalName);
         addVocabularyParameter("formGenMetadataURI", Vocabulary.FormGenMetadata);
         addVocabularyParameter("connectionNameURI", Vocabulary.p_connectionName);
         addVocabularyParameter("formGenSaveHashURI", Vocabulary.p_save_hash);

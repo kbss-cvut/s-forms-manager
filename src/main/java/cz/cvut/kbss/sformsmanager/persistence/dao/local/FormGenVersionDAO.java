@@ -38,7 +38,7 @@ public class FormGenVersionDAO extends LocalEntityBaseDAO<FormGenVersion> {
         try {
             return Optional.of(em.createNativeQuery("SELECT ?x WHERE { ?x a ?type . ?x ?hasVersionName|?hasSynonym ?versionOrSynonym . }", type)
                     .setParameter("hasVersionName", URI.create(Vocabulary.p_versionName))
-                    .setParameter("hasSynonym", URI.create(Vocabulary.p_synonym))
+                    .setParameter("hasSynonym", URI.create(Vocabulary.p_internalName))
                     .setParameter("versionOrSynonym", versionNameOrSynonym)
                     .setParameter("type", typeUri).getSingleResult());
         } catch (NoResultException e) {

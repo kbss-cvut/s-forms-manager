@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 public class QuestionTreeRemoteDataProcessor {
 
     private QuestionSnapshotRemoteData rootQuestion;
+    private String rootQuestionOrigin;
 
     private boolean isProcessed = false;
 
@@ -22,6 +23,7 @@ public class QuestionTreeRemoteDataProcessor {
     }
 
     public void process() {
+        rootQuestionOrigin = rootQuestion.getQuestionOrigin() != null ? rootQuestion.getQuestionOrigin() : "NO-QUESTION-ORIGIN";
 
         // search in the question & answer tree
         doDFS(rootQuestion, new LinkedList<>());
@@ -31,14 +33,15 @@ public class QuestionTreeRemoteDataProcessor {
     private void doDFS(QuestionSnapshotRemoteData questionSnapshotRemoteData, LinkedList<String> questionOriginPathBuilder) {
 
         // build question origin path while searching
+        String qo = questionSnapshotRemoteData.getQuestionOrigin() != null ? questionSnapshotRemoteData.getQuestionOrigin() : "NO-QUESTION-ORIGIN";
         questionOriginPathBuilder.add(questionSnapshotRemoteData.getQuestionOrigin());
 
         // process answers for the current question
-        processAnswers(questionSnapshotRemoteData, questionSnapshotRemoteData.getQuestionOrigin()); // TODO: do non-leaf question have answers at all?
+        processAnswers(questionSnapshotRemoteData, qo); // TODO: do non-leaf question have answers at all?
 
         // record current node's question-origin-path + question-origin
         String currentQuestionOriginPath = StringUtils.join(questionOriginPathBuilder);
-        questionOriginsAndTheirPaths.put(questionSnapshotRemoteData.getQuestionOrigin(), currentQuestionOriginPath);
+        questionOriginsAndTheirPaths.put(qo, currentQuestionOriginPath);
 
         // terminate recursion at leaf nodes
         if (questionSnapshotRemoteData.getSubQuestions().isEmpty()) {

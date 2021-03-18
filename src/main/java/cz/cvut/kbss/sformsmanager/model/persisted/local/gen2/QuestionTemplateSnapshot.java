@@ -3,20 +3,17 @@ package cz.cvut.kbss.sformsmanager.model.persisted.local.gen2;
 import cz.cvut.kbss.jopa.model.annotations.OWLClass;
 import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
 import cz.cvut.kbss.jopa.model.annotations.OWLObjectProperty;
-import cz.cvut.kbss.jopa.model.annotations.Sequence;
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.LocalEntity;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Set;
 
 @OWLClass(iri = Vocabulary.QuestionTemplateSnapshot)
 public class QuestionTemplateSnapshot extends LocalEntity implements Serializable {
 
-    @Sequence
     @OWLObjectProperty(iri = Vocabulary.p_hasQuestionTemplateSnapshots)
-    private List<QuestionTemplateSnapshot> questionTemplateSnapshots;
+    private Set<QuestionTemplateSnapshot> questionTemplateSnapshots;
 
     @OWLDataProperty(iri = Vocabulary.p_hasFormTemplateVersionKey)
     private String formTemplateVersionKey;
@@ -38,7 +35,7 @@ public class QuestionTemplateSnapshot extends LocalEntity implements Serializabl
     public QuestionTemplateSnapshot(
             String formTemplateVersionAndOriginPathHashKey,
             String formTemplateVersionKey,
-            List<QuestionTemplateSnapshot> questionTemplateSnapshots,
+            Set<QuestionTemplateSnapshot> questionTemplateSnapshots,
             String questionOriginPath,
             String questionOrigin,
             Set<SubmittedAnswer> answers) {
@@ -75,11 +72,11 @@ public class QuestionTemplateSnapshot extends LocalEntity implements Serializabl
         this.questionOrigin = questionOrigin;
     }
 
-    public List<QuestionTemplateSnapshot> getQuestionTemplateSnapshots() {
+    public Set<QuestionTemplateSnapshot> getQuestionTemplateSnapshots() {
         return questionTemplateSnapshots;
     }
 
-    public void setQuestionTemplateSnapshots(List<QuestionTemplateSnapshot> questionTemplateSnapshots) {
+    public void setQuestionTemplateSnapshots(Set<QuestionTemplateSnapshot> questionTemplateSnapshots) {
         this.questionTemplateSnapshots = questionTemplateSnapshots;
     }
 
@@ -90,5 +87,4 @@ public class QuestionTemplateSnapshot extends LocalEntity implements Serializabl
     public void setFormTemplateVersionKey(String formTemplateVersionKey) {
         this.formTemplateVersionKey = formTemplateVersionKey;
     }
-
 }

@@ -6,8 +6,8 @@ import cz.cvut.kbss.sformsmanager.model.persisted.response.QuestionSnapshotRemot
 import cz.cvut.kbss.sformsmanager.utils.ObjectUtils;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -47,16 +47,16 @@ public class QuestionTemplateSnapshotTreeBuilder {
             return updateOperation.apply(questionTemplateSnapshot);
         }
 
-        List<QuestionTemplateSnapshot> subQuestionTemplateSnapshots = questionRemoteData.getSubQuestions().stream()
+        Set<QuestionTemplateSnapshot> subQuestionTemplateSnapshots = questionRemoteData.getSubQuestions().stream()
                 .map(qRemoteData ->
                         buildQTSTreeWithDFS(qRemoteData)
-                ).collect(Collectors.toList());
+                ).collect(Collectors.toSet());
 
         QuestionTemplateSnapshot questionTemplateSnapshot = createQuestionTemplateSnapshot(qtsKey, questionRemoteData.getQuestionOrigin(), subQuestionTemplateSnapshots);
         return updateOperation.apply(questionTemplateSnapshot);
     }
 
-    private QuestionTemplateSnapshot createQuestionTemplateSnapshot(String qtsKey, String questionOrigin, List<QuestionTemplateSnapshot> subQuestionTemplateSnapshots) {
+    private QuestionTemplateSnapshot createQuestionTemplateSnapshot(String qtsKey, String questionOrigin, Set<QuestionTemplateSnapshot> subQuestionTemplateSnapshots) {
         return new QuestionTemplateSnapshot(
                 qtsKey,
                 formTemplateVersionKey,
@@ -64,7 +64,10 @@ public class QuestionTemplateSnapshotTreeBuilder {
                 questionOriginAndTheirPaths.get(questionOrigin),
                 questionOrigin,
                 new HashSet<SubmittedAnswer>() {{
-                    add(answerMap.get(questionOrigin));
-                }});
+                    if (answerMap.containsKey(questionOrigin)) {
+                        add(answerMap.get(questionOrigin));
+                    }
+                }}
+        );
     }
 }

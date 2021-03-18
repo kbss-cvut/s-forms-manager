@@ -1,17 +1,20 @@
 package cz.cvut.kbss.sformsmanager.model.persisted.local.gen2;
 
-import cz.cvut.kbss.jopa.model.annotations.*;
+import cz.cvut.kbss.jopa.model.annotations.OWLClass;
+import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
+import cz.cvut.kbss.jopa.model.annotations.OWLObjectProperty;
+import cz.cvut.kbss.jopa.model.annotations.ParticipationConstraints;
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.LocalEntity;
 
 import java.io.Serializable;
 import java.util.Date;
 
-@OWLClass(iri = Vocabulary.FormGenMetadata)
+@OWLClass(iri = Vocabulary.Record)
 public class Record extends LocalEntity implements Serializable {
 
     @ParticipationConstraints()
-    @OWLObjectProperty(iri = Vocabulary.p_hasFormTemplate, fetch = FetchType.LAZY)
+    @OWLObjectProperty(iri = Vocabulary.p_hasFormTemplate)
     private FormTemplate formTemplate;
 
     @ParticipationConstraints(nonEmpty = true)
