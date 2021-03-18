@@ -1,9 +1,12 @@
 package cz.cvut.kbss.sformsmanager.service.model.local;
 
+import cz.cvut.kbss.sformsmanager.model.persisted.local.gen2.Record;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.RecordDAO;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.RecordSnapshotDAO;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.RecordVersionDAO;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class RecordService {
@@ -28,5 +31,9 @@ public class RecordService {
 
     public int countRecordSnapshots(String projectName) {
         return recordSnapshotDAO.count(projectName);
+    }
+
+    public List<Record> findAllRecords(String projectName) {
+        return recordDAO.findAll(projectName);
     }
 }

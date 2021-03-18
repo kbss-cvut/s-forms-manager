@@ -21,15 +21,20 @@ public class Record extends LocalEntity implements Serializable {
     @OWLDataProperty(iri = Vocabulary.p_recordCreated)
     private Date recordCreated;
 
+    @ParticipationConstraints(nonEmpty = true)
+    @OWLDataProperty(iri = Vocabulary.p_hasRemoteContextURI)
+    private String remoteContextURI;
+
     // key is the RECORD-URI + CREATED -> hash
 
     public Record() {
     }
 
-    public Record(String recordUriAndCreatedHashKey, FormTemplate formTemplate, Date recordCreated) {
+    public Record(String recordUriAndCreatedHashKey, FormTemplate formTemplate, Date recordCreated, String remoteContextURI) {
         super(recordUriAndCreatedHashKey);
         this.formTemplate = formTemplate;
         this.recordCreated = recordCreated;
+        this.remoteContextURI = remoteContextURI;
     }
 
     public Date getRecordCreated() {
@@ -46,6 +51,14 @@ public class Record extends LocalEntity implements Serializable {
 
     public void setFormTemplate(FormTemplate formTemplate) {
         this.formTemplate = formTemplate;
+    }
+
+    public String getRemoteContextURI() {
+        return remoteContextURI;
+    }
+
+    public void setRemoteContextURI(String remoteContextURI) {
+        this.remoteContextURI = remoteContextURI;
     }
 }
 
