@@ -17,7 +17,7 @@ package cz.cvut.kbss.sformsmanager.persistence.base;
 import cz.cvut.kbss.jopa.model.EntityManager;
 import cz.cvut.kbss.jopa.model.EntityManagerFactory;
 import cz.cvut.kbss.sformsmanager.config.provider.PropertiesProvider;
-import cz.cvut.kbss.sformsmanager.model.persisted.local.FormGenMetadata;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.gen2.Record;
 import org.eclipse.rdf4j.repository.Repository;
 import org.eclipse.rdf4j.repository.RepositoryException;
 import org.eclipse.rdf4j.repository.config.RepositoryConfigException;
@@ -64,7 +64,7 @@ public class SesamePersistenceProvider {
         final EntityManager em = emf.createEntityManager();
         try {
             // The URI doesn't matter, we just need to trigger repository connection initialization
-            em.find(FormGenMetadata.class, URI.create("http://unknown"));
+            em.find(Record.class, URI.create("http://unknown"));
         } finally {
             em.close();
         }

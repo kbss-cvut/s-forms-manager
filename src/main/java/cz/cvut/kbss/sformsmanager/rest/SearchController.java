@@ -14,8 +14,9 @@
  */
 package cz.cvut.kbss.sformsmanager.rest;
 
-import cz.cvut.kbss.sformsmanager.model.dto.FormGenMetadataListingDTO;
+import cz.cvut.kbss.sformsmanager.service.model.local.SearchService;
 import cz.cvut.kbss.sformsmanager.service.process.SearchQueryBuilder;
+import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/search")
@@ -32,22 +34,24 @@ public class SearchController {
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(SearchController.class);
 
     private final freemarker.template.Configuration templateCfg;
+    private final SearchService searchService;
 
     @Autowired
-    public SearchController(freemarker.template.Configuration templateCfg) {
+    public SearchController(Configuration templateCfg, SearchService searchService) {
         this.templateCfg = templateCfg;
+        this.searchService = searchService;
     }
 
     @RequestMapping(path = "/updateQuery", method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
     public String updateSearchQuery(
-            @RequestParam(value = "connectionName") String connectionName,
+            @RequestParam(value = "projectName") String projectName,
             @RequestParam(value = "versions") List<String> versions,
             @RequestParam(value = "saveHashes") List<String> saveHashes,
             @RequestParam(value = "latestSaves") boolean latestSaves) throws IOException, TemplateException {
 
         SearchQueryBuilder queryBuilder = new SearchQueryBuilder(templateCfg);
-        queryBuilder.setConnectionName(connectionName);
+        queryBuilder.setProjectName(projectName);
         queryBuilder.setSaveHashes(saveHashes);
         queryBuilder.setLatestSaves(latestSaves);
         queryBuilder.setVersions(versions);
@@ -57,32 +61,28 @@ public class SearchController {
 
     @PostMapping(path = "/runQuery")
     @ResponseStatus(value = HttpStatus.OK)
-    public FormGenMetadataListingDTO runSearchQuery(
+    public List<Object> runSearchQuery(
             @RequestBody SearchQueryRequest request) {
-//
-//        int totalFormGens = metadataService.getConnectionCount(request.getConnectionName());
-//        List<FormGenMetadataDTO> formGens = metadataService.runSearchQuery(request.getQuery()).stream()
-//                .map(FormGenMetadataDTO::new)
-//                .collect(Collectors.toList());
-//
-//        return new FormGenMetadataListingDTO(formGens, totalFormGens);
-        return null;
+
+        List<Object> searchResults = searchService.runSearchQuery(request.getQuery()).stream().collect(Collectors.toList());
+
+        return searchResults;
     }
 
     private static class SearchQueryRequest {
         private String query;
 
-        private String connectionName;
+        private String projectName;
 
         public SearchQueryRequest() {
         }
 
-        public String getConnectionName() {
-            return connectionName;
+        public String getProjectName() {
+            return projectName;
         }
 
-        public void setConnectionName(String connectionName) {
-            this.connectionName = connectionName;
+        public void setProjectName(String projectName) {
+            this.projectName = projectName;
         }
 
         public String getQuery() {

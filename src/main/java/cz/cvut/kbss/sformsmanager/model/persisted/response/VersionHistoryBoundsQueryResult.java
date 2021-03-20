@@ -4,23 +4,23 @@ import cz.cvut.kbss.jopa.model.annotations.ConstructorResult;
 import cz.cvut.kbss.jopa.model.annotations.SparqlResultSetMapping;
 import cz.cvut.kbss.jopa.model.annotations.VariableResult;
 
-@SparqlResultSetMapping(name = FormGenLatestAndNewestDateDBResponse.LATEST_NEWEST_MAPPING,
+@SparqlResultSetMapping(name = VersionHistoryBoundsQueryResult.HISTORY_BOUNDS_MAPPING,
         classes = {
-                @ConstructorResult(targetClass = FormGenLatestAndNewestDateDBResponse.class, variables = {
+                @ConstructorResult(targetClass = VersionHistoryBoundsQueryResult.class, variables = {
                         @VariableResult(name = "earliestYear", type = Integer.class),
                         @VariableResult(name = "earliestMonth", type = Integer.class),
                         @VariableResult(name = "latestYear", type = Integer.class),
                         @VariableResult(name = "latestMonth", type = Integer.class),
                 })
         })
-public class FormGenLatestAndNewestDateDBResponse implements SparqlMappingResponse {
-    public static final String LATEST_NEWEST_MAPPING = "FormGenLatestAndNewestDateResults";
+public class VersionHistoryBoundsQueryResult implements SparqlMappingResponse {
+    public static final String HISTORY_BOUNDS_MAPPING = "FormTemplateVersionHistoryBoundsMapping";
     private int earliestYear;
     private int earliestMonth;
     private int latestYear;
     private int latestMonth;
 
-    public FormGenLatestAndNewestDateDBResponse(Integer earliestYear, Integer earliestMonth, Integer latestYear, Integer latestMonth) {
+    public VersionHistoryBoundsQueryResult(Integer earliestYear, Integer earliestMonth, Integer latestYear, Integer latestMonth) {
         this.earliestYear = earliestYear;
         this.earliestMonth = earliestMonth;
         this.latestYear = latestYear;
@@ -61,6 +61,6 @@ public class FormGenLatestAndNewestDateDBResponse implements SparqlMappingRespon
 
     @Override
     public String getMapping() {
-        return LATEST_NEWEST_MAPPING;
+        return HISTORY_BOUNDS_MAPPING;
     }
 }

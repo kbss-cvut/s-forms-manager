@@ -37,12 +37,12 @@ public final class OWLUtils {
      * @param word
      * @return
      */
-    public static String createInitialsAndConcatWithSlash(String toTakeInitials, String word) {
-        String connectionNameInitials = Arrays.stream(toTakeInitials.split("-")).map(part -> String.valueOf(part.charAt(0))).collect(Collectors.joining());
-        return connectionNameInitials + "/" + word;
+    public static String createInitialsAndConcat(String toTakeInitials, String word) {
+        String projectNameInitials = Arrays.stream(toTakeInitials.split("-")).map(part -> String.valueOf(part.charAt(0))).collect(Collectors.joining());
+        return projectNameInitials + word;
     }
 
-    public static String createInitialsAndConcatWithSlash(String toTakeInitials, int number) {
-        return createInitialsAndConcatWithSlash(toTakeInitials, String.valueOf(number));
+    public static String createInitialsAndConcat(String toTakeInitials, int number) {
+        return createInitialsAndConcat(toTakeInitials, String.valueOf(number));
     }
 }

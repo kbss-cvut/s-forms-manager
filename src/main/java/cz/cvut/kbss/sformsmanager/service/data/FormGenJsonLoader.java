@@ -1,6 +1,6 @@
 package cz.cvut.kbss.sformsmanager.service.data;
 
-import cz.cvut.kbss.sformsmanager.model.dto.FormGenRawJson;
+import cz.cvut.kbss.sformsmanager.model.dto.SFormsRawJson;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.Project;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.ProjectDAO;
 import org.slf4j.Logger;
@@ -38,7 +38,7 @@ public class FormGenJsonLoader {
      * @return
      * @throws URISyntaxException
      */
-    public FormGenRawJson getFormGenRawJson(String projectName, String contextUri) throws URISyntaxException {
+    public SFormsRawJson getFormGenRawJson(String projectName, String contextUri) throws URISyntaxException {
         Project project = projectDAO.findByKey(projectName, projectName).orElseThrow(
                 () -> new RuntimeException(String.format("Repository connection with project descriptor '%s' does not exist.", projectName)));
 
@@ -48,6 +48,6 @@ public class FormGenJsonLoader {
         params.put(FORMGEN_REPOSITORY_URL_PARAM, project.getFormGenRepositoryUrl());
 
         String rawFormJson = dataLoader.loadData(project.getFormGenServiceUrl(), params, Collections.emptyMap());
-        return new FormGenRawJson(projectName, contextUri, rawFormJson);
+        return new SFormsRawJson(projectName, contextUri, rawFormJson);
     }
 }

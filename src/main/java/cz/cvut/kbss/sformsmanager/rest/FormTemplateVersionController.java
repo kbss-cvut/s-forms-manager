@@ -1,12 +1,13 @@
 package cz.cvut.kbss.sformsmanager.rest;
 
 import cz.cvut.kbss.sformsmanager.exception.VersionNotFoundException;
-import cz.cvut.kbss.sformsmanager.model.dto.FormGenVersionHistogramDTO;
 import cz.cvut.kbss.sformsmanager.model.dto.FormTemplateVersionDTO;
+import cz.cvut.kbss.sformsmanager.model.dto.FormTemplateVersionHistogramDTO;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.gen2.FormTemplateVersion;
-import cz.cvut.kbss.sformsmanager.model.persisted.response.FormGenLatestAndNewestDateDBResponse;
-import cz.cvut.kbss.sformsmanager.model.persisted.response.FormTemplateVersionHistogramQueryResult;
+import cz.cvut.kbss.sformsmanager.model.persisted.response.VersionHistogramQueryResult;
+import cz.cvut.kbss.sformsmanager.model.persisted.response.VersionHistoryBoundsQueryResult;
 import cz.cvut.kbss.sformsmanager.service.model.local.FormTemplateService;
+import cz.cvut.kbss.sformsmanager.service.model.local.QuestionTemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,10 +25,12 @@ import java.util.stream.Collectors;
 public class FormTemplateVersionController {
 
     private final FormTemplateService formTemplateService;
+    private final QuestionTemplateService questionTemplateService;
 
     @Autowired
-    public FormTemplateVersionController(FormTemplateService formTemplateService) {
+    public FormTemplateVersionController(FormTemplateService formTemplateService, QuestionTemplateService questionTemplateService) {
         this.formTemplateService = formTemplateService;
+        this.questionTemplateService = questionTemplateService;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -38,8 +41,8 @@ public class FormTemplateVersionController {
                         version.getKey(),
                         version.getInternalName(),
                         version.getUri().toString(),
-                        version.getSampleRemoteContextURI()
-                ))
+                        version.getSampleRemoteContextURI(),
+                        questionTemplateService.countSnapshotsWithFormTemplateVersion(projectName, version.getKey())))
                 .collect(Collectors.toList());
     }
 
@@ -70,15 +73,15 @@ public class FormTemplateVersionController {
      * @throws IOException if the query couldn't be completed
      */
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, path = "/histogram")
-    public FormGenVersionHistogramDTO getVersionsHistogramData(@RequestParam(value = "projectName") String projectName) throws IOException {
+    public FormTemplateVersionHistogramDTO getVersionsHistogramData(@RequestParam(value = "projectName") String projectName) throws IOException {
 
-        FormGenLatestAndNewestDateDBResponse bounds = formTemplateService.getHistogramBounds(projectName);
-        List<FormTemplateVersionHistogramQueryResult> histogram = formTemplateService.getHistogramData(projectName);
+        VersionHistoryBoundsQueryResult bounds = formTemplateService.getHistogramBounds(projectName);
+        List<VersionHistogramQueryResult> histogram = formTemplateService.getHistogramData(projectName);
 
         int datesRange = (bounds.getLatestYear() - bounds.getEarliestYear()) * 12 + (bounds.getLatestMonth() - bounds.getEarliestMonth()) + 1;
         Map<String, int[]> histogramsByVersion = new TreeMap<>();
 
-        for (FormTemplateVersionHistogramQueryResult e : histogram) {
+        for (VersionHistogramQueryResult e : histogram) {
             if (!histogramsByVersion.containsKey(e.getVersionName())) {
                 histogramsByVersion.put(e.getVersionName(), new int[datesRange]);
             }
@@ -88,7 +91,7 @@ public class FormTemplateVersionController {
             versionOccurrenceArray[occurencePosition] += e.getCount();
         }
 
-        return new FormGenVersionHistogramDTO(histogramsByVersion,
+        return new FormTemplateVersionHistogramDTO(histogramsByVersion,
                 bounds.getEarliestYear(),
                 bounds.getEarliestMonth(),
                 bounds.getLatestYear(),

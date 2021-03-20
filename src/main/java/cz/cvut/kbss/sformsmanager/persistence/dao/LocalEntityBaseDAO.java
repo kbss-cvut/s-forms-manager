@@ -4,6 +4,7 @@ import cz.cvut.kbss.jopa.model.EntityManager;
 import cz.cvut.kbss.jopa.model.descriptors.EntityDescriptor;
 import cz.cvut.kbss.sformsmanager.exception.PersistenceException;
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
+import cz.cvut.kbss.sformsmanager.persistence.dao.local.custom.CustomQueryDAO;
 import cz.cvut.kbss.sformsmanager.utils.OWLUtils;
 import org.slf4j.Logger;
 import org.springframework.lang.NonNull;
@@ -33,6 +34,11 @@ public abstract class LocalEntityBaseDAO<T> implements GenericDAO<T> {
     public static EntityDescriptor getDescriptorForProject(String projectDescriptorName) {
         return new EntityDescriptor(URI.create(Vocabulary.ProjectContext + "/" + projectDescriptorName), false);
     }
+
+    public static URI getProjectContextURI(String projectDescriptorName) {
+        return URI.create(Vocabulary.ProjectContext + "/" + projectDescriptorName);
+    }
+
 
     @Override
     public List<T> findAll(String projectDescriptorName) {
@@ -150,8 +156,8 @@ public abstract class LocalEntityBaseDAO<T> implements GenericDAO<T> {
     @Override
     public int count(String projectDescriptorName) {
         try {
-            return em.createNativeQuery("SELECT (count(?x) as ?object) WHERE { ?x a ?type . }", Integer.class)
-                    .setDescriptor(getDescriptorForProject(projectDescriptorName))
+            return em.createNativeQuery("SELECT (count(?x) as ?object) WHERE { GRAPH ?contextUri  { ?x a ?type . } }", Integer.class)
+                    .setParameter(CustomQueryDAO.CUSTOM_QUERY_CONTEXT_URI_PARAM, getProjectContextURI(projectDescriptorName))
                     .setParameter("type", typeUri).getSingleResult();
         } catch (RuntimeException e) {
             log.error(e.getMessage());
@@ -162,8 +168,8 @@ public abstract class LocalEntityBaseDAO<T> implements GenericDAO<T> {
     @Override
     public int countWhere(String projectDescriptorName, @NonNull String propertyName, @NonNull Object value) {
         try {
-            return em.createNativeQuery("SELECT (count(?x) as ?object) WHERE { ?x a ?type . ?x ?propertyName ?value . }", Integer.class)
-                    .setDescriptor(getDescriptorForProject(projectDescriptorName))
+            return em.createNativeQuery("SELECT (count(?x) as ?object) WHERE { GRAPH ?contextUri { ?x a ?type . ?x ?propertyName ?value . } }", Integer.class)
+                    .setParameter(CustomQueryDAO.CUSTOM_QUERY_CONTEXT_URI_PARAM, getProjectContextURI(projectDescriptorName))
                     .setParameter("propertyName", URI.create(propertyName))
                     .setParameter("value", value)
                     .setParameter("type", typeUri)

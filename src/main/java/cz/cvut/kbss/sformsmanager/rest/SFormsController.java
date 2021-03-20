@@ -25,23 +25,23 @@ import org.springframework.web.bind.annotation.RestController;
 import java.net.URISyntaxException;
 
 @RestController
-@RequestMapping("/formGen")
-public class FormGenController {
+@RequestMapping("/sforms")
+public class SFormsController {
 
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(FormGenController.class);
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(SFormsController.class);
 
     private final FormGenJsonLoader formGenJsonLoader;
 
     @Autowired
-    public FormGenController(FormGenJsonLoader FormGenJsonLoader) {
+    public SFormsController(FormGenJsonLoader FormGenJsonLoader) {
         this.formGenJsonLoader = FormGenJsonLoader;
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "s-forms-json-ld")
     public String getFormGenRawJson(
-            @RequestParam(value = "connectionName") String connectionName,
+            @RequestParam(value = "projectName") String projectName,
             @RequestParam(value = "contextUri") String contextUri
     ) throws URISyntaxException {
-        return formGenJsonLoader.getFormGenRawJson(connectionName, contextUri).getRawJson();
+        return formGenJsonLoader.getFormGenRawJson(projectName, contextUri).getRawJson();
     }
 }

@@ -1,5 +1,5 @@
 <#list prefixes as prefix>
-    PREFIX ${prefix.name}: <${prefix.uri}>
+PREFIX ${prefix.name}: <${prefix.uri}>
 </#list>
 
 SELECT ?x

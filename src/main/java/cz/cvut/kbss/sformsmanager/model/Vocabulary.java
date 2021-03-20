@@ -88,4 +88,20 @@ public class Vocabulary {
     public final static String VFN_STUDY_MANAGER_URI = "http://vfn.cz/ontologies/study-manager/"; // TODO: this is supposed to be configurable per connection, vfn is not project specific
     public static final String Patient = VFN_STUDY_MANAGER_URI + "patient-record";
 
+
+    public final static String s_c_answer = "http://onto.fel.cvut.cz/ontologies/documentation/answer";
+    public final static String s_c_question = "http://onto.fel.cvut.cz/ontologies/documentation/question";
+    public final static String s_c_administrator = "http://vfn.cz/ontologies/study-manager/administrator";
+    public final static String s_p_has_answer = "http://onto.fel.cvut.cz/ontologies/documentation/has_answer";
+    public final static String s_p_has_object_value = "http://onto.fel.cvut.cz/ontologies/documentation/has_object_value";
+    public final static String s_p_has_related_question = "http://onto.fel.cvut.cz/ontologies/documentation/has_related_question";
+    public final static String s_p_has_answer_origin = "http://onto.fel.cvut.cz/ontologies/form/has-answer-origin";
+
+    public final static String s_p_has_owner = "http://vfn.cz/ontologies/study-manager/has-owner";
+    public final static String s_p_has_data_value = "http://onto.fel.cvut.cz/ontologies/documentation/has_data_value";
+    public final static String s_p_formType = "http://vfn.cz/ontologies/study-manager/formType";
+    public final static String s_p_key = "http://vfn.cz/ontologies/study-manager/key";
+    public final static String s_p_lastName = "http://xmlns.com/foaf/0.1/lastName";
+
+
 }

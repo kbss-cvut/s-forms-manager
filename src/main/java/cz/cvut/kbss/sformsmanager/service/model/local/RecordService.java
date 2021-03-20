@@ -36,6 +36,10 @@ public class RecordService {
         return recordVersionDAO.countWhere(projectName, Vocabulary.p_hasRecord, record.getUri());
     }
 
+    public int countRecordSnapshotsForRecord(String projectName, Record record) {
+        return recordSnapshotDAO.countWhere(projectName, Vocabulary.p_hasRecord, record.getUri());
+    }
+
     public int countRecordVersionAnswersForRecord(String projectName, Record record) {
         return recordVersionDAO.countWhere(projectName, Vocabulary.p_hasRecord, record.getUri());
     }
@@ -44,11 +48,16 @@ public class RecordService {
         return recordSnapshotDAO.count(projectName);
     }
 
-    public List<Record> findAllRecords(String projectName) {
-        return recordDAO.findAll(projectName);
+    public List<Record> findAllNonEmptyRecords(String projectName) {
+        return recordDAO.findAllWithRecordVersion(projectName);
+    }
+
+    public int countAllNonEmptyRecordSnapshots(String projectName) {
+        return recordSnapshotDAO.countAllWithFormTemplateVersion(projectName);
     }
 
     public List<RecordSnapshot> findRecordSnapshotsForRecord(String projectName, String recordURI) {
         return recordSnapshotDAO.findAllWhere(projectName, Vocabulary.p_hasRecord, URI.create(recordURI));
     }
+
 }

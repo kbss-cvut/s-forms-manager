@@ -17,7 +17,7 @@ public class QuestionTemplateSnapshotTreeBuilder {
     private Map<String, String> questionOriginAndTheirPaths;
     private String formTemplateVersionKey;
     private Map<String, SubmittedAnswer> answerMap;
-    private String connectionName;
+    private String projectName;
     private Function<QuestionTemplateSnapshot, QuestionTemplateSnapshot> updateOperation;
 
     public QuestionTemplateSnapshotTreeBuilder(
@@ -25,14 +25,14 @@ public class QuestionTemplateSnapshotTreeBuilder {
             Map<String, String> questionOriginAndTheirPaths,
             String formTemplateVersionKey,
             Map<String, SubmittedAnswer> answerMap,
-            String connectionName,
+            String projectName,
             Function<QuestionTemplateSnapshot, QuestionTemplateSnapshot> updateOperation) {
 
         this.remoteRootQuestion = remoteRootQuestion;
         this.questionOriginAndTheirPaths = questionOriginAndTheirPaths;
         this.formTemplateVersionKey = formTemplateVersionKey;
         this.answerMap = answerMap;
-        this.connectionName = connectionName;
+        this.projectName = projectName;
         this.updateOperation = updateOperation;
     }
 
@@ -41,7 +41,7 @@ public class QuestionTemplateSnapshotTreeBuilder {
     }
 
     private QuestionTemplateSnapshot buildQTSTreeWithDFS(QuestionSnapshotRemoteData questionRemoteData) {
-        String qtsKey = ObjectUtils.getStringHashCode(formTemplateVersionKey + "/" + questionOriginAndTheirPaths.get(questionRemoteData.getQuestionOrigin()));
+        String qtsKey = ObjectUtils.createKeyForContext(this.projectName, formTemplateVersionKey + "/" + questionOriginAndTheirPaths.get(questionRemoteData.getQuestionOrigin()));
         if (questionRemoteData.getSubQuestions().isEmpty()) {
             QuestionTemplateSnapshot questionTemplateSnapshot = createQuestionTemplateSnapshot(qtsKey, questionRemoteData.getQuestionOrigin(), null);
             return updateOperation.apply(questionTemplateSnapshot);

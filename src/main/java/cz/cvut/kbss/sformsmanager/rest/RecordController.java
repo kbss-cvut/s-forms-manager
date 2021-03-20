@@ -24,15 +24,15 @@ public class RecordController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<RecordDTO> listRecords(@RequestParam(value = "projectName") String projectName) {
+    public List<RecordDTO> listNonEmptyRecords(@RequestParam(value = "projectName") String projectName) {
 
-        return recordService.findAllRecords(projectName).stream()
+        return recordService.findAllNonEmptyRecords(projectName).stream()
                 .map(record -> new RecordDTO(
                         record.getUri().toString(),
                         record.getRecordCreated(),
                         record.getKey(),
                         record.getRemoteContextURI(),
-                        0, // TODO:
+                        recordService.countRecordSnapshotsForRecord(projectName, record),
                         recordService.countRecordVersionsForRecord(projectName, record) // TODO: very ineffective, should be part of the initial call
                 ))
                 .collect(Collectors.toList());

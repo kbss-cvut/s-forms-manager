@@ -6,15 +6,14 @@ public final class FormTemplateVersionDTO {
     private final String internalName;
     private final String internalUri;
     private final String sampleRemoteContextUri;
+    private final int numberOfQuestionTemplateSnapshots;
 
-//    private final int numberOfQuestionTemplateSnapshots;
-//    private final int numberOfRecordSnapshots;
-
-    public FormTemplateVersionDTO(String key, String internalName, String internalUri, String sampleRemoteContextUri) {
+    public FormTemplateVersionDTO(String key, String internalName, String internalUri, String sampleRemoteContextUri, int numberOfQuestionTemplateSnapshots) {
         this.key = key;
         this.internalName = internalName;
         this.internalUri = internalUri;
         this.sampleRemoteContextUri = sampleRemoteContextUri;
+        this.numberOfQuestionTemplateSnapshots = numberOfQuestionTemplateSnapshots;
     }
 
     public String getKey() {
@@ -31,5 +30,9 @@ public final class FormTemplateVersionDTO {
 
     public String getSampleRemoteContextUri() {
         return sampleRemoteContextUri;
+    }
+
+    public int getNumberOfQuestionTemplateSnapshots() {
+        return numberOfQuestionTemplateSnapshots;
     }
 }

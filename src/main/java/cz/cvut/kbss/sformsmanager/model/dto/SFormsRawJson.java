@@ -1,20 +1,20 @@
 package cz.cvut.kbss.sformsmanager.model.dto;
 
 
-public final class FormGenRawJson {
+public final class SFormsRawJson {
 
-    private final String connectionName;
+    private final String projectName;
     private final String contextUri;
     private final String rawJson;
 
-    public FormGenRawJson(String connectionName, String contextUri, String rawJson) {
-        this.connectionName = connectionName;
+    public SFormsRawJson(String projectName, String contextUri, String rawJson) {
+        this.projectName = projectName;
         this.contextUri = contextUri;
         this.rawJson = rawJson;
     }
 
-    public String getConnectionName() {
-        return this.connectionName;
+    public String getProjectName() {
+        return this.projectName;
     }
 
     public String getContextUri() {

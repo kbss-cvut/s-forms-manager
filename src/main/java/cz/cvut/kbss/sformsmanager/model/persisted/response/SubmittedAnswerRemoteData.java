@@ -1,25 +1,26 @@
 package cz.cvut.kbss.sformsmanager.model.persisted.response;
 
 import cz.cvut.kbss.jopa.model.annotations.*;
+import cz.cvut.kbss.sformsmanager.model.Vocabulary;
 
 import java.io.Serializable;
 import java.net.URI;
 import java.util.HashSet;
 import java.util.Set;
 
-@OWLClass(iri = QuestionSnapshotRemoteData.s_c_answer)
+@OWLClass(iri = Vocabulary.s_c_answer)
 public class SubmittedAnswerRemoteData implements Serializable {
 
     @Id(generated = true)
     protected URI uri;
 
-    @OWLDataProperty(iri = QuestionSnapshotRemoteData.s_p_has_data_value)
+    @OWLDataProperty(iri = Vocabulary.s_p_has_data_value)
     private String textValue;
 
-    @OWLObjectProperty(iri = QuestionSnapshotRemoteData.s_p_has_object_value)
+    @OWLObjectProperty(iri = Vocabulary.s_p_has_object_value)
     private URI codeValue;
 
-    @OWLObjectProperty(iri = QuestionSnapshotRemoteData.s_p_has_answer_origin)
+    @OWLObjectProperty(iri = Vocabulary.s_p_has_answer_origin)
     private URI origin;
 
     @Types

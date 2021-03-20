@@ -2,7 +2,7 @@ package cz.cvut.kbss.sformsmanager.model.dto;
 
 import java.util.Map;
 
-public class FormGenVersionHistogramDTO {
+public class FormTemplateVersionHistogramDTO {
 
     private final Map<String, int[]> histogramData;
 
@@ -14,7 +14,7 @@ public class FormGenVersionHistogramDTO {
 
     private final int latestMonth;
 
-    public FormGenVersionHistogramDTO(Map<String, int[]> histogramData, int earliestYear, int earliestMonth, int latestYear, int latestMonth) {
+    public FormTemplateVersionHistogramDTO(Map<String, int[]> histogramData, int earliestYear, int earliestMonth, int latestYear, int latestMonth) {
         this.histogramData = histogramData;
         this.earliestYear = earliestYear;
         this.earliestMonth = earliestMonth;

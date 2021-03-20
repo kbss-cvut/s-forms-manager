@@ -5,5 +5,5 @@ import java.net.URI;
 
 public interface RemoteDataProcessingOrchestrator {
 
-    void processDataSnapshotInRemoteContext(String connectionName, URI contextUri) throws IOException;
+    void processDataSnapshotInRemoteContext(String projectName, URI contextUri) throws IOException;
 }

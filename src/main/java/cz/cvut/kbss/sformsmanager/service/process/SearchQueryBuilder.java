@@ -66,7 +66,7 @@ public class SearchQueryBuilder {
         }
     }
 
-    public void setConnectionName(String connectionName) {
+    public void setProjectName(String connectionName) {
         templateParameters.put("connectionName", connectionName);
     }
 

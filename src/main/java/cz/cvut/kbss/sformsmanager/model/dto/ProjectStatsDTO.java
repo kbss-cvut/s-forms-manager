@@ -5,6 +5,8 @@ public class ProjectStatsDTO {
     private int totalContexts;
     private int recordVersions;
     private int recordSnapshots;
+    private int emptyRecordSnapshots;
+    private int nonEmptyRecordSnapshots;
     private int records;
     private int formTemplates;
     private int formTemplateVersions;
@@ -16,6 +18,8 @@ public class ProjectStatsDTO {
             int totalContexts,
             int recordVersions,
             int recordSnapshots,
+            int emptyRecordSnapshots,
+            int nonEmptyRecordSnapshots,
             int records,
             int formTemplates,
             int formTemplateVersions,
@@ -25,6 +29,8 @@ public class ProjectStatsDTO {
         this.totalContexts = totalContexts;
         this.recordVersions = recordVersions;
         this.recordSnapshots = recordSnapshots;
+        this.emptyRecordSnapshots = emptyRecordSnapshots;
+        this.nonEmptyRecordSnapshots = nonEmptyRecordSnapshots;
         this.records = records;
         this.formTemplates = formTemplates;
         this.formTemplateVersions = formTemplateVersions;
@@ -103,5 +109,21 @@ public class ProjectStatsDTO {
 
     public void setAnswers(int answers) {
         this.answers = answers;
+    }
+
+    public int getEmptyRecordSnapshots() {
+        return emptyRecordSnapshots;
+    }
+
+    public void setEmptyRecordSnapshots(int emptyRecordSnapshots) {
+        this.emptyRecordSnapshots = emptyRecordSnapshots;
+    }
+
+    public int getNonEmptyRecordSnapshots() {
+        return nonEmptyRecordSnapshots;
+    }
+
+    public void setNonEmptyRecordSnapshots(int nonEmptyRecordSnapshots) {
+        this.nonEmptyRecordSnapshots = nonEmptyRecordSnapshots;
     }
 }

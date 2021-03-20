@@ -16,8 +16,8 @@ public class QuestionTemplateSnapshotRemoteDAO extends RemoteEntityDAO<QuestionS
         super(entityManagerProvider, QuestionSnapshotRemoteData.class);
     }
 
-    public QuestionSnapshotRemoteData getQuestionsAndAnswersSnapshot(String connectionName, URI contextUri, URI question) throws IOException {
-        return executeOnEntityManager(connectionName,
+    public QuestionSnapshotRemoteData getQuestionsAndAnswersSnapshot(String projectName, URI contextUri, URI question) throws IOException {
+        return executeOnEntityManager(projectName,
                 em -> em.find(QuestionSnapshotRemoteData.class, question),
                 "Question&Answer model was not found in : " + contextUri.toString());
     }

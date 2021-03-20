@@ -1,7 +1,6 @@
 package cz.cvut.kbss.sformsmanager.persistence.dao.local.custom;
 
 import cz.cvut.kbss.jopa.model.EntityManager;
-import cz.cvut.kbss.sformsmanager.model.persisted.local.FormGenMetadata;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,9 +14,9 @@ public class SearchDAO extends CustomQueryDAO {
         super(em);
     }
 
-    public List<FormGenMetadata> runSearchQuery(String searchQuery) {
+    public List<Object> runSearchQuery(String searchQuery) {
         return executeOnEntityManagerList(
-                em -> em.createNativeQuery(searchQuery, "FormTemplateVersionHistogramQueryMapping")
+                em -> em.createNativeQuery(searchQuery)
                         .getResultList(),
                 "Could not run custom search query.");
 

@@ -4,16 +4,16 @@ import cz.cvut.kbss.jopa.model.annotations.ConstructorResult;
 import cz.cvut.kbss.jopa.model.annotations.SparqlResultSetMapping;
 import cz.cvut.kbss.jopa.model.annotations.VariableResult;
 
-@SparqlResultSetMapping(name = FormTemplateVersionHistogramQueryResult.HISTOGRAM_MAPPING,
+@SparqlResultSetMapping(name = VersionHistogramQueryResult.HISTOGRAM_MAPPING,
         classes = {
-                @ConstructorResult(targetClass = FormTemplateVersionHistogramQueryResult.class, variables = {
+                @ConstructorResult(targetClass = VersionHistogramQueryResult.class, variables = {
                         @VariableResult(name = "versionKeyOrInternalName", type = String.class),
                         @VariableResult(name = "year", type = Integer.class),
                         @VariableResult(name = "month", type = Integer.class),
                         @VariableResult(name = "count", type = Integer.class),
                 })
         })
-public class FormTemplateVersionHistogramQueryResult {
+public class VersionHistogramQueryResult {
     public static final String HISTOGRAM_MAPPING = "FormTemplateVersionHistogramQueryMapping";
 
     private String versionKeyOrInternalName;
@@ -21,7 +21,7 @@ public class FormTemplateVersionHistogramQueryResult {
     private int month;
     private int count;
 
-    public FormTemplateVersionHistogramQueryResult(String versionKeyOrInternalName, Integer year, Integer month, Integer count) {
+    public VersionHistogramQueryResult(String versionKeyOrInternalName, Integer year, Integer month, Integer count) {
         this.versionKeyOrInternalName = versionKeyOrInternalName;
         this.year = year;
         this.month = month;

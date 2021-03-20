@@ -8,23 +8,23 @@ public class ProjectDTO {
     private String formGenRepositoryUrl;
     private String formGenServiceUrl;
     private String appRepositoryUrl;
-    private String connectionName;
+    private String projectName;
 
     public ProjectDTO() {
     }
 
-    public ProjectDTO(String formGenRepositoryUrl, String formGenServiceUrl, String appRepositoryUrl, String connectionName) {
+    public ProjectDTO(String formGenRepositoryUrl, String formGenServiceUrl, String appRepositoryUrl, String projectName) {
         this.formGenRepositoryUrl = formGenRepositoryUrl;
         this.formGenServiceUrl = formGenServiceUrl;
         this.appRepositoryUrl = appRepositoryUrl;
-        this.connectionName = connectionName;
+        this.projectName = projectName;
     }
 
     public ProjectDTO(Project project) {
         this.formGenRepositoryUrl = project.getFormGenRepositoryUrl();
         this.formGenServiceUrl = project.getFormGenServiceUrl();
         this.appRepositoryUrl = project.getAppRepositoryUrl();
-        this.connectionName = project.getKey();
+        this.projectName = project.getKey();
     }
 
     public String getFormGenRepositoryUrl() {
@@ -39,8 +39,8 @@ public class ProjectDTO {
         return appRepositoryUrl;
     }
 
-    public String getConnectionName() {
-        return connectionName;
+    public String getProjectName() {
+        return projectName;
     }
 
     public void setFormGenRepositoryUrl(String formGenRepositoryUrl) {
@@ -55,7 +55,7 @@ public class ProjectDTO {
         this.appRepositoryUrl = appRepositoryUrl;
     }
 
-    public void setConnectionName(String connectionName) {
-        this.connectionName = connectionName;
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
     }
 }

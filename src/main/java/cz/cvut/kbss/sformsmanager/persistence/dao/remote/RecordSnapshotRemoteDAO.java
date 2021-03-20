@@ -23,8 +23,8 @@ public class RecordSnapshotRemoteDAO extends RemoteEntityDAO {
         super(entityManagerProvider, RecordSnapshotRemoteDAO.class);
     }
 
-    public RecordSnapshotRemoteData getRecordSnapshot(String connectionName, URI contextUri) throws IOException {
-        return (RecordSnapshotRemoteData) executeOnEntityManager(connectionName,
+    public RecordSnapshotRemoteData getRecordSnapshot(String projectName, URI contextUri) throws IOException {
+        return (RecordSnapshotRemoteData) executeOnEntityManager(projectName,
                 em -> {
                     String query = QueryUtils.getQueryFromFile(FORMGEN_SAVE_QUERY_FILE);
                     return em.createNativeQuery(query, "RecordSnapshotRemoteDataResponse")

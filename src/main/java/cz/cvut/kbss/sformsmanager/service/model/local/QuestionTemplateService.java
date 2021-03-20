@@ -1,5 +1,6 @@
 package cz.cvut.kbss.sformsmanager.service.model.local;
 
+import cz.cvut.kbss.sformsmanager.model.Vocabulary;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.QuestionTemplateDAO;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.QuestionTemplateSnapshotDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +24,9 @@ public class QuestionTemplateService {
 
     public int countQuestionTemplateSnapshots(String projectName) {
         return questionTemplateSnapshotDAO.count(projectName);
+    }
+
+    public int countSnapshotsWithFormTemplateVersion(String projectName, String formTemplateVersionKey) {
+        return questionTemplateSnapshotDAO.countWhere(projectName, Vocabulary.p_hasFormTemplateVersionKey, formTemplateVersionKey);
     }
 }

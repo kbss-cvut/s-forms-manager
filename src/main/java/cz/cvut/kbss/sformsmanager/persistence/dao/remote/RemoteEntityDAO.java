@@ -19,13 +19,13 @@ public abstract class RemoteEntityDAO<T> {
         this.entityManagerProvider = entityManagerProvider;
     }
 
-    public EntityManager getEntityManagerByConnection(String connectionName) {
-        return entityManagerProvider.getEntityManagerFactory(connectionName);
+    public EntityManager getEntityManagerByConnection(String projectName) {
+        return entityManagerProvider.getEntityManagerFactory(projectName);
     }
 
-    public T executeOnEntityManager(String connectionName, EntityManagerInvoker emConsumer, String errorMessage) throws IOException {
+    public T executeOnEntityManager(String projectName, EntityManagerInvoker emConsumer, String errorMessage) throws IOException {
         try {
-            EntityManager em = getEntityManagerByConnection(connectionName);
+            EntityManager em = getEntityManagerByConnection(projectName);
             return (T) emConsumer.accept(em);
         } catch (NoResultException ne) {
             throw new NoResultException(errorMessage);

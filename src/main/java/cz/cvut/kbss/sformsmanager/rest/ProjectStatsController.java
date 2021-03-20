@@ -65,15 +65,17 @@ public class ProjectStatsController {
         int totalContexts = contextService.count(projectName);
         int recordVersions = recordService.countRecordVersions(projectName);
         int recordSnapshots = recordService.countRecordSnapshots(projectName);
+        int nonEmptyRecordSnapshots = recordService.countAllNonEmptyRecordSnapshots(projectName);
+        int emptyRecordSnapshots = recordSnapshots - nonEmptyRecordSnapshots;
         int records = recordService.countRecords(projectName);
 
         int formTemplates = formTemplateService.countFormTemplates(projectName);
-        int formTemplateVersions = formTemplateService.countFormTemplates(projectName);
+        int formTemplateVersions = formTemplateService.countFormTemplateVersions(projectName);
 
         int questionTemplates = questionTemplateService.countQuestionTemplates(projectName);
         int questionTemplateSnapshots = questionTemplateService.countQuestionTemplateSnapshots(projectName);
         int answers = submittedAnswerDAO.count(projectName);
 
-        return new ProjectStatsDTO(totalContexts, recordVersions, recordSnapshots, records, formTemplates, formTemplateVersions, questionTemplates, questionTemplateSnapshots, answers);
+        return new ProjectStatsDTO(totalContexts, recordVersions, recordSnapshots, emptyRecordSnapshots, nonEmptyRecordSnapshots, records, formTemplates, formTemplateVersions, questionTemplates, questionTemplateSnapshots, answers);
     }
 }

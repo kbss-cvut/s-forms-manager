@@ -26,13 +26,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/connections")
-public class ConnectionController {
+@RequestMapping("/projects")
+public class ProjectController {
 
     private final ProjectService projectService;
 
     @Autowired
-    public ConnectionController(ProjectService projectService) {
+    public ProjectController(ProjectService projectService) {
         this.projectService = projectService;
     }
 
@@ -40,7 +40,7 @@ public class ConnectionController {
     public List<String> findAllNames() {
 
         List<Project> formGenMetadata = projectService.findAll();
-        return formGenMetadata.stream().map(connection -> connection.getKey()).collect(Collectors.toList());
+        return formGenMetadata.stream().map(project -> project.getKey()).collect(Collectors.toList());
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/all")
@@ -58,17 +58,9 @@ public class ConnectionController {
                 projectDTO.getFormGenRepositoryUrl(),
                 projectDTO.getFormGenServiceUrl(),
                 projectDTO.getAppRepositoryUrl(),
-                projectDTO.getConnectionName()
+                projectDTO.getProjectName()
         );
         projectService.create(project);
-    }
-
-    @RequestMapping(method = RequestMethod.GET)
-    public ProjectDTO find(@RequestParam(value = "connectionName") String connectionName) {
-
-        Optional<Project> connection = projectService.findByKey(connectionName);
-        return connection.map(ProjectDTO::new)
-                .orElseThrow(() -> new NotFoundException("FormGenInfo " + connectionName + " not found."));
     }
 
     @RequestMapping(method = RequestMethod.PUT)
@@ -79,15 +71,15 @@ public class ConnectionController {
                 projectDTO.getFormGenRepositoryUrl(),
                 projectDTO.getFormGenServiceUrl(),
                 projectDTO.getAppRepositoryUrl(),
-                projectDTO.getConnectionName()
+                projectDTO.getProjectName()
         );
         projectService.update(project); // TODO: might not work
     }
 
     @RequestMapping(method = RequestMethod.DELETE)
-    public void delete(@RequestBody String connectionName) {
+    public void delete(@RequestBody String projectName) {
 
-        Optional<Project> connection = projectService.findByKey(connectionName);
+        Optional<Project> connection = projectService.findByKey(projectName);
         if (connection.isPresent()) {
             projectService.delete(connection.get());
         }

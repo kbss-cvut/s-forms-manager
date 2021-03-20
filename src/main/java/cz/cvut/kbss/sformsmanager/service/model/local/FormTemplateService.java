@@ -1,8 +1,8 @@
 package cz.cvut.kbss.sformsmanager.service.model.local;
 
 import cz.cvut.kbss.sformsmanager.model.persisted.local.gen2.FormTemplateVersion;
-import cz.cvut.kbss.sformsmanager.model.persisted.response.FormGenLatestAndNewestDateDBResponse;
-import cz.cvut.kbss.sformsmanager.model.persisted.response.FormTemplateVersionHistogramQueryResult;
+import cz.cvut.kbss.sformsmanager.model.persisted.response.VersionHistogramQueryResult;
+import cz.cvut.kbss.sformsmanager.model.persisted.response.VersionHistoryBoundsQueryResult;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.FormTemplateDAO;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.FormTemplateVersionDAO;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.custom.HistogramDAO;
@@ -49,11 +49,11 @@ public class FormTemplateService {
         return formTemplateVersionDAO.findByKey(projectName, formTemplateVersionKey);
     }
 
-    public FormGenLatestAndNewestDateDBResponse getHistogramBounds(String projectName) throws IOException {
+    public VersionHistoryBoundsQueryResult getHistogramBounds(String projectName) throws IOException {
         return histogramDAO.getOldestAndLatestDate(projectName);
     }
 
-    public List<FormTemplateVersionHistogramQueryResult> getHistogramData(String projectName) throws IOException {
-        return histogramDAO.getVersionHistogramDataByConnectionName(projectName);
+    public List<VersionHistogramQueryResult> getHistogramData(String projectName) throws IOException {
+        return histogramDAO.getVersionHistogramData(projectName);
     }
 }

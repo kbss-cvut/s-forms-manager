@@ -2,7 +2,6 @@ package cz.cvut.kbss.sformsmanager.service.process;
 
 import cz.cvut.kbss.sformsmanager.model.persisted.response.QuestionSnapshotRemoteData;
 import cz.cvut.kbss.sformsmanager.model.persisted.response.SubmittedAnswerRemoteData;
-import cz.cvut.kbss.sformsmanager.utils.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
@@ -50,7 +49,7 @@ public class QuestionTreeRemoteDataProcessor {
         }
 
         // sort lexicographically and then search deeper
-        questionSnapshotRemoteData.getSubQuestions().stream().sorted(Comparator.comparing(QuestionSnapshotRemoteData::getQuestionOrigin)).forEachOrdered(subQuestion -> {
+        questionSnapshotRemoteData.getSubQuestions().stream().sorted(Comparator.comparing(QuestionSnapshotRemoteData::getQuestionOrigin)).forEach(subQuestion -> {
             doDFS(subQuestion, questionOriginPathBuilder);
         });
 
@@ -72,12 +71,12 @@ public class QuestionTreeRemoteDataProcessor {
 
     public String getAllQuestionOriginsAndAnswersHash() {
         requireProcessed();
-        return ObjectUtils.getStringHashCode(answeredQuestions.entrySet().stream().map(entry -> entry.getKey() + entry.getValue()).collect(Collectors.joining()));
+        return answeredQuestions.entrySet().stream().map(entry -> entry.getKey() + entry.getValue()).collect(Collectors.joining());
     }
 
     public String getAllQuestionOriginsPathsHash() {
         requireProcessed();
-        return ObjectUtils.getStringHashCode(questionOriginsAndTheirPaths.values().stream().collect(Collectors.joining()));
+        return questionOriginsAndTheirPaths.values().stream().collect(Collectors.joining());
     }
 
     public Map<String, String> getQuestionOriginsAndTheirPaths() {
