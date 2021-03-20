@@ -14,9 +14,7 @@
  */
 package cz.cvut.kbss.sformsmanager.rest;
 
-import cz.cvut.kbss.sformsmanager.model.dto.FormGenMetadataDTO;
 import cz.cvut.kbss.sformsmanager.model.dto.FormGenMetadataListingDTO;
-import cz.cvut.kbss.sformsmanager.service.model.local.FormGenMetadataService;
 import cz.cvut.kbss.sformsmanager.service.process.SearchQueryBuilder;
 import freemarker.template.TemplateException;
 import org.slf4j.Logger;
@@ -26,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/search")
@@ -36,11 +33,8 @@ public class SearchController {
 
     private final freemarker.template.Configuration templateCfg;
 
-    private final FormGenMetadataService metadataService;
-
     @Autowired
-    public SearchController(FormGenMetadataService metadataService, freemarker.template.Configuration templateCfg) {
-        this.metadataService = metadataService;
+    public SearchController(freemarker.template.Configuration templateCfg) {
         this.templateCfg = templateCfg;
     }
 
@@ -65,14 +59,14 @@ public class SearchController {
     @ResponseStatus(value = HttpStatus.OK)
     public FormGenMetadataListingDTO runSearchQuery(
             @RequestBody SearchQueryRequest request) {
-
-        int totalFormGens = metadataService.getConnectionCount(request.getConnectionName());
-        List<FormGenMetadataDTO> formGens = metadataService.runSearchQuery(request.getQuery()).stream()
-                .map(FormGenMetadataDTO::new)
-                .collect(Collectors.toList());
-
-        return new FormGenMetadataListingDTO(formGens, totalFormGens);
-
+//
+//        int totalFormGens = metadataService.getConnectionCount(request.getConnectionName());
+//        List<FormGenMetadataDTO> formGens = metadataService.runSearchQuery(request.getQuery()).stream()
+//                .map(FormGenMetadataDTO::new)
+//                .collect(Collectors.toList());
+//
+//        return new FormGenMetadataListingDTO(formGens, totalFormGens);
+        return null;
     }
 
     private static class SearchQueryRequest {

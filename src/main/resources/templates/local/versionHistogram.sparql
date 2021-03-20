@@ -1,16 +1,15 @@
-SELECT ?versionName ?year ?month (count(*) as ?count)
+SELECT ?versionKeyOrInternalName ?year ?month (count(*) as ?count)
 WHERE {
-        ?x ?type <http://onto.fel.cvut.cz/ontologies/sformsmanager#FormGenMetadata> ;
-            <http://onto.fel.cvut.cz/ontologies/sformsmanager#connectionName> ?connectionName ;
-            <http://onto.fel.cvut.cz/ontologies/sformsmanager#formGenSaveHashCode> ?hash ;
-            <http://onto.fel.cvut.cz/ontologies/sformsmanager#formGenCreated> ?created ;
-            <http://onto.fel.cvut.cz/ontologies/sformsmanager#assignedFormGenVersion> ?vObject .
+    GRAPH ?contextUri {
+        ?x ?type <http://onto.fel.cvut.cz/ontologies/sformsmanager#RecordSnapshot> ;
+            <http://onto.fel.cvut.cz/ontologies/sformsmanager#recordSnapshotCreated> ?snapshotCreated ;
+            <http://onto.fel.cvut.cz/ontologies/sformsmanager#hasFormTemplateVersion> ?vObject .
+  		?vObject <http://onto.fel.cvut.cz/ontologies/sformsmanager#key> ?versionKey .
+		OPTIONAL { ?vObject <http://onto.fel.cvut.cz/ontologies/sformsmanager#internalName> ?versionInternalName . }
 
-		?vObject <http://onto.fel.cvut.cz/ontologies/sformsmanager#versionName> ?versionInternalName .
-		OPTIONAL { ?vObject <http://onto.fel.cvut.cz/ontologies/sformsmanager#synonym> ?synonym . }
-
-        BIND(COALESCE(?synonym, ?versionInternalName) as ?versionName)
-        BIND ( year(xsd:dateTime(?created)) as ?year )
-        BIND ( month(xsd:dateTime(?created)) as ?month )
+  		BIND(COALESCE(?versionInternalName, ?versionKey) as ?versionKeyOrInternalName)
+        BIND ( year(xsd:dateTime(?snapshotCreated)) as ?year )
+        BIND ( month(xsd:dateTime(?snapshotCreated)) as ?month )
+    }
 }
-GROUP BY ?versionName ?year ?month
+GROUP BY ?versionKeyOrInternalName ?year ?month

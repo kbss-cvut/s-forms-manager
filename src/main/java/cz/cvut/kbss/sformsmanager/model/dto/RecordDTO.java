@@ -9,15 +9,15 @@ public class RecordDTO {
     public final String internalKey;
     public final String remoteSampleContextURI;
     public final int numberOfRecordSnapshots;
-    public final int numberOfVersions;
+    public final int numberOfRecordVersions;
 
-    public RecordDTO(String recordURI, Date recordCreated, String internalKey, String remoteSampleContextURI, int numberOfRecordSnapshots, int numberOfVersions) {
+    public RecordDTO(String recordURI, Date recordCreated, String internalKey, String remoteSampleContextURI, int numberOfRecordSnapshots, int numberOfRecordVersions) {
         this.recordURI = recordURI;
         this.recordCreated = recordCreated;
         this.internalKey = internalKey;
         this.remoteSampleContextURI = remoteSampleContextURI;
         this.numberOfRecordSnapshots = numberOfRecordSnapshots;
-        this.numberOfVersions = numberOfVersions;
+        this.numberOfRecordVersions = numberOfRecordVersions;
     }
 
     public String getRecordURI() {
@@ -36,8 +36,8 @@ public class RecordDTO {
         return numberOfRecordSnapshots;
     }
 
-    public int getNumberOfVersions() {
-        return numberOfVersions;
+    public int getNumberOfRecordVersions() {
+        return numberOfRecordVersions;
     }
 
     public String getRemoteSampleContextURI() {

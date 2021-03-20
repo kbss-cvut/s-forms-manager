@@ -4,34 +4,36 @@ import cz.cvut.kbss.jopa.model.annotations.ConstructorResult;
 import cz.cvut.kbss.jopa.model.annotations.SparqlResultSetMapping;
 import cz.cvut.kbss.jopa.model.annotations.VariableResult;
 
-@SparqlResultSetMapping(name = "FormGenVersionHistogramResults",
+@SparqlResultSetMapping(name = FormTemplateVersionHistogramQueryResult.HISTOGRAM_MAPPING,
         classes = {
-                @ConstructorResult(targetClass = FormGenVersionHistogramDBResponse.class, variables = {
-                        @VariableResult(name = "versionName", type = String.class),
+                @ConstructorResult(targetClass = FormTemplateVersionHistogramQueryResult.class, variables = {
+                        @VariableResult(name = "versionKeyOrInternalName", type = String.class),
                         @VariableResult(name = "year", type = Integer.class),
                         @VariableResult(name = "month", type = Integer.class),
                         @VariableResult(name = "count", type = Integer.class),
                 })
         })
-public class FormGenVersionHistogramDBResponse {
-    private String versionName;
+public class FormTemplateVersionHistogramQueryResult {
+    public static final String HISTOGRAM_MAPPING = "FormTemplateVersionHistogramQueryMapping";
+
+    private String versionKeyOrInternalName;
     private int year;
     private int month;
     private int count;
 
-    public FormGenVersionHistogramDBResponse(String versionName, Integer year, Integer month, Integer count) {
-        this.versionName = versionName;
+    public FormTemplateVersionHistogramQueryResult(String versionKeyOrInternalName, Integer year, Integer month, Integer count) {
+        this.versionKeyOrInternalName = versionKeyOrInternalName;
         this.year = year;
         this.month = month;
         this.count = count;
     }
 
     public String getVersionName() {
-        return versionName;
+        return versionKeyOrInternalName;
     }
 
-    public void setVersionName(String versionName) {
-        this.versionName = versionName;
+    public void setVersionName(String versionKeyOrInternalName) {
+        this.versionKeyOrInternalName = versionKeyOrInternalName;
     }
 
     public int getYear() {

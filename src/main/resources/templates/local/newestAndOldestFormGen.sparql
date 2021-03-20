@@ -1,16 +1,11 @@
 SELECT (year(xsd:dateTime(?earliestDate)) as ?earliestYear) (month(xsd:dateTime(?earliestDate)) as ?earliestMonth) (year(xsd:dateTime(?latestDate)) as ?latestYear) (month(xsd:dateTime(?latestDate)) as ?latestMonth)
 WHERE
 {
-    SELECT (min(?saveDate) as ?earliestDate) (max(?saveDate) as ?latestDate)
+    SELECT (min(?created) as ?earliestDate) (max(?created) as ?latestDate)
     WHERE {
-        ?x ?type <http://onto.fel.cvut.cz/ontologies/sformsmanager#FormGenMetadata> ;
-            <http://onto.fel.cvut.cz/ontologies/sformsmanager#connectionName> ?connectionName ;
-            <http://onto.fel.cvut.cz/ontologies/sformsmanager#formGenCreated> ?cre ;
-
-        OPTIONAL {?x <http://purl.org/dc/terms/modifed> ?mod}
-
-        BIND(COALESCE(?mod,?cre) as ?saveDate)
-
-
+        GRAPH ?contextUri {
+            ?x ?type <http://onto.fel.cvut.cz/ontologies/sformsmanager#RecordSnapshot> ;
+                <http://onto.fel.cvut.cz/ontologies/sformsmanager#recordSnapshotCreated> ?created ;
+        }
   }
 }

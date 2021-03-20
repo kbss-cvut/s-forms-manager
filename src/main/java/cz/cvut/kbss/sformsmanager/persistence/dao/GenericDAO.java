@@ -24,7 +24,7 @@ public interface GenericDAO<T> {
      *
      * @return All known instances that fit the condition
      */
-    List<T> findAllWhere(String projectDescriptorName, String propertyName, String value);
+    List<T> findAllWhere(String projectDescriptorName, String propertyName, Object value);
 
     /**
      * Finds entity instance with the specified identifier.
@@ -40,7 +40,7 @@ public interface GenericDAO<T> {
      *
      * @return First instance that fits the condition
      */
-    Optional<T> findFirstWhere(String projectDescriptorName, String propertyName, String value);
+    Optional<T> findFirstWhere(String projectDescriptorName, String propertyName, Object value);
 
     /**
      * Persists the specified entity.
@@ -98,5 +98,5 @@ public interface GenericDAO<T> {
      *
      * @return
      */
-    int countWhere(String projectDescriptorName, String propertyName, String value);
+    int countWhere(String projectDescriptorName, String propertyName, Object value);
 }

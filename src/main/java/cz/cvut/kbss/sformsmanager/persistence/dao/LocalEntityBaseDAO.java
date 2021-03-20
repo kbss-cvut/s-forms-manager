@@ -48,7 +48,7 @@ public abstract class LocalEntityBaseDAO<T> implements GenericDAO<T> {
     }
 
     @Override
-    public List<T> findAllWhere(String projectDescriptorName, String propertyName, String value) {
+    public List<T> findAllWhere(String projectDescriptorName, String propertyName, Object value) {
         try {
             return em.createNativeQuery("SELECT ?x WHERE { ?x a ?type . ?x ?propertyName ?value . }", type)
                     .setDescriptor(getDescriptorForProject(projectDescriptorName))
@@ -73,7 +73,7 @@ public abstract class LocalEntityBaseDAO<T> implements GenericDAO<T> {
     }
 
     @Override
-    public Optional<T> findFirstWhere(String projectDescriptorName, @NonNull String propertyName, @NonNull String value) {
+    public Optional<T> findFirstWhere(String projectDescriptorName, @NonNull String propertyName, @NonNull Object value) {
         try {
             return Optional.of(em.createNativeQuery("SELECT ?x WHERE { ?x a ?type . ?x ?propertyName ?value . } LIMIT 1", type)
                     .setDescriptor(getDescriptorForProject(projectDescriptorName))
@@ -160,7 +160,7 @@ public abstract class LocalEntityBaseDAO<T> implements GenericDAO<T> {
     }
 
     @Override
-    public int countWhere(String projectDescriptorName, @NonNull String propertyName, @NonNull String value) {
+    public int countWhere(String projectDescriptorName, @NonNull String propertyName, @NonNull Object value) {
         try {
             return em.createNativeQuery("SELECT (count(?x) as ?object) WHERE { ?x a ?type . ?x ?propertyName ?value . }", Integer.class)
                     .setDescriptor(getDescriptorForProject(projectDescriptorName))

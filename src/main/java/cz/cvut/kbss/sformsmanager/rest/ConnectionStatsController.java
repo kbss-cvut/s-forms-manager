@@ -17,7 +17,6 @@ package cz.cvut.kbss.sformsmanager.rest;
 import cz.cvut.kbss.sformsmanager.model.dto.ContextsStatsDTO;
 import cz.cvut.kbss.sformsmanager.model.dto.FormGenStatsDTO;
 import cz.cvut.kbss.sformsmanager.service.model.local.FormGenInstanceService;
-import cz.cvut.kbss.sformsmanager.service.model.local.FormGenMetadataService;
 import cz.cvut.kbss.sformsmanager.service.model.local.FormGenVersionService;
 import cz.cvut.kbss.sformsmanager.service.model.local.RecordService;
 import cz.cvut.kbss.sformsmanager.service.model.remote.ContextService;
@@ -32,15 +31,13 @@ public class ConnectionStatsController {
 
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(ConnectionStatsController.class);
 
-    private final FormGenMetadataService metadataService;
     private final FormGenInstanceService instanceService;
     private final FormGenVersionService versionService;
     private final ContextService contextService;
     private final RecordService recordService;
 
     @Autowired
-    public ConnectionStatsController(FormGenMetadataService metadataService, FormGenInstanceService instanceService, FormGenVersionService versionService, ContextService contextService, RecordService recordService) {
-        this.metadataService = metadataService;
+    public ConnectionStatsController(FormGenInstanceService instanceService, FormGenVersionService versionService, ContextService contextService, RecordService recordService) {
         this.instanceService = instanceService;
         this.versionService = versionService;
         this.contextService = contextService;
@@ -63,10 +60,10 @@ public class ConnectionStatsController {
             @RequestParam(value = "projectName") String projectName) {
 
         int totalContexts = contextService.count(projectName);
-        int processedContexts = metadataService.getConnectionCount(projectName);
+        int processedContexts = 0;
         int formGenInstances = instanceService.getConnectionCount(projectName);
         int formGenVersions = versionService.getConnectionCount(projectName);
-        int nonEmptyContexts = metadataService.getConnectionNonEmptyCount(projectName);
+        int nonEmptyContexts = 0;
 
         return new FormGenStatsDTO(totalContexts, processedContexts, formGenVersions, formGenInstances, nonEmptyContexts);
     }

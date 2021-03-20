@@ -14,11 +14,7 @@
  */
 package cz.cvut.kbss.sformsmanager.rest;
 
-import cz.cvut.kbss.sformsmanager.model.dto.FormGenLatestSavesListingDTO;
-import cz.cvut.kbss.sformsmanager.model.dto.FormGenMetadataDTO;
-import cz.cvut.kbss.sformsmanager.model.dto.FormGenSaveGroupInfoDTO;
 import cz.cvut.kbss.sformsmanager.service.data.FormGenJsonLoader;
-import cz.cvut.kbss.sformsmanager.service.model.local.FormGenMetadataService;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,10 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/formGen")
@@ -38,12 +31,10 @@ public class FormGenController {
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(FormGenController.class);
 
     private final FormGenJsonLoader formGenJsonLoader;
-    private final FormGenMetadataService metadataService;
 
     @Autowired
-    public FormGenController(FormGenJsonLoader FormGenJsonLoader, FormGenMetadataService metadataService) {
+    public FormGenController(FormGenJsonLoader FormGenJsonLoader) {
         this.formGenJsonLoader = FormGenJsonLoader;
-        this.metadataService = metadataService;
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "s-forms-json-ld")
@@ -52,31 +43,5 @@ public class FormGenController {
             @RequestParam(value = "contextUri") String contextUri
     ) throws URISyntaxException {
         return formGenJsonLoader.getFormGenRawJson(connectionName, contextUri).getRawJson();
-    }
-
-    @RequestMapping(path = "/latestSaves")
-    public FormGenLatestSavesListingDTO getFormGenLatests(@RequestParam(value = "connectionName") String connectionName) throws IOException {
-
-        int totalFormGens = metadataService.getConnectionCount(connectionName);
-        List<FormGenSaveGroupInfoDTO> latestSaves = metadataService.getFormGensWithHistoryCount(connectionName).stream()
-                .map(sids -> new FormGenSaveGroupInfoDTO(
-                        sids.getFormGenSaveHash(),
-                        sids.getHistorySaves(),
-                        sids.getCreated(),
-                        sids.getLastModified(),
-                        sids.getLastModifiedContextUri()
-                ))
-                .collect(Collectors.toList());
-
-        return new FormGenLatestSavesListingDTO(latestSaves, totalFormGens);
-    }
-
-    @RequestMapping(path = "/history")
-    public List<FormGenMetadataDTO> getFormGenHistory(@RequestParam(value = "connectionName") String connectionName, @RequestParam(value = "saveHash") String saveHash) {
-
-        return metadataService.findHistoryOfFormGen(connectionName, saveHash).stream()
-                .map(FormGenMetadataDTO::new)
-                .sorted((o1, o2) -> o2.getModified().compareTo(o1.getModified())) // reverse order
-                .collect(Collectors.toList());
     }
 }

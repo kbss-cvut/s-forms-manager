@@ -4,7 +4,7 @@ import cz.cvut.kbss.jopa.model.annotations.ConstructorResult;
 import cz.cvut.kbss.jopa.model.annotations.SparqlResultSetMapping;
 import cz.cvut.kbss.jopa.model.annotations.VariableResult;
 
-@SparqlResultSetMapping(name = "FormGenLatestAndNewestDateResults",
+@SparqlResultSetMapping(name = FormGenLatestAndNewestDateDBResponse.LATEST_NEWEST_MAPPING,
         classes = {
                 @ConstructorResult(targetClass = FormGenLatestAndNewestDateDBResponse.class, variables = {
                         @VariableResult(name = "earliestYear", type = Integer.class),
@@ -13,7 +13,8 @@ import cz.cvut.kbss.jopa.model.annotations.VariableResult;
                         @VariableResult(name = "latestMonth", type = Integer.class),
                 })
         })
-public class FormGenLatestAndNewestDateDBResponse {
+public class FormGenLatestAndNewestDateDBResponse implements SparqlMappingResponse {
+    public static final String LATEST_NEWEST_MAPPING = "FormGenLatestAndNewestDateResults";
     private int earliestYear;
     private int earliestMonth;
     private int latestYear;
@@ -56,5 +57,10 @@ public class FormGenLatestAndNewestDateDBResponse {
 
     public void setLatestMonth(int latestMonth) {
         this.latestMonth = latestMonth;
+    }
+
+    @Override
+    public String getMapping() {
+        return LATEST_NEWEST_MAPPING;
     }
 }

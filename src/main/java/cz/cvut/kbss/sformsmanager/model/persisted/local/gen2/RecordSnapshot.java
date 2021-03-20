@@ -1,9 +1,6 @@
 package cz.cvut.kbss.sformsmanager.model.persisted.local.gen2;
 
-import cz.cvut.kbss.jopa.model.annotations.OWLClass;
-import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
-import cz.cvut.kbss.jopa.model.annotations.OWLObjectProperty;
-import cz.cvut.kbss.jopa.model.annotations.ParticipationConstraints;
+import cz.cvut.kbss.jopa.model.annotations.*;
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.LocalEntity;
 
@@ -21,10 +18,10 @@ public class RecordSnapshot extends LocalEntity implements Serializable {
     @OWLObjectProperty(iri = Vocabulary.p_hasRecordVersion)
     private RecordVersion recordVersion;
 
-    @OWLObjectProperty(iri = Vocabulary.p_hasFormTemplateVersion)
+    @OWLObjectProperty(iri = Vocabulary.p_hasFormTemplateVersion, fetch = FetchType.EAGER) // TODO: lazy not working?
     private FormTemplateVersion formTemplateVersion;
 
-    @OWLObjectProperty(iri = Vocabulary.p_hasSubmittedAnswers)
+    @OWLObjectProperty(iri = Vocabulary.p_hasSubmittedAnswers, fetch = FetchType.EAGER) // TODO: lazy not working?
     private Set<SubmittedAnswer> answers;
 
     @ParticipationConstraints(nonEmpty = true)

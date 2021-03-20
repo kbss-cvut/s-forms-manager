@@ -1,11 +1,14 @@
 package cz.cvut.kbss.sformsmanager.service.model.local;
 
+import cz.cvut.kbss.sformsmanager.model.Vocabulary;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.gen2.Record;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.gen2.RecordSnapshot;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.RecordDAO;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.RecordSnapshotDAO;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.RecordVersionDAO;
 import org.springframework.stereotype.Service;
 
+import java.net.URI;
 import java.util.List;
 
 @Service
@@ -29,11 +32,23 @@ public class RecordService {
         return recordVersionDAO.count(projectName);
     }
 
+    public int countRecordVersionsForRecord(String projectName, Record record) {
+        return recordVersionDAO.countWhere(projectName, Vocabulary.p_hasRecord, record.getUri());
+    }
+
+    public int countRecordVersionAnswersForRecord(String projectName, Record record) {
+        return recordVersionDAO.countWhere(projectName, Vocabulary.p_hasRecord, record.getUri());
+    }
+
     public int countRecordSnapshots(String projectName) {
         return recordSnapshotDAO.count(projectName);
     }
 
     public List<Record> findAllRecords(String projectName) {
         return recordDAO.findAll(projectName);
+    }
+
+    public List<RecordSnapshot> findRecordSnapshotsForRecord(String projectName, String recordURI) {
+        return recordSnapshotDAO.findAllWhere(projectName, Vocabulary.p_hasRecord, URI.create(recordURI));
     }
 }

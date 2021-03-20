@@ -26,9 +26,6 @@ public class RecordController {
     @RequestMapping(method = RequestMethod.GET)
     public List<RecordDTO> listRecords(@RequestParam(value = "projectName") String projectName) {
 
-//        int numberOfRecords = recordService.countRecords(projectName);
-//        int numberOfRecordVersions = recordService.countRecordVersions(projectName);
-
         return recordService.findAllRecords(projectName).stream()
                 .map(record -> new RecordDTO(
                         record.getUri().toString(),
@@ -36,7 +33,7 @@ public class RecordController {
                         record.getKey(),
                         record.getRemoteContextURI(),
                         0, // TODO:
-                        0
+                        recordService.countRecordVersionsForRecord(projectName, record) // TODO: very ineffective, should be part of the initial call
                 ))
                 .collect(Collectors.toList());
     }

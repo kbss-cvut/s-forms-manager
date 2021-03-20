@@ -23,7 +23,7 @@ public abstract class RemoteEntityDAO<T> {
         return entityManagerProvider.getEntityManagerFactory(connectionName);
     }
 
-    public T executeOnEntityManager(String connectionName, EntityManagerConsumer emConsumer, String errorMessage) throws IOException {
+    public T executeOnEntityManager(String connectionName, EntityManagerInvoker emConsumer, String errorMessage) throws IOException {
         try {
             EntityManager em = getEntityManagerByConnection(connectionName);
             return (T) emConsumer.accept(em);
@@ -32,7 +32,7 @@ public abstract class RemoteEntityDAO<T> {
         }
     }
 
-    interface EntityManagerConsumer<T> {
+    interface EntityManagerInvoker<T> {
         Object accept(EntityManager entityManager) throws IOException;
     }
 }
