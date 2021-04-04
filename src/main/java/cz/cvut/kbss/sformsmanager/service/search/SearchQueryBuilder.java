@@ -1,4 +1,4 @@
-package cz.cvut.kbss.sformsmanager.service.process;
+package cz.cvut.kbss.sformsmanager.service.search;
 
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
 import freemarker.template.Template;

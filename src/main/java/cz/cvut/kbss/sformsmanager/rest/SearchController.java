@@ -15,7 +15,7 @@
 package cz.cvut.kbss.sformsmanager.rest;
 
 import cz.cvut.kbss.sformsmanager.service.model.local.SearchService;
-import cz.cvut.kbss.sformsmanager.service.process.SearchQueryBuilder;
+import cz.cvut.kbss.sformsmanager.service.search.SearchQueryTemplateService;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
 import org.slf4j.Logger;
@@ -35,31 +35,28 @@ public class SearchController {
 
     private final freemarker.template.Configuration templateCfg;
     private final SearchService searchService;
+    private final SearchQueryTemplateService searchQueryTemplateService;
 
     @Autowired
-    public SearchController(Configuration templateCfg, SearchService searchService) {
+    public SearchController(Configuration templateCfg, SearchService searchService, SearchQueryTemplateService searchQueryTemplateService) {
         this.templateCfg = templateCfg;
         this.searchService = searchService;
+        this.searchQueryTemplateService = searchQueryTemplateService;
     }
 
     @RequestMapping(path = "/updateQuery", method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
-    public String updateSearchQuery(
+    public String getSearchQuery(
             @RequestParam(value = "projectName") String projectName,
-            @RequestParam(value = "versions") List<String> versions,
-            @RequestParam(value = "saveHashes") List<String> saveHashes,
-            @RequestParam(value = "latestSaves") boolean latestSaves) throws IOException, TemplateException {
+            @RequestParam(value = "queryId") String queryId,
+            @RequestParam(value = "parameter1") String parameter1,
+            @RequestParam(value = "parameter2") String parameter2
+    ) throws IOException, TemplateException {
 
-        SearchQueryBuilder queryBuilder = new SearchQueryBuilder(templateCfg);
-        queryBuilder.setProjectName(projectName);
-        queryBuilder.setSaveHashes(saveHashes);
-        queryBuilder.setLatestSaves(latestSaves);
-        queryBuilder.setVersions(versions);
-        return queryBuilder.build();
-
+        return searchQueryTemplateService.getQuery(projectName, queryId, parameter1, parameter2);
     }
 
-    @PostMapping(path = "/runQuery")
+    @PostMapping(path = "/runQuery") // TODO: unify this PostMapping vs RequestMapping
     @ResponseStatus(value = HttpStatus.OK)
     public List<Object> runSearchQuery(
             @RequestBody SearchQueryRequest request) {
@@ -67,6 +64,17 @@ public class SearchController {
         List<Object> searchResults = searchService.runSearchQuery(request.getQuery()).stream().collect(Collectors.toList());
 
         return searchResults;
+    }
+
+    @RequestMapping(path = "/getAutocomplete", method = RequestMethod.GET)
+    @ResponseStatus(value = HttpStatus.OK)
+    public List<String> getAutocomplete(
+            @RequestParam(value = "projectName") String projectName,
+            @RequestParam(value = "depth") int depth,
+            @RequestParam(value = "questionOriginPath") String questionOriginPath) throws IOException {  // TODO: handle all the exceptions in controller layer
+
+        Integer depthString = Integer.valueOf(depth); // TODO: fix this
+        return searchService.getAutocompleteValues(projectName, depthString, questionOriginPath);
     }
 
     private static class SearchQueryRequest {

@@ -26,7 +26,7 @@ public class CustomQueryDAO {
         try {
             return emInvoker.accept(entityManager);
         } catch (NoResultException ne) {
-            throw new PersistenceException(errorMessage);
+            throw new PersistenceException(errorMessage, ne);
         }
     }
 
@@ -34,7 +34,7 @@ public class CustomQueryDAO {
         try {
             return emInvoker.accept(entityManager);
         } catch (RuntimeException ne) {
-            throw new PersistenceException(errorMessage);
+            throw new PersistenceException(errorMessage, ne);
         }
     }
 

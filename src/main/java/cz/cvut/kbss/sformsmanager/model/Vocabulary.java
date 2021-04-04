@@ -60,12 +60,12 @@ public class Vocabulary {
 
     public static final String p_originPathsHash = URI_BASE + "questionOriginPathHash";
     public static final String p_originPath = URI_BASE + "questionOriginPath";
+    public static final String p_questionTreeDepth = URI_BASE + "questionTreeDepth";
     public static final String p_hasQuestionTemplateSnapshots = URI_BASE + "hasQuestionTemplateSnapshots";
     public static final String p_hasFormTemplate = URI_BASE + "hasFormTemplate";
     public static final String p_hasFormTemplateSnapshots = URI_BASE + "hasFormTemplateSnapshots";
     public static final String p_hasFormTemplateVersion = URI_BASE + "hasFormTemplateVersion";
     public static final String p_hasFormTemplateVersions = URI_BASE + "hasFormTemplateVersions";
-    public static final String p_hasFormTemplateVersionKey = URI_BASE + "hasFormTemplateVersionKey";
     public static final String p_hasRecordSnapshots = URI_BASE + "hasRecordSnapshots";
     public static final String p_hasRecordSnapshot = URI_BASE + "hasRecordSnapshot";
     public static final String p_hasRecord = URI_BASE + "hasRecord";
@@ -105,3 +105,22 @@ public class Vocabulary {
 
 
 }
+
+//    	?record sfm:hasRecordSnapshots ?recordSnapshot .
+//
+//                ?recordSnapshot sfm:recordSnapshotCreated ?recordSnapshotCreateDate .
+//
+//                # get only the latest record snapshot
+//                FILTER NOT EXISTS {
+//                ?record sfm:hasRecordSnapshots ?anotherRecordSnapshot .
+//                ?anotherRecordSnapshot sfm:recordSnapshotCreated ?possiblyLaterSnapshotCreateDate .
+//                filter (?possiblyLaterSnapshotCreateDate > ?recordSnapshotCreateDate)
+//                }
+//
+//                # find the desired question origin
+//                ?recordSnapshot sfm:hasSubmittedAnswers ?recordSnapshotAnswer .
+//                ?recordSnapshotAnswer form:has-question-origin ?QUESTION_ORIGIN .
+//
+//                # filter out according to our condition
+//                # some of the possible operators are: = != > < IN NOT IN
+//        FILTER (?recordSnapshotAnswer = ?ANSWER_VALUE) .

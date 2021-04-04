@@ -1,0 +1,12 @@
+PREFIX sfm: <http://onto.fel.cvut.cz/ontologies/sformsmanager#>
+
+SELECT DISTINCT ?qo
+WHERE {
+    GRAPH ?contextUri {
+        ?questionTemplateSnapshot a sfm:QuestionTemplateSnapshot .
+        ?questionTemplateSnapshot sfm:questionTreeDepth ?questionDepth .
+        ?questionTemplateSnapshot sfm:questionOriginPath ?qo .
+
+        FILTER (strstarts(str(?qo), ?questionOriginPath))
+  }
+}

@@ -39,12 +39,12 @@ public class QuestionTreeRemoteDataProcessor {
         processAnswers(questionSnapshotRemoteData, qo); // TODO: do non-leaf question have answers at all?
 
         // record current node's question-origin-path + question-origin
-        String currentQuestionOriginPath = StringUtils.join(questionOriginPathBuilder);
+        String currentQuestionOriginPath = StringUtils.join(questionOriginPathBuilder, "|");
         questionOriginsAndTheirPaths.put(qo, currentQuestionOriginPath);
 
         // terminate recursion at leaf nodes
         if (questionSnapshotRemoteData.getSubQuestions().isEmpty()) {
-            questionOriginPathBuilder.pop();
+            questionOriginPathBuilder.removeFirst();
             return;
         }
 

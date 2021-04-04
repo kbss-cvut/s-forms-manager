@@ -42,7 +42,7 @@ public class FormTemplateVersionController {
                         version.getInternalName(),
                         version.getUri().toString(),
                         version.getSampleRemoteContextURI(),
-                        questionTemplateService.countSnapshotsWithFormTemplateVersion(projectName, version.getKey())))
+                        questionTemplateService.countSnapshotsWithFormTemplateVersion(projectName, version.getUri())))
                 .collect(Collectors.toList());
     }
 

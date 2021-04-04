@@ -6,6 +6,8 @@ import cz.cvut.kbss.sformsmanager.persistence.dao.local.QuestionTemplateSnapshot
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.net.URI;
+
 @Service
 public class QuestionTemplateService {
 
@@ -26,7 +28,7 @@ public class QuestionTemplateService {
         return questionTemplateSnapshotDAO.count(projectName);
     }
 
-    public int countSnapshotsWithFormTemplateVersion(String projectName, String formTemplateVersionKey) {
-        return questionTemplateSnapshotDAO.countWhere(projectName, Vocabulary.p_hasFormTemplateVersionKey, formTemplateVersionKey);
+    public int countSnapshotsWithFormTemplateVersion(String projectName, URI formTemplateVersionURI) {
+        return questionTemplateSnapshotDAO.countWhere(projectName, Vocabulary.p_hasFormTemplateVersion, formTemplateVersionURI);
     }
 }

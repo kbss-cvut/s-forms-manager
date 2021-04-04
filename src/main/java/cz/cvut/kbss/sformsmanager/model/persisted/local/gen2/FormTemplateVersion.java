@@ -1,10 +1,7 @@
 package cz.cvut.kbss.sformsmanager.model.persisted.local.gen2;
 
 
-import cz.cvut.kbss.jopa.model.annotations.OWLClass;
-import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
-import cz.cvut.kbss.jopa.model.annotations.OWLObjectProperty;
-import cz.cvut.kbss.jopa.model.annotations.ParticipationConstraints;
+import cz.cvut.kbss.jopa.model.annotations.*;
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.LocalEntity;
 
@@ -19,7 +16,7 @@ public class FormTemplateVersion extends LocalEntity implements Serializable {
     private FormTemplate formTemplate;
 
     @ParticipationConstraints(nonEmpty = true)
-    @OWLObjectProperty(iri = Vocabulary.p_hasQuestionTemplateSnapshot)
+    @OWLObjectProperty(iri = Vocabulary.p_hasQuestionTemplateSnapshot, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private QuestionTemplateSnapshot questionTemplateSnapshot;
 
     @ParticipationConstraints(nonEmpty = true)

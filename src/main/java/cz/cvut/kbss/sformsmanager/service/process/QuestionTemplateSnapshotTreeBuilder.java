@@ -1,5 +1,6 @@
 package cz.cvut.kbss.sformsmanager.service.process;
 
+import cz.cvut.kbss.sformsmanager.model.persisted.local.gen2.FormTemplateVersion;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.gen2.QuestionTemplateSnapshot;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.gen2.SubmittedAnswer;
 import cz.cvut.kbss.sformsmanager.model.persisted.response.QuestionSnapshotRemoteData;
@@ -8,60 +9,55 @@ import cz.cvut.kbss.sformsmanager.utils.ObjectUtils;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class QuestionTemplateSnapshotTreeBuilder {
 
     private final QuestionSnapshotRemoteData remoteRootQuestion;
     private Map<String, String> questionOriginAndTheirPaths;
-    private String formTemplateVersionKey;
+    private FormTemplateVersion formTemplateVersion;
     private Map<String, SubmittedAnswer> answerMap;
     private String projectName;
-    private Function<QuestionTemplateSnapshot, QuestionTemplateSnapshot> updateOperation;
 
     public QuestionTemplateSnapshotTreeBuilder(
             QuestionSnapshotRemoteData remoteRootQuestion,
             Map<String, String> questionOriginAndTheirPaths,
-            String formTemplateVersionKey,
+            FormTemplateVersion formTemplateVersion,
             Map<String, SubmittedAnswer> answerMap,
-            String projectName,
-            Function<QuestionTemplateSnapshot, QuestionTemplateSnapshot> updateOperation) {
+            String projectName) {
 
         this.remoteRootQuestion = remoteRootQuestion;
         this.questionOriginAndTheirPaths = questionOriginAndTheirPaths;
-        this.formTemplateVersionKey = formTemplateVersionKey;
+        this.formTemplateVersion = formTemplateVersion;
         this.answerMap = answerMap;
         this.projectName = projectName;
-        this.updateOperation = updateOperation;
     }
 
     public QuestionTemplateSnapshot process() {
-        return buildQTSTreeWithDFS(remoteRootQuestion);
+        return buildQTSTreeWithDFS(remoteRootQuestion, 0);
     }
 
-    private QuestionTemplateSnapshot buildQTSTreeWithDFS(QuestionSnapshotRemoteData questionRemoteData) {
-        String qtsKey = ObjectUtils.createKeyForContext(this.projectName, formTemplateVersionKey + "/" + questionOriginAndTheirPaths.get(questionRemoteData.getQuestionOrigin()));
+    private QuestionTemplateSnapshot buildQTSTreeWithDFS(QuestionSnapshotRemoteData questionRemoteData, Integer depth) {
+        String qtsKey = ObjectUtils.createKeyForContext(this.projectName, formTemplateVersion.getKey() + "/" + questionOriginAndTheirPaths.get(questionRemoteData.getQuestionOrigin()));
         if (questionRemoteData.getSubQuestions().isEmpty()) {
-            QuestionTemplateSnapshot questionTemplateSnapshot = createQuestionTemplateSnapshot(qtsKey, questionRemoteData.getQuestionOrigin(), null);
-            return updateOperation.apply(questionTemplateSnapshot);
+            return createQuestionTemplateSnapshot(qtsKey, questionRemoteData.getQuestionOrigin(), null, depth);
         }
 
         Set<QuestionTemplateSnapshot> subQuestionTemplateSnapshots = questionRemoteData.getSubQuestions().stream()
                 .map(qRemoteData ->
-                        buildQTSTreeWithDFS(qRemoteData)
+                        buildQTSTreeWithDFS(qRemoteData, depth + 1)
                 ).collect(Collectors.toSet());
 
-        QuestionTemplateSnapshot questionTemplateSnapshot = createQuestionTemplateSnapshot(qtsKey, questionRemoteData.getQuestionOrigin(), subQuestionTemplateSnapshots);
-        return updateOperation.apply(questionTemplateSnapshot);
+        return createQuestionTemplateSnapshot(qtsKey, questionRemoteData.getQuestionOrigin(), subQuestionTemplateSnapshots, depth);
     }
 
-    private QuestionTemplateSnapshot createQuestionTemplateSnapshot(String qtsKey, String questionOrigin, Set<QuestionTemplateSnapshot> subQuestionTemplateSnapshots) {
+    private QuestionTemplateSnapshot createQuestionTemplateSnapshot(String qtsKey, String questionOrigin, Set<QuestionTemplateSnapshot> subQuestionTemplateSnapshots, Integer depth) {
         return new QuestionTemplateSnapshot(
                 qtsKey,
-                formTemplateVersionKey,
                 subQuestionTemplateSnapshots,
+                formTemplateVersion,
                 questionOriginAndTheirPaths.get(questionOrigin),
+                depth,
                 questionOrigin,
                 new HashSet<SubmittedAnswer>() {{
                     if (answerMap.containsKey(questionOrigin)) {

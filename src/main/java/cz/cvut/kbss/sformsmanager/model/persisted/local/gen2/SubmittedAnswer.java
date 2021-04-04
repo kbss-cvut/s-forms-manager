@@ -16,7 +16,7 @@ public class SubmittedAnswer extends LocalEntity implements Serializable {
     private String textValue;
 
     @ParticipationConstraints()
-    @OWLDataProperty(iri = Vocabulary.p_originPath)
+    @OWLDataProperty(iri = Vocabulary.s_p_has_question_origin)
     private String questionOrigin;
 
     // key is the QUESTION-ORIGIN + ANSWER VALUE -> hash

@@ -1,8 +1,6 @@
 package cz.cvut.kbss.sformsmanager.model.persisted.local.gen2;
 
-import cz.cvut.kbss.jopa.model.annotations.OWLClass;
-import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
-import cz.cvut.kbss.jopa.model.annotations.OWLObjectProperty;
+import cz.cvut.kbss.jopa.model.annotations.*;
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.LocalEntity;
 
@@ -12,14 +10,18 @@ import java.util.Set;
 @OWLClass(iri = Vocabulary.QuestionTemplateSnapshot)
 public class QuestionTemplateSnapshot extends LocalEntity implements Serializable {
 
-    @OWLObjectProperty(iri = Vocabulary.p_hasQuestionTemplateSnapshots)
+    @OWLObjectProperty(iri = Vocabulary.p_hasQuestionTemplateSnapshots, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<QuestionTemplateSnapshot> questionTemplateSnapshots;
 
-    @OWLDataProperty(iri = Vocabulary.p_hasFormTemplateVersionKey)
-    private String formTemplateVersionKey;
+    @ParticipationConstraints(nonEmpty = true)
+    @OWLObjectProperty(iri = Vocabulary.p_hasFormTemplateVersion)
+    private FormTemplateVersion formTemplateVersion;
 
-    @OWLDataProperty(iri = Vocabulary.p_originPathsHash)
+    @OWLDataProperty(iri = Vocabulary.p_originPath)
     private String questionOriginPath;
+
+    @OWLDataProperty(iri = Vocabulary.p_questionTreeDepth)
+    private Integer questionTreeDepth;
 
     @OWLDataProperty(iri = Vocabulary.s_p_has_question_origin)
     private String questionOrigin;
@@ -34,16 +36,18 @@ public class QuestionTemplateSnapshot extends LocalEntity implements Serializabl
 
     public QuestionTemplateSnapshot(
             String formTemplateVersionAndOriginPathHashKey,
-            String formTemplateVersionKey,
             Set<QuestionTemplateSnapshot> questionTemplateSnapshots,
+            FormTemplateVersion formTemplateVersion,
             String questionOriginPath,
+            Integer questionTreeDepth,
             String questionOrigin,
             Set<SubmittedAnswer> answers) {
 
         super(formTemplateVersionAndOriginPathHashKey);
-        this.formTemplateVersionKey = formTemplateVersionKey;
+        this.formTemplateVersion = formTemplateVersion;
         this.questionTemplateSnapshots = questionTemplateSnapshots;
         this.questionOriginPath = questionOriginPath;
+        this.questionTreeDepth = questionTreeDepth;
         this.questionOrigin = questionOrigin;
         this.answers = answers;
     }
@@ -80,11 +84,19 @@ public class QuestionTemplateSnapshot extends LocalEntity implements Serializabl
         this.questionTemplateSnapshots = questionTemplateSnapshots;
     }
 
-    public String getFormTemplateVersionKey() {
-        return formTemplateVersionKey;
+    public FormTemplateVersion getFormTemplateVersion() {
+        return formTemplateVersion;
     }
 
-    public void setFormTemplateVersionKey(String formTemplateVersionKey) {
-        this.formTemplateVersionKey = formTemplateVersionKey;
+    public void setFormTemplateVersion(FormTemplateVersion formTemplateVersion) {
+        this.formTemplateVersion = formTemplateVersion;
+    }
+
+    public int getQuestionTreeDepth() {
+        return questionTreeDepth;
+    }
+
+    public void setQuestionTreeDepth(int questionTreeDepth) {
+        this.questionTreeDepth = questionTreeDepth;
     }
 }

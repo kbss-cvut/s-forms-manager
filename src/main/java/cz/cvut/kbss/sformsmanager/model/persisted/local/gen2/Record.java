@@ -1,19 +1,20 @@
 package cz.cvut.kbss.sformsmanager.model.persisted.local.gen2;
 
-import cz.cvut.kbss.jopa.model.annotations.OWLClass;
-import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
-import cz.cvut.kbss.jopa.model.annotations.OWLObjectProperty;
-import cz.cvut.kbss.jopa.model.annotations.ParticipationConstraints;
+import cz.cvut.kbss.jopa.model.annotations.*;
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.LocalEntity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 @OWLClass(iri = Vocabulary.Record)
 public class Record extends LocalEntity implements Serializable {
 
-    @ParticipationConstraints()
+    @ParticipationConstraints(nonEmpty = true)
+    @OWLObjectProperty(iri = Vocabulary.p_hasRecordSnapshots, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Set<RecordSnapshot> recordSnapshots;
+
     @OWLObjectProperty(iri = Vocabulary.p_hasFormTemplate)
     private FormTemplate formTemplate;
 
@@ -30,8 +31,9 @@ public class Record extends LocalEntity implements Serializable {
     public Record() {
     }
 
-    public Record(String recordUriAndCreatedHashKey, FormTemplate formTemplate, Date recordCreated, String remoteContextURI) {
+    public Record(String recordUriAndCreatedHashKey, Set<RecordSnapshot> recordSnapshots, FormTemplate formTemplate, Date recordCreated, String remoteContextURI) {
         super(recordUriAndCreatedHashKey);
+        this.recordSnapshots = recordSnapshots;
         this.formTemplate = formTemplate;
         this.recordCreated = recordCreated;
         this.remoteContextURI = remoteContextURI;
@@ -59,6 +61,14 @@ public class Record extends LocalEntity implements Serializable {
 
     public void setRemoteContextURI(String remoteContextURI) {
         this.remoteContextURI = remoteContextURI;
+    }
+
+    public Set<RecordSnapshot> getRecordSnapshots() {
+        return recordSnapshots;
+    }
+
+    public void setRecordSnapshots(Set<RecordSnapshot> recordSnapshots) {
+        this.recordSnapshots = recordSnapshots;
     }
 }
 

@@ -1,0 +1,34 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX sfm: <http://onto.fel.cvut.cz/ontologies/sformsmanager#>
+PREFIX doc: <http://onto.fel.cvut.cz/ontologies/documentation/>
+PREFIX form: <http://onto.fel.cvut.cz/ontologies/form/>
+
+SELECT ?record ?answerValue1 ?answerValue2
+WHERE {
+    GRAPH <${contextUri}> {
+
+    	?record a sfm:Record .
+    	?record sfm:hasRecordSnapshots ?recordSnapshot .
+		?recordSnapshot sfm:recordSnapshotCreated ?recordSnapshotCreateDate .
+
+        # get only the latest record snapshot
+        FILTER NOT EXISTS {
+      		?record sfm:hasRecordSnapshots ?anotherRecordSnapshot .
+    	    ?anotherRecordSnapshot sfm:recordSnapshotCreated ?possiblyLaterSnapshotCreateDate .
+        	filter (?possiblyLaterSnapshotCreateDate > ?recordSnapshotCreateDate)
+	    }
+
+    	# find the desired question by its origin #1
+    	?recordSnapshot sfm:hasSubmittedAnswers ?recordSnapshotAnswer .
+      	?recordSnapshotAnswer1 sfm:questionOriginPath ?QUESTION_ORIGIN_1 .
+    	?recordSnapshotAnswer1 sfm:hasAnswerValue ?answerValue1 .
+
+    	# find the desired question by its origin #2
+      	?recordSnapshotAnswer2 sfm:questionOriginPath ?QUESTION_ORIGIN_2 .
+    	?recordSnapshotAnswer2 sfm:hasAnswerValue ?answerValue2 .
+
+    	# filter out according to our condition
+      	# some of the possible operators are: = != > < IN NOT IN
+      	FILTER (?answerValue1 != "" && ?answerValue2 != "") . # EDIT THIS
+    }
+}
