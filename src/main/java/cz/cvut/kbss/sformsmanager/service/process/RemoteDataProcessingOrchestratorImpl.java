@@ -65,13 +65,13 @@ public class RemoteDataProcessingOrchestratorImpl implements RemoteDataProcessin
         String recordSnapshotKey = ObjectUtils.createKeyForContext(projectName, contextUri);
 
         // Record
-        String recordKey = ObjectUtils.createKeyForContext(projectName, recordRemoteData.getRemoteRecordURI() + "/" + recordRemoteData.getRecordCreateDate());
+        String recordKey = ObjectUtils.createKeyForContext(projectName, recordRemoteData.getRemoteRecordURI()); // TODO:  + "/" + recordRemoteData.getRecordCreateDate()
         Optional<Record> recordOpt = recordDAO.findByKey(projectName, recordKey);
         Record record;
         if (recordOpt.isPresent()) {
             record = recordOpt.get();
         } else {
-            record = recordDAO.update(projectName, new Record(recordKey, new HashSet<>(), null, recordRemoteData.getRecordCreateDate(), contextUri.toString()));
+            record = recordDAO.update(projectName, new Record(recordKey, new HashSet<>(), new HashSet<>(), null, recordRemoteData.getRecordCreateDate(), contextUri.toString()));
         }
 
         if (recordRemoteData.getQuestion() == null) {
@@ -133,7 +133,7 @@ public class RemoteDataProcessingOrchestratorImpl implements RemoteDataProcessin
 
 
         // RecordVersion
-        String recordVersionKey = ObjectUtils.createKeyForContext(projectName, recordRemoteData.getRemoteRecordURI() + "/" + processor.getAllQuestionOriginsAndAnswersHash());
+        String recordVersionKey = ObjectUtils.createKeyForContext(projectName, record.getUri() + "/" + processor.getAllQuestionOriginsAndAnswersHash());
         Optional<RecordVersion> recordVersionOpt = recordVersionDAO.findByKey(projectName, recordVersionKey);
 
         RecordVersion recordVersion;
@@ -150,6 +150,7 @@ public class RemoteDataProcessingOrchestratorImpl implements RemoteDataProcessin
         // re-update Record
         record.setFormTemplate(formTemplate);
         record.getRecordSnapshots().add(recordSnapshot);
+        record.getRecordVersions().add(recordVersion);
         record = recordDAO.update(projectName, record);
     }
 

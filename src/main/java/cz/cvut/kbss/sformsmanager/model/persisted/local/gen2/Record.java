@@ -15,6 +15,10 @@ public class Record extends LocalEntity implements Serializable {
     @OWLObjectProperty(iri = Vocabulary.p_hasRecordSnapshots, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<RecordSnapshot> recordSnapshots;
 
+    @ParticipationConstraints()
+    @OWLObjectProperty(iri = Vocabulary.p_hasRecordVersions, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Set<RecordVersion> recordVersions;
+
     @OWLObjectProperty(iri = Vocabulary.p_hasFormTemplate)
     private FormTemplate formTemplate;
 
@@ -31,9 +35,10 @@ public class Record extends LocalEntity implements Serializable {
     public Record() {
     }
 
-    public Record(String recordUriAndCreatedHashKey, Set<RecordSnapshot> recordSnapshots, FormTemplate formTemplate, Date recordCreated, String remoteContextURI) {
+    public Record(String recordUriAndCreatedHashKey, Set<RecordSnapshot> recordSnapshots, Set<RecordVersion> recordVersions, FormTemplate formTemplate, Date recordCreated, String remoteContextURI) {
         super(recordUriAndCreatedHashKey);
         this.recordSnapshots = recordSnapshots;
+        this.recordVersions = recordVersions;
         this.formTemplate = formTemplate;
         this.recordCreated = recordCreated;
         this.remoteContextURI = remoteContextURI;
@@ -69,6 +74,14 @@ public class Record extends LocalEntity implements Serializable {
 
     public void setRecordSnapshots(Set<RecordSnapshot> recordSnapshots) {
         this.recordSnapshots = recordSnapshots;
+    }
+
+    public Set<RecordVersion> getRecordVersions() {
+        return recordVersions;
+    }
+
+    public void setRecordVersions(Set<RecordVersion> recordVersions) {
+        this.recordVersions = recordVersions;
     }
 }
 

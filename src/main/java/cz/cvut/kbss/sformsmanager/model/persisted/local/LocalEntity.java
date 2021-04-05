@@ -1,6 +1,5 @@
 package cz.cvut.kbss.sformsmanager.model.persisted.local;
 
-import com.google.common.base.Objects;
 import cz.cvut.kbss.jopa.model.annotations.Id;
 import cz.cvut.kbss.jopa.model.annotations.MappedSuperclass;
 import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
@@ -49,19 +48,5 @@ public class LocalEntity implements HasUniqueKey {
 
     public void setKey(String key) {
         this.key = key;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof LocalEntity)) return false;
-        LocalEntity that = (LocalEntity) o;
-        return Objects.equal(getUri(), that.getUri()) &&
-                Objects.equal(getKey(), that.getKey());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getUri(), getKey());
     }
 }

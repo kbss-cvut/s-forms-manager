@@ -24,11 +24,10 @@ public class RecordDAO extends LocalEntityBaseDAO<Record> {
 
     public List<Record> findAllWithRecordVersion(String projectDescriptorName) {
         try {
-            return em.createNativeQuery("SELECT ?x WHERE { ?x a ?type . ?v a ?typeVersion . ?v ?hasRecord ?x }", type) // TODO: the other way
+            return em.createNativeQuery("SELECT DISTINCT ?x WHERE { ?x a ?type . ?x ?hasRecordVersions ?v . }", type)
                     .setDescriptor(getDescriptorForProject(projectDescriptorName))
-                    .setParameter("hasRecord", URI.create(Vocabulary.p_hasRecord))
                     .setParameter("type", typeUri)
-                    .setParameter("typeVersion", URI.create(Vocabulary.RecordVersion))
+                    .setParameter("hasRecordVersions", URI.create(Vocabulary.p_hasRecordVersions))
                     .getResultList();
         } catch (RuntimeException e) {
             throw new PersistenceException(e);
