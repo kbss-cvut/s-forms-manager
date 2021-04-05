@@ -3,7 +3,7 @@ package cz.cvut.kbss.sformsmanager.rest;
 import cz.cvut.kbss.sformsmanager.exception.VersionNotFoundException;
 import cz.cvut.kbss.sformsmanager.model.dto.FormTemplateVersionDTO;
 import cz.cvut.kbss.sformsmanager.model.dto.FormTemplateVersionHistogramDTO;
-import cz.cvut.kbss.sformsmanager.model.persisted.local.gen2.FormTemplateVersion;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.FormTemplateVersion;
 import cz.cvut.kbss.sformsmanager.model.persisted.response.VersionHistogramQueryResult;
 import cz.cvut.kbss.sformsmanager.model.persisted.response.VersionHistoryBoundsQueryResult;
 import cz.cvut.kbss.sformsmanager.service.model.local.FormTemplateService;

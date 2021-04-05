@@ -1,6 +1,6 @@
 package cz.cvut.kbss.sformsmanager.service.model.local;
 
-import cz.cvut.kbss.sformsmanager.model.persisted.local.gen2.SubmittedAnswer;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.SubmittedAnswer;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.RecordSnapshotDAO;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.SubmittedAnswerDAO;
 import cz.cvut.kbss.sformsmanager.rest.NotFoundException;

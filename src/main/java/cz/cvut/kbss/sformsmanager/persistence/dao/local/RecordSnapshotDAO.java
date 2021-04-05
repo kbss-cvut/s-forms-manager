@@ -3,7 +3,7 @@ package cz.cvut.kbss.sformsmanager.persistence.dao.local;
 import cz.cvut.kbss.jopa.model.EntityManager;
 import cz.cvut.kbss.sformsmanager.exception.PersistenceException;
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
-import cz.cvut.kbss.sformsmanager.model.persisted.local.gen2.RecordSnapshot;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.RecordSnapshot;
 import cz.cvut.kbss.sformsmanager.persistence.dao.LocalEntityBaseDAO;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.custom.CustomQueryDAO;
 import org.slf4j.Logger;

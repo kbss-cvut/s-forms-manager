@@ -1,4 +1,4 @@
-package cz.cvut.kbss.sformsmanager.model.persisted.local.gen2;
+package cz.cvut.kbss.sformsmanager.model.persisted.local;
 
 
 import cz.cvut.kbss.jopa.model.annotations.OWLClass;

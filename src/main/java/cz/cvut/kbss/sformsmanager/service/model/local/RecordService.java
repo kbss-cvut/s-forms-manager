@@ -1,8 +1,8 @@
 package cz.cvut.kbss.sformsmanager.service.model.local;
 
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
-import cz.cvut.kbss.sformsmanager.model.persisted.local.gen2.Record;
-import cz.cvut.kbss.sformsmanager.model.persisted.local.gen2.RecordSnapshot;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.Record;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.RecordSnapshot;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.RecordDAO;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.RecordSnapshotDAO;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.RecordVersionDAO;

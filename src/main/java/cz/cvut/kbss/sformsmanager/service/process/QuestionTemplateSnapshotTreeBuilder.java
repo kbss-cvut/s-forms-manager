@@ -1,8 +1,8 @@
 package cz.cvut.kbss.sformsmanager.service.process;
 
-import cz.cvut.kbss.sformsmanager.model.persisted.local.gen2.FormTemplateVersion;
-import cz.cvut.kbss.sformsmanager.model.persisted.local.gen2.QuestionTemplateSnapshot;
-import cz.cvut.kbss.sformsmanager.model.persisted.local.gen2.SubmittedAnswer;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.FormTemplateVersion;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.QuestionTemplateSnapshot;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.SubmittedAnswer;
 import cz.cvut.kbss.sformsmanager.model.persisted.response.QuestionSnapshotRemoteData;
 import cz.cvut.kbss.sformsmanager.utils.ObjectUtils;
 
