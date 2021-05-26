@@ -46,5 +46,4 @@ public class RecordSnapshotDAO extends LocalEntityBaseDAO<RecordSnapshot> {
             throw new PersistenceException(e);
         }
     }
-
 }

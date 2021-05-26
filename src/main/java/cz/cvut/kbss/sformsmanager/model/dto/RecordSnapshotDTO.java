@@ -8,15 +8,17 @@ public class RecordSnapshotDTO {
     public final String internalKey;
     public final String formTemplateVersionKey;
     public final String formTemplateVersionInternalName;
+    public final String recordVersionKey;
     public final Date recordSnapshotCreated;
     public final String remoteSampleContextURI;
     public final int numberOfAnswers;
 
-    public RecordSnapshotDTO(String recordSnapshotURI, String internalKey, String formTemplateVersionKey, String formTemplateVersionInternalName, Date recordSnapshotCreated, String remoteSampleContextURI, int numberOfAnswers) {
+    public RecordSnapshotDTO(String recordSnapshotURI, String internalKey, String formTemplateVersionKey, String formTemplateVersionInternalName, String recordVersionKey, Date recordSnapshotCreated, String remoteSampleContextURI, int numberOfAnswers) {
         this.recordSnapshotURI = recordSnapshotURI;
         this.internalKey = internalKey;
         this.formTemplateVersionKey = formTemplateVersionKey;
         this.formTemplateVersionInternalName = formTemplateVersionInternalName;
+        this.recordVersionKey = recordVersionKey;
         this.recordSnapshotCreated = recordSnapshotCreated;
         this.remoteSampleContextURI = remoteSampleContextURI;
         this.numberOfAnswers = numberOfAnswers;

@@ -58,22 +58,9 @@ public class ProjectController {
                 projectDTO.getFormGenRepositoryUrl(),
                 projectDTO.getFormGenServiceUrl(),
                 projectDTO.getAppRepositoryUrl(),
-                projectDTO.getProjectName()
-        );
+                projectDTO.getProjectName(),
+                projectDTO.getRecordRecognitionSPARQL());
         projectService.create(project);
-    }
-
-    @RequestMapping(method = RequestMethod.PUT)
-    @ResponseStatus(value = HttpStatus.OK)
-    public void update(@RequestParam(value = "projectDTO") ProjectDTO projectDTO) {
-
-        Project project = new Project(
-                projectDTO.getFormGenRepositoryUrl(),
-                projectDTO.getFormGenServiceUrl(),
-                projectDTO.getAppRepositoryUrl(),
-                projectDTO.getProjectName()
-        );
-        projectService.update(project); // TODO: might not work
     }
 
     @RequestMapping(method = RequestMethod.DELETE)

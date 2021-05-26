@@ -14,7 +14,7 @@ public class RecordSnapshot extends LocalEntity implements Serializable {
     @OWLObjectProperty(iri = Vocabulary.p_hasRecord)
     private Record record;
 
-    @OWLObjectProperty(iri = Vocabulary.p_hasRecordVersion)
+    @OWLObjectProperty(iri = Vocabulary.p_hasRecordVersion, fetch = FetchType.EAGER)
     private RecordVersion recordVersion;
 
     @OWLObjectProperty(iri = Vocabulary.p_hasFormTemplateVersion, fetch = FetchType.EAGER) // TODO: lazy not working?

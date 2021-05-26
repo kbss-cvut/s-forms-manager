@@ -35,6 +35,7 @@ public class Vocabulary {
     public static final String p_repositoryUrl = URI_BASE + "repositoryUrl";
     public static final String p_serviceUrl = URI_BASE + "serviceUrl";
     public static final String p_appRepositoryUrl = URI_BASE + "appRepositoryUrl";
+    public static final String p_recordRecognitionSPARQL = URI_BASE + "recordRecognitionSPARQL";
     public static final String p_key = URI_BASE + "key";
 
     public static final String ProjectContext = URI_BASE + "ProjectContext";
@@ -76,6 +77,9 @@ public class Vocabulary {
     public static final String p_hasSubmittedAnswersHash = URI_BASE + "hasSubmittedAnswersHash";
 
     /* General */
+    public final static String RDFS_URI = "http://www.w3.org/2000/01/rdf-schema#";
+    public final static String s_p_label = RDFS_URI + "label";
+
     public final static String DOC_URI = "http://onto.fel.cvut.cz/ontologies/documentation/";
     public static final String Question = DOC_URI + "question";
     public final static String s_p_created = "http://purl.org/dc/terms/created";
@@ -105,22 +109,3 @@ public class Vocabulary {
 
 
 }
-
-//    	?record sfm:hasRecordSnapshots ?recordSnapshot .
-//
-//                ?recordSnapshot sfm:recordSnapshotCreated ?recordSnapshotCreateDate .
-//
-//                # get only the latest record snapshot
-//                FILTER NOT EXISTS {
-//                ?record sfm:hasRecordSnapshots ?anotherRecordSnapshot .
-//                ?anotherRecordSnapshot sfm:recordSnapshotCreated ?possiblyLaterSnapshotCreateDate .
-//                filter (?possiblyLaterSnapshotCreateDate > ?recordSnapshotCreateDate)
-//                }
-//
-//                # find the desired question origin
-//                ?recordSnapshot sfm:hasSubmittedAnswers ?recordSnapshotAnswer .
-//                ?recordSnapshotAnswer form:has-question-origin ?QUESTION_ORIGIN .
-//
-//                # filter out according to our condition
-//                # some of the possible operators are: = != > < IN NOT IN
-//        FILTER (?recordSnapshotAnswer = ?ANSWER_VALUE) .

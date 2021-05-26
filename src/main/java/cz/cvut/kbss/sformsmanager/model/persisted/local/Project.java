@@ -28,14 +28,18 @@ public class Project extends LocalEntity implements Serializable, HasUniqueKey {
     @OWLDataProperty(iri = Vocabulary.p_appRepositoryUrl)
     private String appRepositoryUrl;
 
+    @OWLDataProperty(iri = Vocabulary.p_recordRecognitionSPARQL)
+    private String recordRecognitionSPARQL;
+
     public Project() {
     }
 
-    public Project(String formGenRepositoryUrl, String formGenServiceUrl, String appRepositoryUrl, String projectName) {
+    public Project(String formGenRepositoryUrl, String formGenServiceUrl, String appRepositoryUrl, String projectName, String recordRecognitionSPARQL) {
         super(projectName);
         this.formGenRepositoryUrl = formGenRepositoryUrl;
         this.formGenServiceUrl = formGenServiceUrl;
         this.appRepositoryUrl = appRepositoryUrl;
+        this.recordRecognitionSPARQL = recordRecognitionSPARQL;
     }
 
     public String getFormGenRepositoryUrl() {
@@ -60,5 +64,13 @@ public class Project extends LocalEntity implements Serializable, HasUniqueKey {
 
     public void setAppRepositoryUrl(String appRepositoryUrl) {
         this.appRepositoryUrl = appRepositoryUrl;
+    }
+
+    public String getRecordRecognitionSPARQL() {
+        return recordRecognitionSPARQL;
+    }
+
+    public void setRecordRecognitionSPARQL(String recordRecognitionSPARQL) {
+        this.recordRecognitionSPARQL = recordRecognitionSPARQL;
     }
 }

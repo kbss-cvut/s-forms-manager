@@ -9,15 +9,17 @@ public class ProjectDTO {
     private String formGenServiceUrl;
     private String appRepositoryUrl;
     private String projectName;
+    private String recordRecognitionSPARQL;
 
     public ProjectDTO() {
     }
 
-    public ProjectDTO(String formGenRepositoryUrl, String formGenServiceUrl, String appRepositoryUrl, String projectName) {
+    public ProjectDTO(String formGenRepositoryUrl, String formGenServiceUrl, String appRepositoryUrl, String projectName, String recordRecognitionSPARQL) {
         this.formGenRepositoryUrl = formGenRepositoryUrl;
         this.formGenServiceUrl = formGenServiceUrl;
         this.appRepositoryUrl = appRepositoryUrl;
         this.projectName = projectName;
+        this.recordRecognitionSPARQL = recordRecognitionSPARQL;
     }
 
     public ProjectDTO(Project project) {
@@ -25,6 +27,7 @@ public class ProjectDTO {
         this.formGenServiceUrl = project.getFormGenServiceUrl();
         this.appRepositoryUrl = project.getAppRepositoryUrl();
         this.projectName = project.getKey();
+        this.recordRecognitionSPARQL = project.getRecordRecognitionSPARQL();
     }
 
     public String getFormGenRepositoryUrl() {
@@ -57,5 +60,13 @@ public class ProjectDTO {
 
     public void setProjectName(String projectName) {
         this.projectName = projectName;
+    }
+
+    public String getRecordRecognitionSPARQL() {
+        return recordRecognitionSPARQL;
+    }
+
+    public void setRecordRecognitionSPARQL(String recordRecognitionSPARQL) {
+        this.recordRecognitionSPARQL = recordRecognitionSPARQL;
     }
 }

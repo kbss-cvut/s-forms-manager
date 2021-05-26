@@ -30,15 +30,15 @@ import javax.annotation.PostConstruct;
 import java.net.URI;
 
 @Configuration
-public class SesamePersistenceProvider {
+public class LocalSesamePersistenceProvider {
 
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(SesamePersistenceProvider.class);
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(LocalSesamePersistenceProvider.class);
     private final PropertiesProvider propertiesProvider;
     private final EntityManagerFactory emf;
 
     private Repository repository;
 
-    public SesamePersistenceProvider(PropertiesProvider propertiesProvider, EntityManagerFactory emf) {
+    public LocalSesamePersistenceProvider(PropertiesProvider propertiesProvider, EntityManagerFactory emf) {
         this.propertiesProvider = propertiesProvider;
         this.emf = emf;
     }

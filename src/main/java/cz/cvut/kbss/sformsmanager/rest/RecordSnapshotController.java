@@ -42,6 +42,7 @@ public class RecordSnapshotController {
                         record.getKey(),
                         record.getFormTemplateVersion() != null ? record.getFormTemplateVersion().getKey() : null,
                         record.getFormTemplateVersion() != null ? record.getFormTemplateVersion().getInternalName() : null,
+                        record.getRecordVersion() != null ? record.getRecordVersion().getKey() : null,
                         record.getRecordSnapshotCreated(),
                         record.getRemoteContextURI().toString(),
                         record.getAnswers() != null ? record.getAnswers().size() : 0 // TODO: very ineffective, should be part of the initial call

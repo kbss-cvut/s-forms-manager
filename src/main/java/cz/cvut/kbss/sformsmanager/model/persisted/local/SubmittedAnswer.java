@@ -4,7 +4,6 @@ import cz.cvut.kbss.jopa.model.annotations.OWLClass;
 import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
 import cz.cvut.kbss.jopa.model.annotations.ParticipationConstraints;
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
-import cz.cvut.kbss.sformsmanager.model.persisted.local.LocalEntity;
 
 import java.io.Serializable;
 

@@ -28,12 +28,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-public class BasePersistenceFactory {
+public class LocalBasePersistenceFactory {
 
     private final PropertiesProvider propertiesProvider;
     private EntityManagerFactory emf;
 
-    public BasePersistenceFactory(PropertiesProvider propertiesProvider) {
+    public LocalBasePersistenceFactory(PropertiesProvider propertiesProvider) {
         this.propertiesProvider = propertiesProvider;
     }
 
