@@ -31,7 +31,7 @@ public class FormGenJsonLoader {
     }
 
     /**
-     * Cached service for generating forms at a 'connected repository'.
+     * Service for generating forms at a 'connected repository'.
      *
      * @param projectName
      * @param contextUri
@@ -49,5 +49,9 @@ public class FormGenJsonLoader {
 
         String rawFormJson = dataLoader.loadData(project.getFormGenServiceUrl(), params, Collections.emptyMap());
         return new SFormsRawJson(projectName, contextUri, rawFormJson);
+    }
+
+    public String getFormGenPossibleValues(String query) throws URISyntaxException {
+        return dataLoader.loadData(query, Collections.emptyMap(), Collections.emptyMap());
     }
 }

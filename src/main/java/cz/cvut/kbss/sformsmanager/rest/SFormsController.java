@@ -44,4 +44,11 @@ public class SFormsController {
     ) throws URISyntaxException {
         return formGenJsonLoader.getFormGenRawJson(projectName, contextUri).getRawJson();
     }
+
+    @RequestMapping(method = RequestMethod.POST, path = "s-forms-possible-values")
+    public String getFormGenRawJson(
+            @RequestParam(value = "query") String query
+    ) throws URISyntaxException {
+        return formGenJsonLoader.getFormGenPossibleValues(query);
+    }
 }
