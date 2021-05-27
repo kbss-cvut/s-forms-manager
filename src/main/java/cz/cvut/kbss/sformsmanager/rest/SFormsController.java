@@ -14,7 +14,7 @@
  */
 package cz.cvut.kbss.sformsmanager.rest;
 
-import cz.cvut.kbss.sformsmanager.service.data.FormGenJsonLoader;
+import cz.cvut.kbss.sformsmanager.service.formgen.FormGenCachedService;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
 
 @RestController
@@ -30,25 +32,25 @@ public class SFormsController {
 
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(SFormsController.class);
 
-    private final FormGenJsonLoader formGenJsonLoader;
+    private final FormGenCachedService formGenCachedService;
 
     @Autowired
-    public SFormsController(FormGenJsonLoader FormGenJsonLoader) {
-        this.formGenJsonLoader = FormGenJsonLoader;
+    public SFormsController(FormGenCachedService formGenCachedService) {
+        this.formGenCachedService = formGenCachedService;
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "s-forms-json-ld")
     public String getFormGenRawJson(
             @RequestParam(value = "projectName") String projectName,
             @RequestParam(value = "contextUri") String contextUri
-    ) throws URISyntaxException {
-        return formGenJsonLoader.getFormGenRawJson(projectName, contextUri).getRawJson();
+    ) throws URISyntaxException, IOException {
+        return formGenCachedService.getFormGenRawJson(projectName, URI.create(contextUri)).getRawJson();
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "s-forms-possible-values")
     public String getFormGenRawJson(
             @RequestParam(value = "query") String query
     ) throws URISyntaxException {
-        return formGenJsonLoader.getFormGenPossibleValues(query);
+        return formGenCachedService.getFormGenPossibleValues(query);
     }
 }

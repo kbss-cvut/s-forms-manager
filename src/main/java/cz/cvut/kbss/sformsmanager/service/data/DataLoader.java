@@ -5,5 +5,5 @@ import java.util.Map;
 
 public interface DataLoader {
 
-    String loadData(String remoteUrl, Map<String, String> params, Map<String, String> headers) throws URISyntaxException;
+    String loadDataFromUrl(String remoteUrl, Map<String, String> params, Map<String, String> headers) throws URISyntaxException;
 }
