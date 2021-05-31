@@ -13,23 +13,23 @@ import java.util.Date;
                         @VariableResult(name = "recordCreateDate", type = Date.class),
                         @VariableResult(name = "recordModifiedDate", type = Date.class),
                         @VariableResult(name = "remoteRecordURI", type = URI.class),
-                        @VariableResult(name = "question", type = URI.class)
+                        @VariableResult(name = "rootQuestionOrigin", type = String.class)
                 })
         })
 public class RecordSnapshotRemoteData {
     private Date recordCreateDate;
     private Date recordModifiedDate; // record snapshot saved
     private URI remoteRecordURI; // context URI of the remote formGen
-    private URI question; // is empty for the initial records
+    private String rootQuestionOrigin; // is empty for the initial records
 
     public RecordSnapshotRemoteData() {
     }
 
-    public RecordSnapshotRemoteData(Date recordCreateDate, Date recordModifiedDate, URI remoteRecordURI, URI question) {
+    public RecordSnapshotRemoteData(Date recordCreateDate, Date recordModifiedDate, URI remoteRecordURI, String rootQuestionOrigin) {
         this.recordCreateDate = recordCreateDate;
         this.recordModifiedDate = recordModifiedDate;
         this.remoteRecordURI = remoteRecordURI;
-        this.question = question;
+        this.rootQuestionOrigin = rootQuestionOrigin;
     }
 
     public Date getRecordCreateDate() {
@@ -56,11 +56,11 @@ public class RecordSnapshotRemoteData {
         this.remoteRecordURI = remoteRecordURI;
     }
 
-    public URI getQuestion() {
-        return question;
+    public String getRootQuestionOrigin() {
+        return rootQuestionOrigin;
     }
 
-    public void setQuestion(URI question) {
-        this.question = question;
+    public void setRootQuestionOrigin(String rootQuestionOrigin) {
+        this.rootQuestionOrigin = rootQuestionOrigin;
     }
 }

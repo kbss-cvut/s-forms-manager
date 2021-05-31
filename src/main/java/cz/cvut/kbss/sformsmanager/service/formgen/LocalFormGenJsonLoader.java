@@ -1,5 +1,6 @@
 package cz.cvut.kbss.sformsmanager.service.formgen;
 
+import cz.cvut.kbss.jopa.model.descriptors.EntityDescriptor;
 import cz.cvut.kbss.sformsmanager.model.dto.SFormsRawJson;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.repository.Repository;
@@ -17,7 +18,7 @@ import java.net.URISyntaxException;
 import java.util.Optional;
 
 @Service
-public class LocalFormGenJsonLoader implements FormGenJSonLoader {
+public class LocalFormGenJsonLoader implements FormGenJsonLoader {
 
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(LocalFormGenJsonLoader.class);
 
@@ -72,7 +73,11 @@ public class LocalFormGenJsonLoader implements FormGenJSonLoader {
         return repository.getValueFactory().createIRI(createContextIdentifier(projectName, contextUri));
     }
 
-    private static String createContextIdentifier(String projectName, URI contextUri) {
+    public static EntityDescriptor createContextDescriptor(String projectName, URI contextUri) {
+        return new EntityDescriptor(URI.create(createContextIdentifier(projectName, contextUri)), false);
+    }
+
+    public static String createContextIdentifier(String projectName, URI contextUri) {
         return contextUri.toString() + "#" + projectName;
     }
 }

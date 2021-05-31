@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,7 +52,7 @@ public class RemoteDataProcessingController {
     public void updateFormGenInfo(
             @RequestParam(value = "projectName") String projectName,
             @RequestParam(value = "contextUri") String contextUri)
-            throws IOException {
+            throws IOException, URISyntaxException {
 
         processingService.processDataSnapshotInRemoteContext(projectName, URI.create(contextUri));
     }

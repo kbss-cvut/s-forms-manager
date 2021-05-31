@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class RemoteFormGenJsonLoader implements FormGenJSonLoader {
+public class RemoteFormGenJsonLoader implements FormGenJsonLoader {
 
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(RemoteFormGenJsonLoader.class);
 

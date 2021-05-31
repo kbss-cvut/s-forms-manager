@@ -13,7 +13,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 @Service
-public class FormGenCachedService implements FormGenJSonLoader {
+public class FormGenCachedService implements FormGenJsonLoader {
 
     private final LocalFormGenJsonLoader localFormGenJsonLoader;
     private final RemoteFormGenJsonLoader remoteFormGenJsonLoader;

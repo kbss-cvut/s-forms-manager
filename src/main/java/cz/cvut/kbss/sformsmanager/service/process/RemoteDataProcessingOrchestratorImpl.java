@@ -5,8 +5,9 @@ import cz.cvut.kbss.sformsmanager.model.persisted.local.*;
 import cz.cvut.kbss.sformsmanager.model.persisted.response.QuestionSnapshotRemoteData;
 import cz.cvut.kbss.sformsmanager.model.persisted.response.RecordSnapshotRemoteData;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.*;
-import cz.cvut.kbss.sformsmanager.persistence.dao.remote.QuestionTemplateSnapshotRemoteDAO;
+import cz.cvut.kbss.sformsmanager.persistence.dao.local.custom.FormGenCacheQuestionDAO;
 import cz.cvut.kbss.sformsmanager.persistence.dao.remote.RecordSnapshotRemoteDAO;
+import cz.cvut.kbss.sformsmanager.service.formgen.FormGenCachedService;
 import cz.cvut.kbss.sformsmanager.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -28,10 +30,11 @@ public class RemoteDataProcessingOrchestratorImpl implements RemoteDataProcessin
     private final FormTemplateVersionDAO formTemplateVersionDAO;
 
     private final QuestionTemplateSnapshotDAO questionTemplateSnapshotDAO;
-    private final QuestionTemplateSnapshotRemoteDAO questionsSnapshotRemoteDataDAO;
+    private final FormGenCacheQuestionDAO formGenCacheQuestionDAO;
     private final FormTemplateDAO formTemplateDAO;
     private final SubmittedAnswerDAO submittedAnswerDAO;
     private final RecordVersionDAO recordVersionDAO;
+    private final FormGenCachedService formGenCachedService;
 
     @Autowired
     public RemoteDataProcessingOrchestratorImpl(
@@ -39,26 +42,29 @@ public class RemoteDataProcessingOrchestratorImpl implements RemoteDataProcessin
             RecordSnapshotRemoteDAO recordRemoteDAO,
             RecordSnapshotDAO recordSnapshotDAO,
             FormTemplateVersionDAO formTemplateVersionDAO,
-            QuestionTemplateSnapshotRemoteDAO questionsSnapshotRemoteDataDAO,
-            FormTemplateDAO formTemplateDAO,
+            FormGenCacheQuestionDAO formGenCacheQuestionDAO, FormTemplateDAO formTemplateDAO,
             SubmittedAnswerDAO submittedAnswerDAO,
-            RecordVersionDAO recordVersionDAO) {
+            RecordVersionDAO recordVersionDAO, FormGenCachedService formGenCachedService) {
 
         this.recordDAO = recordDAO;
         this.questionTemplateSnapshotDAO = questionTemplateSnapshotDAO;
         this.recordRemoteDAO = recordRemoteDAO;
         this.recordSnapshotDAO = recordSnapshotDAO;
         this.formTemplateVersionDAO = formTemplateVersionDAO;
-        this.questionsSnapshotRemoteDataDAO = questionsSnapshotRemoteDataDAO;
+        this.formGenCacheQuestionDAO = formGenCacheQuestionDAO;
         this.formTemplateDAO = formTemplateDAO;
         this.submittedAnswerDAO = submittedAnswerDAO;
         this.recordVersionDAO = recordVersionDAO;
+        this.formGenCachedService = formGenCachedService;
     }
 
     @Transactional
-    public void processDataSnapshotInRemoteContext(String projectName, URI contextUri) throws IOException {
+    public void processDataSnapshotInRemoteContext(String projectName, URI contextUri) throws IOException, URISyntaxException {
 
         // TODO: use Optional.getOrElse and extract redundant code
+
+        // cache formGen data locally first
+        formGenCachedService.getFormGenRawJson(projectName, contextUri);
 
         // LOAD REMOTE DATA: record snapshot
         RecordSnapshotRemoteData recordRemoteData = recordRemoteDAO.getRecordSnapshot(projectName, contextUri);
@@ -74,7 +80,7 @@ public class RemoteDataProcessingOrchestratorImpl implements RemoteDataProcessin
             record = recordDAO.update(projectName, new Record(recordKey, new HashSet<>(), new HashSet<>(), null, recordRemoteData.getRecordCreateDate(), contextUri.toString()));
         }
 
-        if (recordRemoteData.getQuestion() == null) {
+        if (recordRemoteData.getRootQuestionOrigin() == null) {
             // initial record: no questions or answers variant
 
             // persist without RecordVersion and without FormTemplateVersion
@@ -87,8 +93,8 @@ public class RemoteDataProcessingOrchestratorImpl implements RemoteDataProcessin
             return;
         }
 
-        // LOAD REMOTE DATA: question and answers snapshot
-        QuestionSnapshotRemoteData qaRemoteData = questionsSnapshotRemoteDataDAO.getQuestionsAndAnswersSnapshot(projectName, contextUri, recordRemoteData.getQuestion());
+        // LOAD FORM-GEN DATA from LOCAL CACHE: question and answers snapshot
+        QuestionSnapshotRemoteData qaRemoteData = formGenCacheQuestionDAO.getQuestionsAndAnswersSnapshot(projectName, contextUri, recordRemoteData.getRootQuestionOrigin());
 
         // PROCESS the questions tree
         QuestionTreeRemoteDataProcessor processor = new QuestionTreeRemoteDataProcessor(qaRemoteData);

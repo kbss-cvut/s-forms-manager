@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public interface FormGenJSonLoader {
+public interface FormGenJsonLoader {
 
     SFormsRawJson getFormGenRawJson(String projectName, URI contextUri) throws URISyntaxException, IOException;
 
