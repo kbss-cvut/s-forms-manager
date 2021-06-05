@@ -5,9 +5,10 @@ import cz.cvut.kbss.sformsmanager.model.dto.SFormsRawJson;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.repository.Repository;
 import org.eclipse.rdf4j.repository.RepositoryConnection;
-import org.eclipse.rdf4j.rio.RDFFormat;
-import org.eclipse.rdf4j.rio.RDFHandler;
-import org.eclipse.rdf4j.rio.rdfjson.RDFJSONWriter;
+import org.eclipse.rdf4j.rio.WriterConfig;
+import org.eclipse.rdf4j.rio.helpers.JSONLDMode;
+import org.eclipse.rdf4j.rio.helpers.JSONLDSettings;
+import org.eclipse.rdf4j.rio.jsonld.JSONLDWriter;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,9 +51,13 @@ public class LocalFormGenJsonLoader implements FormGenJsonLoader {
 
         RepositoryConnection connection = repository.getConnection();
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        RDFHandler rdfHandler = new RDFJSONWriter(bos, RDFFormat.JSONLD); // TODO: fix so it is acceptable by SForms
+        JSONLDWriter writer = new JSONLDWriter(bos);
 
-        connection.export(rdfHandler, resource.get());
+        WriterConfig config = new WriterConfig();
+        config.set(JSONLDSettings.COMPACT_ARRAYS, true);
+        config.set(JSONLDSettings.JSONLD_MODE, JSONLDMode.FLATTEN);
+
+        connection.export(writer, resource.get());
         connection.close();
 
         return new SFormsRawJson(projectName, contextUri.toString(), new String(bos.toByteArray()));

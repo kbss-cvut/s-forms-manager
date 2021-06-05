@@ -17,7 +17,7 @@
         <maven.compiler.source>${jdk.version}</maven.compiler.source>
         <maven.compiler.target>${jdk.version}</maven.compiler.target>
         <cz.cvut.kbss.jopa.version>0.14.4</cz.cvut.kbss.jopa.version>
-        <com.fasterxml.jackson.version>2.11.0</com.fasterxml.jackson.version>
+        <com.fasterxml.jackson.version>2.10.3</com.fasterxml.jackson.version>
         <org.eclipse.rdf4j.version>3.2.1</org.eclipse.rdf4j.version>
         <ch.qos.logback.version>1.2.3</ch.qos.logback.version>
         <org.aspectj.version>1.9.5</org.aspectj.version>
@@ -90,6 +90,11 @@
             <artifactId>rdf4j-rio-rdfxml</artifactId>
             <version>${org.eclipse.rdf4j.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.eclipse.rdf4j</groupId>
+            <artifactId>rdf4j-rio-jsonld</artifactId>
+            <version>${org.eclipse.rdf4j.version}</version>
+        </dependency>
 
         <!-- Spring -->
         <dependency>
@@ -134,23 +139,23 @@
 
 
         <!-- Spring Boot === DOES NOT WORK WITH OWL -->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter</artifactId>-->
-<!--            <version>${org.springframework.boot.version}</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-starter</artifactId>-->
+        <!--            <version>${org.springframework.boot.version}</version>-->
+        <!--        </dependency>-->
 
         <!-- Spring Boot cache ============================================ -->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-cache</artifactId>-->
-<!--            <version>${org.springframework.boot.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>com.hazelcast</groupId>-->
-<!--            <artifactId>hazelcast-all</artifactId>-->
-<!--            <version>4.0.2</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-starter-cache</artifactId>-->
+        <!--            <version>${org.springframework.boot.version}</version>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.hazelcast</groupId>-->
+        <!--            <artifactId>hazelcast-all</artifactId>-->
+        <!--            <version>4.0.2</version>-->
+        <!--        </dependency>-->
 
         <!-- Bean Validation -->
         <dependency>
@@ -172,59 +177,58 @@
         </dependency>
 
         <!-- Spring Security -->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.security</groupId>-->
-<!--            <artifactId>spring-security-config</artifactId>-->
-<!--            <version>${org.springframework.security.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.security</groupId>-->
-<!--            <artifactId>spring-security-core</artifactId>-->
-<!--            <version>${org.springframework.security.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.security</groupId>-->
-<!--            <artifactId>spring-security-web</artifactId>-->
-<!--            <version>${org.springframework.security.version}</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.security</groupId>-->
+        <!--            <artifactId>spring-security-config</artifactId>-->
+        <!--            <version>${org.springframework.security.version}</version>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.security</groupId>-->
+        <!--            <artifactId>spring-security-core</artifactId>-->
+        <!--            <version>${org.springframework.security.version}</version>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.security</groupId>-->
+        <!--            <artifactId>spring-security-web</artifactId>-->
+        <!--            <version>${org.springframework.security.version}</version>-->
+        <!--        </dependency>-->
         <!--  ============================================ -->
 
-        <!-- Jackson for JSON serialization -->
-<!--        <dependency>-->
-<!--            <groupId>com.fasterxml.jackson.core</groupId>-->
-<!--            <artifactId>jackson-databind</artifactId>-->
-<!--            <version>${com.fasterxml.jackson.version}</version>-->
-<!--        </dependency>-->
-<!--<<<<<<< HEAD-->
+<!--        Jackson for JSON serialization-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.fasterxml.jackson.core</groupId>-->
+        <!--            <artifactId>jackson-databind</artifactId>-->
+        <!--            <version>${com.fasterxml.jackson.version}</version>-->
+        <!--        </dependency>-->
 
 
-<!--        &lt;!&ndash; TODO: use serialization instead &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>org.json</groupId>-->
-<!--            <artifactId>json</artifactId>-->
-<!--            <version>20080701</version>-->
-<!--        </dependency>-->
+        <!--        &lt;!&ndash; TODO: use serialization instead &ndash;&gt;-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.json</groupId>-->
+        <!--            <artifactId>json</artifactId>-->
+        <!--            <version>20080701</version>-->
+        <!--        </dependency>-->
 
 
         <!-- Lombok = CANNOT BE USED -->
-<!--        <dependency> -->
-<!--            <groupId>org.projectlombok</groupId>-->
-<!--            <artifactId>lombok</artifactId>-->
-<!--            <version>1.18.12</version>-->
-<!--            <scope>provided</scope>-->
-<!--        </dependency>-->
-<!--=======-->
-<!--&gt;>>>>>> e1818c5... works again &#45;&#45; [Fix] Issue with persisting student-->
+        <!--        <dependency> -->
+        <!--            <groupId>org.projectlombok</groupId>-->
+        <!--            <artifactId>lombok</artifactId>-->
+        <!--            <version>1.18.12</version>-->
+        <!--            <scope>provided</scope>-->
+        <!--        </dependency>-->
+        <!--=======-->
+        <!--&gt;>>>>>> e1818c5... works again &#45;&#45; [Fix] Issue with persisting student-->
 <!--        <dependency>-->
 <!--            <groupId>com.fasterxml.jackson.core</groupId>-->
 <!--            <artifactId>jackson-core</artifactId>-->
 <!--            <version>${com.fasterxml.jackson.version}</version>-->
 <!--        </dependency>-->
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>${com.fasterxml.jackson.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.fasterxml.jackson.datatype</groupId>-->
+<!--            <artifactId>jackson-datatype-jsr310</artifactId>-->
+<!--            <version>${com.fasterxml.jackson.version}</version>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>org.aspectj</groupId>
