@@ -34,31 +34,31 @@ public class QuestionTemplateSnapshotTreeBuilder {
     }
 
     public QuestionTemplateSnapshot process() {
-        return buildQTSTreeWithDFS(remoteRootQuestion, 0);
+        return buildQTSTreeWithDFS(remoteRootQuestion);
     }
 
-    private QuestionTemplateSnapshot buildQTSTreeWithDFS(QuestionSnapshotRemoteData questionRemoteData, Integer depth) {
+    private QuestionTemplateSnapshot buildQTSTreeWithDFS(QuestionSnapshotRemoteData questionRemoteData) {
         String qtsKey = ObjectUtils.createKeyForContext(this.projectName, formTemplateVersion.getKey() + "/" + questionOriginAndTheirPaths.get(questionRemoteData.getQuestionOrigin()));
         if (questionRemoteData.getSubQuestions().isEmpty()) {
-            return createQuestionTemplateSnapshot(qtsKey, questionRemoteData.getQuestionOrigin(), null, depth);
+            return createQuestionTemplateSnapshot(qtsKey, questionRemoteData.getQuestionOrigin(), null, questionRemoteData.getLabel());
         }
 
         Set<QuestionTemplateSnapshot> subQuestionTemplateSnapshots = questionRemoteData.getSubQuestions().stream()
                 .map(qRemoteData ->
-                        buildQTSTreeWithDFS(qRemoteData, depth + 1)
+                        buildQTSTreeWithDFS(qRemoteData)
                 ).collect(Collectors.toSet());
 
-        return createQuestionTemplateSnapshot(qtsKey, questionRemoteData.getQuestionOrigin(), subQuestionTemplateSnapshots, depth);
+        return createQuestionTemplateSnapshot(qtsKey, questionRemoteData.getQuestionOrigin(), subQuestionTemplateSnapshots, questionRemoteData.getLabel());
     }
 
-    private QuestionTemplateSnapshot createQuestionTemplateSnapshot(String qtsKey, String questionOrigin, Set<QuestionTemplateSnapshot> subQuestionTemplateSnapshots, Integer depth) {
+    private QuestionTemplateSnapshot createQuestionTemplateSnapshot(String qtsKey, String questionOrigin, Set<QuestionTemplateSnapshot> subQuestionTemplateSnapshots, String label) {
         return new QuestionTemplateSnapshot(
                 qtsKey,
                 subQuestionTemplateSnapshots,
                 formTemplateVersion,
                 questionOriginAndTheirPaths.get(questionOrigin),
-                depth,
                 questionOrigin,
+                label,
                 new HashSet<SubmittedAnswer>() {{
                     if (answerMap.containsKey(questionOrigin)) {
                         add(answerMap.get(questionOrigin));

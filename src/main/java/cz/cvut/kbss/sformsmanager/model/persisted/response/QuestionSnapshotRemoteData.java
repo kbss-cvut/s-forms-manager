@@ -1,9 +1,6 @@
 package cz.cvut.kbss.sformsmanager.model.persisted.response;
 
-import cz.cvut.kbss.jopa.model.annotations.FetchType;
-import cz.cvut.kbss.jopa.model.annotations.Id;
-import cz.cvut.kbss.jopa.model.annotations.OWLClass;
-import cz.cvut.kbss.jopa.model.annotations.OWLObjectProperty;
+import cz.cvut.kbss.jopa.model.annotations.*;
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
 
 import java.io.Serializable;
@@ -25,6 +22,9 @@ public class QuestionSnapshotRemoteData implements Serializable {
 
     @OWLObjectProperty(iri = Vocabulary.s_p_has_question_origin)
     private String questionOrigin;
+
+    @OWLDataProperty(iri = Vocabulary.s_p_label)
+    private String label;
 
     public QuestionSnapshotRemoteData() {
     }
@@ -59,5 +59,13 @@ public class QuestionSnapshotRemoteData implements Serializable {
 
     public void setAnswers(Set<SubmittedAnswerRemoteData> answers) {
         this.answers = answers;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 }

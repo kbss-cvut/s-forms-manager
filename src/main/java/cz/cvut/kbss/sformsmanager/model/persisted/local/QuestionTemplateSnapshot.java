@@ -19,11 +19,11 @@ public class QuestionTemplateSnapshot extends LocalEntity implements Serializabl
     @OWLDataProperty(iri = Vocabulary.p_originPath)
     private String questionOriginPath;
 
-    @OWLDataProperty(iri = Vocabulary.p_questionTreeDepth)
-    private Integer questionTreeDepth;
-
     @OWLDataProperty(iri = Vocabulary.s_p_has_question_origin)
     private String questionOrigin;
+
+    @OWLDataProperty(iri = Vocabulary.s_p_label)
+    private String label;
 
     @OWLObjectProperty(iri = Vocabulary.p_hasSubmittedAnswers)
     private Set<SubmittedAnswer> answers;
@@ -38,16 +38,16 @@ public class QuestionTemplateSnapshot extends LocalEntity implements Serializabl
             Set<QuestionTemplateSnapshot> questionTemplateSnapshots,
             FormTemplateVersion formTemplateVersion,
             String questionOriginPath,
-            Integer questionTreeDepth,
             String questionOrigin,
+            String label,
             Set<SubmittedAnswer> answers) {
 
         super(formTemplateVersionAndOriginPathHashKey);
         this.formTemplateVersion = formTemplateVersion;
         this.questionTemplateSnapshots = questionTemplateSnapshots;
         this.questionOriginPath = questionOriginPath;
-        this.questionTreeDepth = questionTreeDepth;
         this.questionOrigin = questionOrigin;
+        this.label = label;
         this.answers = answers;
     }
 
@@ -91,11 +91,11 @@ public class QuestionTemplateSnapshot extends LocalEntity implements Serializabl
         this.formTemplateVersion = formTemplateVersion;
     }
 
-    public int getQuestionTreeDepth() {
-        return questionTreeDepth;
+    public String getLabel() {
+        return label;
     }
 
-    public void setQuestionTreeDepth(int questionTreeDepth) {
-        this.questionTreeDepth = questionTreeDepth;
+    public void setLabel(String label) {
+        this.label = label;
     }
 }

@@ -14,6 +14,9 @@
  */
 package cz.cvut.kbss.sformsmanager.rest;
 
+import cz.cvut.kbss.sformsmanager.model.dto.DagSelectSearchOptionDTO;
+import cz.cvut.kbss.sformsmanager.service.model.local.FormTemplateService;
+import cz.cvut.kbss.sformsmanager.service.model.local.QuestionTemplateService;
 import cz.cvut.kbss.sformsmanager.service.model.local.SearchService;
 import cz.cvut.kbss.sformsmanager.service.search.SearchQueryTemplateService;
 import freemarker.template.Configuration;
@@ -21,9 +24,11 @@ import freemarker.template.TemplateException;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,12 +41,14 @@ public class SearchController {
     private final freemarker.template.Configuration templateCfg;
     private final SearchService searchService;
     private final SearchQueryTemplateService searchQueryTemplateService;
+    private final QuestionTemplateService questionTemplateService;
 
     @Autowired
-    public SearchController(Configuration templateCfg, SearchService searchService, SearchQueryTemplateService searchQueryTemplateService) {
+    public SearchController(Configuration templateCfg, SearchService searchService, SearchQueryTemplateService searchQueryTemplateService, QuestionTemplateService questionTemplateService, FormTemplateService formTemplateService) {
         this.templateCfg = templateCfg;
         this.searchService = searchService;
         this.searchQueryTemplateService = searchQueryTemplateService;
+        this.questionTemplateService = questionTemplateService;
     }
 
     @RequestMapping(path = "/updateQuery", method = RequestMethod.GET)
@@ -64,6 +71,22 @@ public class SearchController {
         List<Object> searchResults = searchService.runSearchQuery(request.getQuery()).stream().collect(Collectors.toList());
 
         return searchResults;
+    }
+
+    @RequestMapping(path = "/select/options", method = RequestMethod.GET)
+    @ResponseStatus(value = HttpStatus.OK)
+    @Transactional
+    public List<DagSelectSearchOptionDTO> getDagSelectOptions(
+            @RequestParam(value = "projectName") String projectName) {
+
+        return questionTemplateService.findAll(projectName).stream()
+                .map(qts -> new DagSelectSearchOptionDTO(
+                        qts.getLabel(),
+                        qts.getQuestionOrigin(),
+                        qts.getQuestionOriginPath(),
+                        qts.getQuestionTemplateSnapshots() != null
+                                ? qts.getQuestionTemplateSnapshots().stream().map(q -> q.getQuestionOriginPath()).collect(Collectors.toList()) : Collections.emptyList()
+                )).collect(Collectors.toList());
     }
 
     @RequestMapping(path = "/getAutocomplete", method = RequestMethod.GET)
