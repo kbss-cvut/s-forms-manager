@@ -194,7 +194,7 @@
         <!--        </dependency>-->
         <!--  ============================================ -->
 
-<!--        Jackson for JSON serialization-->
+        <!--        Jackson for JSON serialization-->
         <!--        <dependency>-->
         <!--            <groupId>com.fasterxml.jackson.core</groupId>-->
         <!--            <artifactId>jackson-databind</artifactId>-->
@@ -219,16 +219,16 @@
         <!--        </dependency>-->
         <!--=======-->
         <!--&gt;>>>>>> e1818c5... works again &#45;&#45; [Fix] Issue with persisting student-->
-<!--        <dependency>-->
-<!--            <groupId>com.fasterxml.jackson.core</groupId>-->
-<!--            <artifactId>jackson-core</artifactId>-->
-<!--            <version>${com.fasterxml.jackson.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>com.fasterxml.jackson.datatype</groupId>-->
-<!--            <artifactId>jackson-datatype-jsr310</artifactId>-->
-<!--            <version>${com.fasterxml.jackson.version}</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.fasterxml.jackson.core</groupId>-->
+        <!--            <artifactId>jackson-core</artifactId>-->
+        <!--            <version>${com.fasterxml.jackson.version}</version>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.fasterxml.jackson.datatype</groupId>-->
+        <!--            <artifactId>jackson-datatype-jsr310</artifactId>-->
+        <!--            <version>${com.fasterxml.jackson.version}</version>-->
+        <!--        </dependency>-->
 
         <dependency>
             <groupId>org.aspectj</groupId>
@@ -294,6 +294,19 @@
             <artifactId>mockito-junit-jupiter</artifactId>
             <version>3.6.0</version>
             <scope>compile</scope>
+        </dependency>
+
+        <!-- Trello API Client -->
+        <dependency>
+            <groupId>com.taskadapter</groupId>
+            <artifactId>trello-java-wrapper</artifactId>
+            <version>0.13</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 

@@ -16,7 +16,6 @@ package cz.cvut.kbss.sformsmanager.persistence.base;
 
 import cz.cvut.kbss.jopa.model.EntityManager;
 import cz.cvut.kbss.jopa.model.EntityManagerFactory;
-import cz.cvut.kbss.sformsmanager.config.provider.PropertiesProvider;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.Record;
 import org.eclipse.rdf4j.repository.Repository;
 import org.eclipse.rdf4j.repository.RepositoryException;
@@ -33,13 +32,13 @@ import java.net.URI;
 public class LocalSesamePersistenceProvider {
 
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(LocalSesamePersistenceProvider.class);
-    private final PropertiesProvider propertiesProvider;
+    private final LocalPersistencePropertiesProvider localPersistencePropertiesProvider;
     private final EntityManagerFactory emf;
 
     private Repository repository;
 
-    public LocalSesamePersistenceProvider(PropertiesProvider propertiesProvider, EntityManagerFactory emf) {
-        this.propertiesProvider = propertiesProvider;
+    public LocalSesamePersistenceProvider(LocalPersistencePropertiesProvider localPersistencePropertiesProvider, EntityManagerFactory emf) {
+        this.localPersistencePropertiesProvider = localPersistencePropertiesProvider;
         this.emf = emf;
     }
 
@@ -51,7 +50,7 @@ public class LocalSesamePersistenceProvider {
     @PostConstruct
     private void initializeStorage() {
         forceRepoInitialization();
-        final String repoUrl = propertiesProvider.getRepositoryUrl();
+        final String repoUrl = localPersistencePropertiesProvider.getRepositoryUrl();
         try {
             this.repository = RepositoryProvider.getRepository(repoUrl);
             assert repository.isInitialized();

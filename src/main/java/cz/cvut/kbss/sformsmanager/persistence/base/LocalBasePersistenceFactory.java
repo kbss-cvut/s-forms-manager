@@ -18,7 +18,7 @@ import cz.cvut.kbss.jopa.Persistence;
 import cz.cvut.kbss.jopa.model.EntityManagerFactory;
 import cz.cvut.kbss.jopa.model.JOPAPersistenceProperties;
 import cz.cvut.kbss.jopa.model.JOPAPersistenceProvider;
-import cz.cvut.kbss.sformsmanager.config.provider.PropertiesProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -30,10 +30,12 @@ import java.util.Map;
 @Configuration
 public class LocalBasePersistenceFactory {
 
-    private final PropertiesProvider propertiesProvider;
+    private final LocalPersistencePropertiesProvider propertiesProvider;
+
     private EntityManagerFactory emf;
 
-    public LocalBasePersistenceFactory(PropertiesProvider propertiesProvider) {
+    @Autowired
+    public LocalBasePersistenceFactory(LocalPersistencePropertiesProvider propertiesProvider) {
         this.propertiesProvider = propertiesProvider;
     }
 

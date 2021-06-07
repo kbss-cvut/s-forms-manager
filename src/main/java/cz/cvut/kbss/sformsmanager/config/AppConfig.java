@@ -14,13 +14,14 @@
  */
 package cz.cvut.kbss.sformsmanager.config;
 
-import cz.cvut.kbss.sformsmanager.config.provider.PropertiesProvider;
+import cz.cvut.kbss.sformsmanager.persistence.base.LocalPersistencePropertiesProvider;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
 @Import({
-        PropertiesProvider.class,
+        TrelloConfig.class,
+        LocalPersistencePropertiesProvider.class,
         PersistenceConfig.class,
         ServiceConfig.class,
         WebAppConfig.class,
