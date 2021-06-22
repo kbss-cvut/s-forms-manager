@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RecordService {
@@ -58,6 +59,10 @@ public class RecordService {
 
     public List<RecordSnapshot> findRecordSnapshotsForRecord(String projectName, String recordURI) {
         return recordSnapshotDAO.findAllWhere(projectName, Vocabulary.p_hasRecord, URI.create(recordURI));
+    }
+
+    public Optional<RecordSnapshot> findRecordSnapshot(String projectName, URI contextURI) {
+        return recordSnapshotDAO.findFirstWhere(projectName, Vocabulary.p_hasRemoteContextURI, contextURI);
     }
 
 }

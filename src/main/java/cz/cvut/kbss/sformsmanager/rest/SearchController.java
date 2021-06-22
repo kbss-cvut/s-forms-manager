@@ -79,7 +79,7 @@ public class SearchController {
     public List<DagSelectSearchOptionDTO> getDagSelectOptions(
             @RequestParam(value = "projectName") String projectName) {
 
-        return questionTemplateService.findAll(projectName).stream()
+        return questionTemplateService.findAllSnapshots(projectName).stream()
                 .map(qts -> new DagSelectSearchOptionDTO(
                         qts.getLabel(),
                         qts.getQuestionOrigin(),

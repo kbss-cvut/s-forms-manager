@@ -20,7 +20,7 @@ public class QuestionTemplate extends LocalEntity implements Serializable {
     private Set<QuestionTemplateSnapshot> questionTemplateSnapshots;
 
     @ParticipationConstraints(nonEmpty = true)
-    @OWLDataProperty(iri = Vocabulary.p_originPath)
+    @OWLDataProperty(iri = Vocabulary.s_p_has_question_origin)
     private String questionOrigin;
 
     // key is the QUESTION-ORIGIN -> hash

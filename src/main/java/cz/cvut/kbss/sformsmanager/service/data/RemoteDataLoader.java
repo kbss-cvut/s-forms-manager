@@ -1,6 +1,6 @@
 package cz.cvut.kbss.sformsmanager.service.data;
 
-import cz.cvut.kbss.sformsmanager.rest.NotFoundException;
+import cz.cvut.kbss.sformsmanager.rest.ResourceNotFoundException;
 import cz.cvut.kbss.sformsmanager.utils.URLUtils;
 import org.slf4j.Logger;
 import org.springframework.http.HttpEntity;
@@ -36,7 +36,7 @@ public class RemoteDataLoader implements DataLoader {
             return result.getBody();
         } catch (Exception e) {
             log.error("Error when requesting remote data, url: {}.", urlWithQuery.toString(), e);
-            throw new NotFoundException("Unable to fetch remote data.", e);
+            throw new ResourceNotFoundException("Unable to fetch remote data.", e);
         }
     }
 

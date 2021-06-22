@@ -3,7 +3,7 @@ package cz.cvut.kbss.sformsmanager.service.model.local;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.SubmittedAnswer;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.RecordSnapshotDAO;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.SubmittedAnswerDAO;
-import cz.cvut.kbss.sformsmanager.rest.NotFoundException;
+import cz.cvut.kbss.sformsmanager.rest.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +26,6 @@ public class SubmittedAnswerService {
     }
 
     public Set<SubmittedAnswer> getRecordSnapshotAnswers(String projectName, String recordSnapshotContextUri) {
-        return recordSnapshotService.findByKey(projectName, recordSnapshotContextUri).orElseThrow(() -> new NotFoundException("Record snapshot was not found: " + recordSnapshotContextUri)).getAnswers();
+        return recordSnapshotService.findByKey(projectName, recordSnapshotContextUri).orElseThrow(() -> new ResourceNotFoundException("Record snapshot was not found: " + recordSnapshotContextUri)).getAnswers();
     }
 }

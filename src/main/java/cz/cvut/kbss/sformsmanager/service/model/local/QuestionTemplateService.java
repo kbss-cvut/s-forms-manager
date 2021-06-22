@@ -51,7 +51,11 @@ public class QuestionTemplateService {
                 .collect(Collectors.toList());
     }
 
-    public List<QuestionTemplateSnapshot> findAll(String projectName) {
+    public List<QuestionTemplateSnapshot> findAllSnapshots(String projectName) {
         return questionTemplateSnapshotDAO.findAll(projectName);
+    }
+
+    public List<QuestionTemplateSnapshot> findAllFormTemplateVersionQuestionSnapshots(String projectName, URI formTemplateVersion) {
+        return questionTemplateSnapshotDAO.findAllWhere(projectName, Vocabulary.p_hasFormTemplateVersion, formTemplateVersion);
     }
 }
