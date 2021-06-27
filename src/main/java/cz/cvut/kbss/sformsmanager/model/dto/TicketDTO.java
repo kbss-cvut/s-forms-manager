@@ -1,6 +1,6 @@
 package cz.cvut.kbss.sformsmanager.model.dto;
 
-import java.util.Map;
+import cz.cvut.kbss.sformsmanager.service.ticketing.TicketProjectRelations;
 
 public class TicketDTO {
 
@@ -10,13 +10,13 @@ public class TicketDTO {
 
     private final String url;
 
-    private final Map<String, String> customFields;
+    private final TicketRelationsDTO relations;
 
-    public TicketDTO(String name, String description, String url, Map<String, String> customFields) {
+    public TicketDTO(String name, String description, String url, TicketRelationsDTO relations) {
         this.name = name;
         this.description = description;
         this.url = url;
-        this.customFields = customFields;
+        this.relations = relations;
     }
 
     public String getName() {
@@ -27,11 +27,49 @@ public class TicketDTO {
         return description;
     }
 
-    public Map<String, String> getCustomFields() {
-        return customFields;
+    public TicketRelationsDTO getRelations() {
+        return relations;
     }
 
     public String getUrl() {
         return url;
+    }
+
+    public static class TicketRelationsDTO {
+        private final String relatedForm;
+        private final String relatedFormVersion;
+        private final String relatedQuestionOriginPath;
+        private final String relatedQuestionLabel;
+
+        public static TicketRelationsDTO createFormTicketRelations(TicketProjectRelations ticketRelations, String relatedQuestionLabel) {
+            return new TicketRelationsDTO(ticketRelations.getRelatedRecordSnapshot(),
+                    ticketRelations.getRelatedFormVersion(),
+                    ticketRelations.getRelatedQuestionOriginPath(),
+                    relatedQuestionLabel);
+        }
+
+        public TicketRelationsDTO(String relatedForm, String relatedFormVersion, String relatedQuestionOriginPath, String relatedQuestionLabel) {
+            this.relatedForm = relatedForm;
+            this.relatedFormVersion = relatedFormVersion;
+            this.relatedQuestionOriginPath = relatedQuestionOriginPath;
+            this.relatedQuestionLabel = relatedQuestionLabel;
+        }
+
+        public String getRelatedForm() {
+            return relatedForm;
+        }
+
+        public String getRelatedFormVersion() {
+            return relatedFormVersion;
+        }
+
+        public String getRelatedQuestionOriginPath() {
+            return relatedQuestionOriginPath;
+        }
+
+        public String getRelatedQuestionLabel() {
+            return relatedQuestionLabel;
+        }
+
     }
 }

@@ -1,7 +1,5 @@
 package cz.cvut.kbss.sformsmanager.service.ticketing;
 
-import java.util.List;
-
 public interface Ticket {
 
     String getName();
@@ -10,6 +8,6 @@ public interface Ticket {
 
     String getUrl();
 
-    List<CustomField> getCustomFields();
+    TicketProjectRelations getTicketCustomRelations();
 
 }

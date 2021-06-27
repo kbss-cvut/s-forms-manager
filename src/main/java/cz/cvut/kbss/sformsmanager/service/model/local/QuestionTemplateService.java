@@ -58,4 +58,8 @@ public class QuestionTemplateService {
     public List<QuestionTemplateSnapshot> findAllFormTemplateVersionQuestionSnapshots(String projectName, URI formTemplateVersion) {
         return questionTemplateSnapshotDAO.findAllWhere(projectName, Vocabulary.p_hasFormTemplateVersion, formTemplateVersion);
     }
+
+    public List<QuestionTemplateSnapshot> findByQOP(String projectName, String questionOriginPath) {
+        return questionTemplateSnapshotDAO.findAllWhere(projectName, Vocabulary.p_originPath, questionOriginPath);
+    }
 }

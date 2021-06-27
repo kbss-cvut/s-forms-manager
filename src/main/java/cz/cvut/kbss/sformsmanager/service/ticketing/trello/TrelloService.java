@@ -1,6 +1,5 @@
 package cz.cvut.kbss.sformsmanager.service.ticketing.trello;
 
-import com.julienvey.trello.domain.Card;
 import cz.cvut.kbss.sformsmanager.service.ticketing.TicketingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,10 +23,15 @@ public class TrelloService implements TicketingService {
     }
 
     @Override
-    public List<Card> findProjectTickets(String projectName) {
+    public List<TrelloTicket> findProjectTickets(String projectName) {
         return trelloClient.getBoardCards(boardId).stream()
                 .filter(card -> card.getLabels().stream().anyMatch(label -> label.getName().equals(projectName)))
-                .collect(Collectors.toList());
+                .map(card -> {
+                    Map<String, String> customFields = findTicketCustomFields(card.getId());
+                    TrelloCustomFields fields = new TrelloCustomFields(customFields);
+
+                    return new TrelloTicket(card.getName(), card.getDesc(), card.getUrl(), fields);
+                }).collect(Collectors.toList());
     }
 
     @Override

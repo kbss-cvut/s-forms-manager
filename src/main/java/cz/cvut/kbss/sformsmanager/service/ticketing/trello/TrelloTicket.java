@@ -1,9 +1,7 @@
 package cz.cvut.kbss.sformsmanager.service.ticketing.trello;
 
-import cz.cvut.kbss.sformsmanager.service.ticketing.CustomField;
 import cz.cvut.kbss.sformsmanager.service.ticketing.Ticket;
-
-import java.util.List;
+import cz.cvut.kbss.sformsmanager.service.ticketing.TicketProjectRelations;
 
 public class TrelloTicket implements Ticket {
 
@@ -13,9 +11,9 @@ public class TrelloTicket implements Ticket {
 
     private final String url;
 
-    private final List<CustomField> customFields;
+    private final TrelloCustomFields customFields;
 
-    public TrelloTicket(String name, String description, String url, List<CustomField> customFields) {
+    public TrelloTicket(String name, String description, String url, TrelloCustomFields customFields) {
         this.name = name;
         this.description = description;
         this.url = url;
@@ -38,7 +36,7 @@ public class TrelloTicket implements Ticket {
     }
 
     @Override
-    public List<CustomField> getCustomFields() {
+    public TicketProjectRelations getTicketCustomRelations() {
         return customFields;
     }
 }
