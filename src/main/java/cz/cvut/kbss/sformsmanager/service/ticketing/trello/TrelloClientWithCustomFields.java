@@ -15,21 +15,26 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class TrelloClientCustomWrapper extends TrelloImpl {
+public class TrelloClientWithCustomFields extends TrelloImpl {
 
     private final String applicationKey;
     private final String accessToken;
     private final TrelloHttpClient client;
 
-    public TrelloClientCustomWrapper(String applicationKey, String accessToken) {
+    public TrelloClientWithCustomFields(String applicationKey, String accessToken) {
         this(applicationKey, accessToken, new ApacheHttpClient());
     }
 
-    public TrelloClientCustomWrapper(String applicationKey, String accessToken, TrelloHttpClient httpClient) {
+    public TrelloClientWithCustomFields(String applicationKey, String accessToken, TrelloHttpClient httpClient) {
         super(applicationKey, accessToken, httpClient);
         this.client = httpClient;
         this.applicationKey = applicationKey;
         this.accessToken = accessToken;
+    }
+
+    public void updateCustomFieldOnCard(String cardId, String customFieldId, CustomFieldValueWrapper value, Argument... args) {
+        String url = TrelloUrl.createUrl("/cards/{cardId}/customField/{customFieldId}/item?").params(args).asString();
+        this.client.putForObject(url, value, CustomFieldValue.class, cardId, customFieldId, applicationKey, accessToken);
     }
 
     public List<CustomField> getCardCustomFields(String cardId, Argument... args) {
@@ -37,6 +42,13 @@ public class TrelloClientCustomWrapper extends TrelloImpl {
         return Lists.newArrayList(this.client.get(url, CustomField[].class, cardId, applicationKey, accessToken));
     }
 
+    /**
+     * Get Map of ID as a key and CustomFieldDefinition as a value.
+     *
+     * @param boardId
+     * @param args
+     * @return map of id and definitions
+     */
     public Map<String, CustomFieldDefinition> getCustomFieldDefinitions(String boardId, Argument... args) {
         String url = TrelloUrl.createUrl("/boards/{boardId}/customFields?").params(args).asString();
         return Arrays.stream(this.client.get(url, CustomFieldDefinition[].class, boardId, applicationKey, accessToken)).collect(Collectors.toMap(cfd -> cfd.getId(), Function.identity()));
@@ -136,6 +148,25 @@ public class TrelloClientCustomWrapper extends TrelloImpl {
 
         public void setName(String name) {
             this.name = name;
+        }
+    }
+
+    static class CustomFieldValueWrapper {
+        private CustomFieldValue value;
+
+        public CustomFieldValueWrapper() {
+        }
+
+        public CustomFieldValueWrapper(String value) {
+            this.value = new CustomFieldValue(value);
+        }
+
+        public CustomFieldValue getValue() {
+            return value;
+        }
+
+        public void setValue(CustomFieldValue value) {
+            this.value = value;
         }
     }
 }

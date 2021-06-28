@@ -14,9 +14,13 @@
  */
 package cz.cvut.kbss.sformsmanager.rest;
 
+import cz.cvut.kbss.sformsmanager.exception.VersionNotFoundException;
 import cz.cvut.kbss.sformsmanager.model.dto.DagSelectSearchOptionDTO;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.FormTemplateVersion;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.QuestionTemplateSnapshot;
 import cz.cvut.kbss.sformsmanager.service.model.local.FormTemplateService;
 import cz.cvut.kbss.sformsmanager.service.model.local.QuestionTemplateService;
+import cz.cvut.kbss.sformsmanager.service.model.local.RecordService;
 import cz.cvut.kbss.sformsmanager.service.model.local.SearchService;
 import cz.cvut.kbss.sformsmanager.service.search.SearchQueryTemplateService;
 import freemarker.template.Configuration;
@@ -30,6 +34,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -42,13 +47,15 @@ public class SearchController {
     private final SearchService searchService;
     private final SearchQueryTemplateService searchQueryTemplateService;
     private final QuestionTemplateService questionTemplateService;
+    private final RecordService recordService;
 
     @Autowired
-    public SearchController(Configuration templateCfg, SearchService searchService, SearchQueryTemplateService searchQueryTemplateService, QuestionTemplateService questionTemplateService, FormTemplateService formTemplateService) {
+    public SearchController(Configuration templateCfg, SearchService searchService, SearchQueryTemplateService searchQueryTemplateService, QuestionTemplateService questionTemplateService, FormTemplateService formTemplateService, RecordService recordService) {
         this.templateCfg = templateCfg;
         this.searchService = searchService;
         this.searchQueryTemplateService = searchQueryTemplateService;
         this.questionTemplateService = questionTemplateService;
+        this.recordService = recordService;
     }
 
     @RequestMapping(path = "/updateQuery", method = RequestMethod.GET)
@@ -73,20 +80,36 @@ public class SearchController {
         return searchResults;
     }
 
-    @RequestMapping(path = "/select/options", method = RequestMethod.GET)
+    @RequestMapping(path = "/select/options/all", method = RequestMethod.GET)
+    @ResponseStatus(value = HttpStatus.OK)
+    @Transactional
+    public List<DagSelectSearchOptionDTO> getDagSelectOptions(@RequestParam(value = "projectName") String projectName) {
+
+        return questionTemplateService.findAllSnapshots(projectName).stream()
+                .map(qts -> mapQtsToDagOption(qts)).collect(Collectors.toList());
+    }
+
+    @RequestMapping(path = "/select/options/version", method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
     @Transactional
     public List<DagSelectSearchOptionDTO> getDagSelectOptions(
-            @RequestParam(value = "projectName") String projectName) {
+            @RequestParam(value = "projectName") String projectName,
+            @RequestParam(value = "recordContextUri") String recordContextUri) {
 
-        return questionTemplateService.findAllSnapshots(projectName).stream()
-                .map(qts -> new DagSelectSearchOptionDTO(
-                        qts.getLabel(),
-                        qts.getQuestionOrigin(),
-                        qts.getQuestionOriginPath(),
-                        qts.getQuestionTemplateSnapshots() != null
-                                ? qts.getQuestionTemplateSnapshots().stream().map(q -> q.getQuestionOriginPath()).collect(Collectors.toList()) : Collections.emptyList()
-                )).collect(Collectors.toList());
+        Optional<FormTemplateVersion> formTemplateVersionOpt = recordService.getFormTemplateVersion(projectName, recordContextUri);
+        FormTemplateVersion formTemplateVersion = formTemplateVersionOpt.orElseThrow(() -> new VersionNotFoundException("Version for this context uri not found: " + recordContextUri));
+
+        return questionTemplateService.findAllFormTemplateVersionQuestionSnapshots(projectName, formTemplateVersion.getUri()).stream()
+                .map(qts -> mapQtsToDagOption(qts)).collect(Collectors.toList());
+    }
+
+    private DagSelectSearchOptionDTO mapQtsToDagOption(QuestionTemplateSnapshot qts) {
+        return new DagSelectSearchOptionDTO(
+                qts.getLabel(),
+                qts.getQuestionOrigin(),
+                qts.getQuestionOriginPath(),
+                qts.getQuestionTemplateSnapshots() != null
+                        ? qts.getQuestionTemplateSnapshots().stream().map(q -> q.getQuestionOriginPath()).collect(Collectors.toList()) : Collections.emptyList());
     }
 
     @RequestMapping(path = "/getAutocomplete", method = RequestMethod.GET)

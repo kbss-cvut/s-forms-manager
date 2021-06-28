@@ -3,10 +3,10 @@ package cz.cvut.kbss.sformsmanager.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(code = HttpStatus.NOT_FOUND)
-public class VersionNotFoundException extends RuntimeException {
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public class RecordSnapshotNotFound extends RuntimeException {
 
-    public VersionNotFoundException(String message) {
+    public RecordSnapshotNotFound(String message) {
         super(message);
     }
 }

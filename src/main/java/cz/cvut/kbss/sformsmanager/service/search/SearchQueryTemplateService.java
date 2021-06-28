@@ -1,7 +1,7 @@
 package cz.cvut.kbss.sformsmanager.service.search;
 
+import cz.cvut.kbss.sformsmanager.exception.ResourceNotFoundException;
 import cz.cvut.kbss.sformsmanager.persistence.dao.LocalEntityBaseDAO;
-import cz.cvut.kbss.sformsmanager.rest.ResourceNotFoundException;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;

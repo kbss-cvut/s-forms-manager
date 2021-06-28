@@ -1,7 +1,7 @@
 package cz.cvut.kbss.sformsmanager.config;
 
 import com.julienvey.trello.impl.http.ApacheHttpClient;
-import cz.cvut.kbss.sformsmanager.service.ticketing.trello.TrelloClientCustomWrapper;
+import cz.cvut.kbss.sformsmanager.service.ticketing.trello.TrelloClientWithCustomFields;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +21,7 @@ public class TrelloConfig {
     }
 
     @Bean
-    public TrelloClientCustomWrapper trelloClient() {
-        return new TrelloClientCustomWrapper(apiKey, apiToken, new ApacheHttpClient());
+    public TrelloClientWithCustomFields trelloClient() {
+        return new TrelloClientWithCustomFields(apiKey, apiToken, new ApacheHttpClient());
     }
 }

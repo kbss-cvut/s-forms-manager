@@ -1,6 +1,7 @@
 package cz.cvut.kbss.sformsmanager.service.model.local;
 
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.FormTemplateVersion;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.Record;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.RecordSnapshot;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.RecordDAO;
@@ -65,4 +66,14 @@ public class RecordService {
         return recordSnapshotDAO.findFirstWhere(projectName, Vocabulary.p_hasRemoteContextURI, contextURI);
     }
 
+    public Optional<FormTemplateVersion> getFormTemplateVersion(String projectName, String contextUri) {
+        if (contextUri == null || contextUri.isEmpty()) {
+            return Optional.empty();
+        }
+        Optional<RecordSnapshot> recordSnapshotOpt = findRecordSnapshot(projectName, URI.create(contextUri));
+        if (recordSnapshotOpt.isPresent()) {
+            return Optional.ofNullable(recordSnapshotOpt.get().getFormTemplateVersion());
+        }
+        return Optional.empty();
+    }
 }

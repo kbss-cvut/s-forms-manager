@@ -1,7 +1,7 @@
 package cz.cvut.kbss.sformsmanager.service.ticketing.trello;
 
 import cz.cvut.kbss.sformsmanager.service.ticketing.Ticket;
-import cz.cvut.kbss.sformsmanager.service.ticketing.TicketProjectRelations;
+import cz.cvut.kbss.sformsmanager.service.ticketing.TicketToProjectRelations;
 
 public class TrelloTicket implements Ticket {
 
@@ -36,7 +36,7 @@ public class TrelloTicket implements Ticket {
     }
 
     @Override
-    public TicketProjectRelations getTicketCustomRelations() {
+    public TicketToProjectRelations getTicketCustomRelations() {
         return customFields;
     }
 }

@@ -1,6 +1,6 @@
 package cz.cvut.kbss.sformsmanager.service.ticketing;
 
-public interface TicketProjectRelations {
+public interface TicketToProjectRelations {
 
     public String getRelatedRecordSnapshot();
 

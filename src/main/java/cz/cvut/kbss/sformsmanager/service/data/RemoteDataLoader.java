@@ -1,6 +1,6 @@
 package cz.cvut.kbss.sformsmanager.service.data;
 
-import cz.cvut.kbss.sformsmanager.rest.ResourceNotFoundException;
+import cz.cvut.kbss.sformsmanager.exception.ResourceNotFoundException;
 import cz.cvut.kbss.sformsmanager.utils.URLUtils;
 import org.slf4j.Logger;
 import org.springframework.http.HttpEntity;
