@@ -36,11 +36,11 @@ public class TicketToProjectRelationsService {
     public TicketToProjectRelations createRelationsFromRequest(CreateTicketRequest createTicketRequest) {
         String projectName = createTicketRequest.getProjectName();
 
-        RecordSnapshot recordSnapshot = recordService.findRecordSnapshot(projectName, URI.create(createTicketRequest.getRecordContextUri()))
+        RecordSnapshot recordSnapshot = recordService.findRecordSnapshotByContextUri(projectName, URI.create(createTicketRequest.getRecordContextUri()))
                 .orElseThrow(() -> new RecordSnapshotNotFound("RecordSnapshot specified at the ticket not found. ContextURI: " + createTicketRequest.getRecordContextUri()));
 
         String recordSnapshotRelationContextUri = null;
-        if (createTicketRequest.isRelateToForm()) {
+        if (createTicketRequest.isRelateToRecordSnapshot()) {
             recordSnapshotRelationContextUri = createTicketRequest.getRecordContextUri();
         }
 

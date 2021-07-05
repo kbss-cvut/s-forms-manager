@@ -1,10 +1,9 @@
 package cz.cvut.kbss.sformsmanager.rest;
 
 
-import cz.cvut.kbss.sformsmanager.model.dto.RecordSnapshotDTO;
-import cz.cvut.kbss.sformsmanager.model.dto.SubmittedAnswerChangeDTO;
-import cz.cvut.kbss.sformsmanager.model.dto.SubmittedAnswerDTO;
-import cz.cvut.kbss.sformsmanager.model.dto.SubmittedAnswersCompareResultDTO;
+import cz.cvut.kbss.sformsmanager.exception.RecordSnapshotNotFound;
+import cz.cvut.kbss.sformsmanager.exception.VersionNotFoundException;
+import cz.cvut.kbss.sformsmanager.model.dto.*;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.RecordSnapshot;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.SubmittedAnswer;
 import cz.cvut.kbss.sformsmanager.service.model.local.RecordService;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URI;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -32,21 +32,38 @@ public class RecordSnapshotController {
         this.answerService = answerService;
     }
 
+    @RequestMapping(method = RequestMethod.GET, path = "find")
+    public RecordSnapshotDTO getRecordSnapshotByContextUri(
+            @RequestParam(value = "projectName") String projectName,
+            @RequestParam(value = "recordSnapshotContextUri") String recordSnapshotContextUri) {
+
+        return recordService.findRecordSnapshotByContextUri(projectName, URI.create(recordSnapshotContextUri))
+                .map(record -> mapRecord(record))
+                .orElseThrow(() -> new RecordSnapshotNotFound("RecordSnapshot not found."));
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/find/version")
+    public FormTemplateVersionDTO getFormTemplateVersionByRecordSnapshot(
+            @RequestParam(value = "projectName") String projectName,
+            @RequestParam(value = "recordSnapshotContextUri") String recordSnapshotContextUri) {
+
+        return recordService.getFormTemplateVersion(projectName, recordSnapshotContextUri)
+                .map(version -> new FormTemplateVersionDTO(
+                        version.getKey(),
+                        version.getInternalName(),
+                        version.getUri().toString(),
+                        version.getSampleRemoteContextURI(),
+                        -1, // TODO: find effective way to do that
+                        -1))
+                .orElseThrow(() -> new VersionNotFoundException("Version not found for record snapshot context uri: " + recordSnapshotContextUri));
+    }
+
     @RequestMapping(method = RequestMethod.GET)
-    public List<RecordSnapshotDTO> listRecordSnapshotsForRecord(@RequestParam(value = "projectName") String projectName, @RequestParam(value = "recordURI") String recordURI) {
+    public List<RecordSnapshotDTO> getRecordSnapshotsForRecord(@RequestParam(value = "projectName") String projectName, @RequestParam(value = "recordURI") String recordURI) {
 
         return recordService.findRecordSnapshotsForRecord(projectName, recordURI).stream()
                 .sorted(Comparator.comparing(RecordSnapshot::getRecordSnapshotCreated))
-                .map(record -> new RecordSnapshotDTO(
-                        record.getUri().toString(),
-                        record.getKey(),
-                        record.getFormTemplateVersion() != null ? record.getFormTemplateVersion().getKey() : null,
-                        record.getFormTemplateVersion() != null ? record.getFormTemplateVersion().getInternalName() : null,
-                        record.getRecordVersion() != null ? record.getRecordVersion().getKey() : null,
-                        record.getRecordSnapshotCreated(),
-                        record.getRemoteContextURI().toString(),
-                        record.getAnswers() != null ? record.getAnswers().size() : 0 // TODO: very ineffective, should be part of the initial call
-                ))
+                .map(record -> mapRecord(record))
                 .collect(Collectors.toList());
     }
 
@@ -84,4 +101,16 @@ public class RecordSnapshotController {
         return new SubmittedAnswersCompareResultDTO(numberOfUnchangedAnswers, leftAnswers, rightAnswers, changedAnswers);
     }
 
+    private RecordSnapshotDTO mapRecord(RecordSnapshot recordSnapshot) { // TODO: struts
+        return new RecordSnapshotDTO(
+                recordSnapshot.getUri().toString(),
+                recordSnapshot.getKey(),
+                recordSnapshot.getFormTemplateVersion() != null ? recordSnapshot.getFormTemplateVersion().getKey() : null,
+                recordSnapshot.getFormTemplateVersion() != null ? recordSnapshot.getFormTemplateVersion().getInternalName() : null,
+                recordSnapshot.getRecordVersion() != null ? recordSnapshot.getRecordVersion().getKey() : null,
+                recordSnapshot.getRecordSnapshotCreated(),
+                recordSnapshot.getRemoteContextURI().toString(),
+                recordSnapshot.getAnswers() != null ? recordSnapshot.getAnswers().size() : 0 // TODO: very ineffective, should be part of the initial call
+        );
+    }
 }

@@ -8,6 +8,7 @@ import cz.cvut.kbss.sformsmanager.model.persisted.response.VersionHistogramQuery
 import cz.cvut.kbss.sformsmanager.model.persisted.response.VersionHistoryBoundsQueryResult;
 import cz.cvut.kbss.sformsmanager.service.model.local.FormTemplateService;
 import cz.cvut.kbss.sformsmanager.service.model.local.QuestionTemplateService;
+import cz.cvut.kbss.sformsmanager.service.model.local.RecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,15 +26,33 @@ import java.util.stream.Collectors;
 public class FormTemplateVersionController {
 
     private final FormTemplateService formTemplateService;
+    private final RecordService recordService;
     private final QuestionTemplateService questionTemplateService;
 
     @Autowired
-    public FormTemplateVersionController(FormTemplateService formTemplateService, QuestionTemplateService questionTemplateService) {
+    public FormTemplateVersionController(FormTemplateService formTemplateService, RecordService recordService, QuestionTemplateService questionTemplateService) {
         this.formTemplateService = formTemplateService;
+        this.recordService = recordService;
         this.questionTemplateService = questionTemplateService;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET, path = "/find")
+    public FormTemplateVersionDTO getFormTemplateVersionByKey(
+            @RequestParam(value = "projectName") String projectName,
+            @RequestParam(value = "formTemplateVersionKey") String versionKey) {
+
+        return formTemplateService.findVersionByKey(projectName, versionKey)
+                .map(version -> new FormTemplateVersionDTO(
+                        version.getKey(),
+                        version.getInternalName(),
+                        version.getUri().toString(),
+                        version.getSampleRemoteContextURI(),
+                        questionTemplateService.countSnapshotsWithFormTemplateVersion(projectName, version.getUri()),
+                        formTemplateService.countFormTemplateVersionRecordSnapshots(projectName, version.getUri())))
+                .orElseThrow(() -> new VersionNotFoundException("Version not found by key: " + versionKey));
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/all")
     public List<FormTemplateVersionDTO> getFormTemplateVersions(@RequestParam(value = "projectName") String projectName) {
 
         return formTemplateService.findAllVersions(projectName).stream()

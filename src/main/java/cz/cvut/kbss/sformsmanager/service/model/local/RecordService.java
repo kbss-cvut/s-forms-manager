@@ -8,6 +8,7 @@ import cz.cvut.kbss.sformsmanager.persistence.dao.local.RecordDAO;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.RecordSnapshotDAO;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.RecordVersionDAO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.net.URI;
 import java.util.List;
@@ -62,15 +63,20 @@ public class RecordService {
         return recordSnapshotDAO.findAllWhere(projectName, Vocabulary.p_hasRecord, URI.create(recordURI));
     }
 
-    public Optional<RecordSnapshot> findRecordSnapshot(String projectName, URI contextURI) {
+    public Optional<RecordSnapshot> findRecordSnapshotByContextUri(String projectName, URI contextURI) {
         return recordSnapshotDAO.findFirstWhere(projectName, Vocabulary.p_hasRemoteContextURI, contextURI);
+    }
+
+    @Transactional
+    public Optional<Record> findRecordBySnapshotKey(String projectName, String recordSnapshotKey) {
+        return recordSnapshotDAO.findByKey(projectName, recordSnapshotKey).flatMap(rs -> Optional.of(rs.getRecord()));
     }
 
     public Optional<FormTemplateVersion> getFormTemplateVersion(String projectName, String contextUri) {
         if (contextUri == null || contextUri.isEmpty()) {
             return Optional.empty();
         }
-        Optional<RecordSnapshot> recordSnapshotOpt = findRecordSnapshot(projectName, URI.create(contextUri));
+        Optional<RecordSnapshot> recordSnapshotOpt = findRecordSnapshotByContextUri(projectName, URI.create(contextUri));
         if (recordSnapshotOpt.isPresent()) {
             return Optional.ofNullable(recordSnapshotOpt.get().getFormTemplateVersion());
         }

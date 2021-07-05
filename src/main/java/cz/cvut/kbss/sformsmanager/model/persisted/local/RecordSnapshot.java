@@ -17,10 +17,10 @@ public class RecordSnapshot extends LocalEntity implements Serializable {
     @OWLObjectProperty(iri = Vocabulary.p_hasRecordVersion, fetch = FetchType.EAGER)
     private RecordVersion recordVersion;
 
-    @OWLObjectProperty(iri = Vocabulary.p_hasFormTemplateVersion, fetch = FetchType.EAGER) // TODO: lazy not working?
+    @OWLObjectProperty(iri = Vocabulary.p_hasFormTemplateVersion, fetch = FetchType.EAGER)
     private FormTemplateVersion formTemplateVersion;
 
-    @OWLObjectProperty(iri = Vocabulary.p_hasSubmittedAnswers, fetch = FetchType.EAGER) // TODO: lazy not working?
+    @OWLObjectProperty(iri = Vocabulary.p_hasSubmittedAnswers, fetch = FetchType.EAGER)
     private Set<SubmittedAnswer> answers;
 
     @ParticipationConstraints(nonEmpty = true)

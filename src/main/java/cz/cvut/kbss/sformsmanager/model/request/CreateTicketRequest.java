@@ -5,7 +5,7 @@ public class CreateTicketRequest {
     private String recordContextUri;
     private String name;
     private String description;
-    private boolean relateToForm;
+    private boolean relateToRecordSnapshot;
     private boolean relateToFormVersion;
     private boolean relateToQuestion;
     private String questionOriginPath;
@@ -20,7 +20,7 @@ public class CreateTicketRequest {
                 ", recordContextUri='" + recordContextUri + '\'' +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", relateToForm=" + relateToForm +
+                ", relateToRecordSnapshot=" + relateToRecordSnapshot +
                 ", relateToFormVersion=" + relateToFormVersion +
                 ", relateToQuestion=" + relateToQuestion +
                 ", questionOriginPath='" + questionOriginPath + '\'' +
@@ -43,12 +43,12 @@ public class CreateTicketRequest {
         this.description = description;
     }
 
-    public boolean isRelateToForm() {
-        return relateToForm;
+    public boolean isRelateToRecordSnapshot() {
+        return relateToRecordSnapshot;
     }
 
-    public void setRelateToForm(boolean relateToForm) {
-        this.relateToForm = relateToForm;
+    public void setRelateToRecordSnapshot(boolean relateToRecordSnapshot) {
+        this.relateToRecordSnapshot = relateToRecordSnapshot;
     }
 
     public boolean isRelateToFormVersion() {

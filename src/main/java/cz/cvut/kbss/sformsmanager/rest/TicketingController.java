@@ -47,7 +47,7 @@ public class TicketingController {
     public FormTicketsInCategoriesDTO getTicketsInCategories(@RequestParam(value = "projectName") String projectName,
                                                              @RequestParam(value = "contextUri") String contextUri) {
 
-        RecordSnapshot recordSnapshot = recordService.findRecordSnapshot(projectName, URI.create(contextUri))
+        RecordSnapshot recordSnapshot = recordService.findRecordSnapshotByContextUri(projectName, URI.create(contextUri))
                 .orElseThrow(() -> new ResourceNotFoundException("Record with context uri " + contextUri + " not found"));
 
         List<TicketDTO> projectTickets = getProjectTicketsStream(projectName).collect(Collectors.toList());

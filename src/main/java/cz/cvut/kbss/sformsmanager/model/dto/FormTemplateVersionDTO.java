@@ -2,15 +2,15 @@ package cz.cvut.kbss.sformsmanager.model.dto;
 
 public final class FormTemplateVersionDTO {
 
-    private final String key;
+    private final String internalKey;
     private final String internalName;
     private final String internalUri;
     private final String sampleRemoteContextUri;
     private final int numberOfQuestionTemplateSnapshots;
     private final int numberOfRecordSnapshots;
 
-    public FormTemplateVersionDTO(String key, String internalName, String internalUri, String sampleRemoteContextUri, int numberOfQuestionTemplateSnapshots, int numberOfRecordSnapshots) {
-        this.key = key;
+    public FormTemplateVersionDTO(String internalKey, String internalName, String internalUri, String sampleRemoteContextUri, int numberOfQuestionTemplateSnapshots, int numberOfRecordSnapshots) {
+        this.internalKey = internalKey;
         this.internalName = internalName;
         this.internalUri = internalUri;
         this.sampleRemoteContextUri = sampleRemoteContextUri;
@@ -18,8 +18,8 @@ public final class FormTemplateVersionDTO {
         this.numberOfRecordSnapshots = numberOfRecordSnapshots;
     }
 
-    public String getKey() {
-        return key;
+    public String getInternalKey() {
+        return internalKey;
     }
 
     public String getInternalName() {
