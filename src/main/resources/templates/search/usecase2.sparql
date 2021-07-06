@@ -8,7 +8,7 @@ WHERE {
     GRAPH <${contextUri}> {
 
     	?questionTemplateSnapshot sfm:hasFormTemplateVersion ?formTemplateVersion .
-    	?formTemplateVersion sfm:key "${PARAMETER_1}" . # EDIT THIS
+    	?formTemplateVersion sfm:key "PARAMETER_1" . # EDIT THIS
 
         ?questionTemplateSnapshot form:has-question-origin ?questionOrigin .
         ?questionTemplateSnapshot sfm:hasSubmittedAnswers ?answerObject .

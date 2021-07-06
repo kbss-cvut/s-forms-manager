@@ -1,0 +1,25 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX sfm: <http://onto.fel.cvut.cz/ontologies/sformsmanager#>
+PREFIX doc: <http://onto.fel.cvut.cz/ontologies/documentation/>
+PREFIX form: <http://onto.fel.cvut.cz/ontologies/form/>
+
+# FORM TEMPLATE VERSION
+
+SELECT
+    ?formTemplateVersion
+    ?key
+    ?internalName
+	?formTemplate
+	?questionTemplateSnapshot
+	?remoteContextURI
+WHERE {
+    GRAPH <${contextUri}> {
+
+    	?formTemplateVersion a sfm:FormTemplateVersion ;
+            sfm:key ?key ;
+			sfm:hasFormTemplate ?formTemplate ;
+            sfm:p_hasQuestionTemplateSnapshot ?questionTemplateSnapshot ;
+            sfm:hasRemoteContextURI ?remoteContextURI .
+    	OPTIONAL { ?formTemplateVersion sfm:internalName ?internalName . }
+  	}
+}

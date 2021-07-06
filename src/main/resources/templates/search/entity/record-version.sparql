@@ -1,0 +1,19 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX sfm: <http://onto.fel.cvut.cz/ontologies/sformsmanager#>
+PREFIX doc: <http://onto.fel.cvut.cz/ontologies/documentation/>
+PREFIX form: <http://onto.fel.cvut.cz/ontologies/form/>
+
+# RECORD VERSION
+
+SELECT
+    ?recordVersion
+    ?key
+    ?record
+WHERE {
+   GRAPH <${contextUri}> {
+
+    	?recordVersion a sfm:RecordVersion ;
+    	    sfm:key ?key ;
+			sfm:hasRecord	?record .
+  }
+}

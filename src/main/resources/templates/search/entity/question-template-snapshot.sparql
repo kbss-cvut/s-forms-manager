@@ -1,0 +1,31 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX sfm: <http://onto.fel.cvut.cz/ontologies/sformsmanager#>
+PREFIX doc: <http://onto.fel.cvut.cz/ontologies/documentation/>
+PREFIX form: <http://onto.fel.cvut.cz/ontologies/form/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+# QUESTION TEMPLATE SNAPSHOT
+
+SELECT
+    ?questionTemplateSnapshot
+	?key
+	?label
+	(count(?QTSs) as ?numberOfQTS)
+	(count(?answers) as ?numberOfAnswers)
+	?questionOriginPath
+	?questionOrigin
+WHERE {
+    GRAPH <${contextUri}> {
+
+    	?questionTemplateSnapshot a sfm:QuestionTemplateSnapshot ;
+            sfm:key ?key ;
+            sfm:hasFormTemplateVersion ?FormTemplateVersion ;
+            sfm:questionOriginPath ?questionOriginPath ;
+    		form:has-question-origin ?questionOrigin .
+
+    	OPTIONAL { ?questionTemplateSnapshot sfm:hasQuestionTemplateSnapshots ?QTSs . }
+    	OPTIONAL { ?questionTemplateSnapshot sfm:hasSubmittedAnswers ?answers . }
+    	OPTIONAL { ?questionTemplateSnapshot rdfs:label ?label . }
+  	}
+}
+GROUP BY ?questionTemplateSnapshot ?key ?label ?questionOrigin ?questionOriginPath

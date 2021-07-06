@@ -62,12 +62,10 @@ public class SearchController {
     @ResponseStatus(value = HttpStatus.OK)
     public String getSearchQuery(
             @RequestParam(value = "projectName") String projectName,
-            @RequestParam(value = "queryId") String queryId,
-            @RequestParam(value = "parameter1") String parameter1,
-            @RequestParam(value = "parameter2") String parameter2
+            @RequestParam(value = "queryId") String queryId
     ) throws IOException, TemplateException {
 
-        return searchQueryTemplateService.getQuery(projectName, queryId, parameter1, parameter2);
+        return searchQueryTemplateService.getQuery(projectName, queryId);
     }
 
     @PostMapping(path = "/runQuery") // TODO: unify this PostMapping vs RequestMapping

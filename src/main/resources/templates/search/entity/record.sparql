@@ -1,0 +1,28 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX sfm: <http://onto.fel.cvut.cz/ontologies/sformsmanager#>
+PREFIX doc: <http://onto.fel.cvut.cz/ontologies/documentation/>
+PREFIX form: <http://onto.fel.cvut.cz/ontologies/form/>
+
+# RECORD
+
+SELECT
+    ?record
+    ?key
+    ?formTemplate
+    ?remoteContextUri
+    (count(?recordSnapshots) as ?numberOfRecordSnapshots)
+    (count(?recordVersions) as ?numberOfRecordVersions)
+    ?recordCreated
+WHERE {
+    GRAPH <${contextUri}> {
+
+    	?record a sfm:Record ;
+    		sfm:key	?key ;
+			sfm:hasFormTemplate	?formTemplate ;
+	        sfm:hasRemoteContextURI	?remoteContextUri ;
+      		sfm:hasRecordSnapshots	?recordSnapshots ;
+      		sfm:hasRecordVersions	?recordVersions ;
+            sfm:recordCreated	?recordCreated .
+  }
+}
+GROUP BY ?record ?key ?formTemplate ?recordCreated ?remoteContextUri
