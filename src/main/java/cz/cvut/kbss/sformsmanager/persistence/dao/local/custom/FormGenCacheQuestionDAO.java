@@ -22,7 +22,7 @@ public class FormGenCacheQuestionDAO extends CustomQueryDAO {
         String contextIdentifier = LocalFormGenJsonLoader.createContextIdentifier(projectName, contextUri);
         return executeOnEntityManagerSingleResult(
                 em -> em.createNativeQuery("SELECT ?x WHERE { GRAPH <" + contextIdentifier + "> { ?x ?questionOrigin ?value . } } LIMIT 1", QuestionSnapshotRemoteData.class)
-//        .setDescriptor(contextIdentifier) // does not work for some reason
+                        .setDescriptor(LocalFormGenJsonLoader.createContextDescriptor(projectName, contextUri)) // does not always work as expected, using in-text specification as well
                         .setParameter("questionOrigin", URI.create(Vocabulary.s_p_has_question_origin))
                         .setParameter("value", URI.create(rootQuestionOrigin))
                         .getSingleResult(),

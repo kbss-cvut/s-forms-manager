@@ -7,7 +7,9 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class QuestionTreeRemoteDataProcessor {
+public class RemoteQuestionModelProcessor {
+
+    // TODO: refactor this class entirely, this is kinda unintuitive after adding some features
 
     private QuestionSnapshotRemoteData rootQuestion;
     private String rootQuestionOrigin;
@@ -15,9 +17,10 @@ public class QuestionTreeRemoteDataProcessor {
     private boolean isProcessed = false;
 
     private Map<String, String> questionOriginsAndTheirPaths = new HashMap<>(); // -> questionOriginPath for FormTemplateVersion, questionOrigin for QuestionTemplate
-    private Map<String, String> answeredQuestions = new HashMap<>(); // question-origin + it's answer
+    private Map<String, String> answeredQuestions = new HashMap<>(); // question-origin + its answer
+    private Map<String, String> questionOriginLabels = new HashMap<>(); // question-origin + its label
 
-    public QuestionTreeRemoteDataProcessor(QuestionSnapshotRemoteData rootQuestion) {
+    public RemoteQuestionModelProcessor(QuestionSnapshotRemoteData rootQuestion) {
         this.rootQuestion = rootQuestion;
     }
 
@@ -41,6 +44,9 @@ public class QuestionTreeRemoteDataProcessor {
         // record current node's question-origin-path + question-origin
         String currentQuestionOriginPath = StringUtils.join(questionOriginPathBuilder, "|");
         questionOriginsAndTheirPaths.put(qo, currentQuestionOriginPath);
+
+        // save the question origin + its label pair
+        questionOriginLabels.put(qo, questionSnapshotRemoteData.getLabel());
 
         // terminate recursion at leaf nodes
         if (questionSnapshotRemoteData.getSubQuestions().isEmpty()) {
@@ -92,6 +98,10 @@ public class QuestionTreeRemoteDataProcessor {
     public String getRootQuestionOrigin() {
         requireProcessed();
         return rootQuestion.getQuestionOrigin();
+    }
+
+    public Map<String, String> getQuestionOriginLabels() {
+        return questionOriginLabels;
     }
 
     private void requireProcessed() {

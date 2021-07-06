@@ -30,6 +30,7 @@ public class RemoteDataProcessingOrchestratorImpl implements RemoteDataProcessin
     private final FormTemplateVersionDAO formTemplateVersionDAO;
 
     private final QuestionTemplateSnapshotDAO questionTemplateSnapshotDAO;
+    private final QuestionTemplateDAO questionTemplateDAO;
     private final FormGenCacheQuestionDAO formGenCacheQuestionDAO;
     private final FormTemplateDAO formTemplateDAO;
     private final SubmittedAnswerDAO submittedAnswerDAO;
@@ -42,7 +43,7 @@ public class RemoteDataProcessingOrchestratorImpl implements RemoteDataProcessin
             RecordSnapshotRemoteDAO recordRemoteDAO,
             RecordSnapshotDAO recordSnapshotDAO,
             FormTemplateVersionDAO formTemplateVersionDAO,
-            FormGenCacheQuestionDAO formGenCacheQuestionDAO, FormTemplateDAO formTemplateDAO,
+            QuestionTemplateDAO questionTemplateDAO, FormGenCacheQuestionDAO formGenCacheQuestionDAO, FormTemplateDAO formTemplateDAO,
             SubmittedAnswerDAO submittedAnswerDAO,
             RecordVersionDAO recordVersionDAO, FormGenCachedService formGenCachedService) {
 
@@ -51,6 +52,7 @@ public class RemoteDataProcessingOrchestratorImpl implements RemoteDataProcessin
         this.recordRemoteDAO = recordRemoteDAO;
         this.recordSnapshotDAO = recordSnapshotDAO;
         this.formTemplateVersionDAO = formTemplateVersionDAO;
+        this.questionTemplateDAO = questionTemplateDAO;
         this.formGenCacheQuestionDAO = formGenCacheQuestionDAO;
         this.formTemplateDAO = formTemplateDAO;
         this.submittedAnswerDAO = submittedAnswerDAO;
@@ -71,7 +73,7 @@ public class RemoteDataProcessingOrchestratorImpl implements RemoteDataProcessin
         String recordSnapshotKey = ObjectUtils.createKeyForContext(projectName, contextUri);
 
         // Record
-        String recordKey = ObjectUtils.createKeyForContext(projectName, recordRemoteData.getRemoteRecordURI()); // TODO:  + "/" + recordRemoteData.getRecordCreateDate()
+        String recordKey = ObjectUtils.createKeyForContext(projectName, recordRemoteData.getRemoteRecordURI().toString() + recordRemoteData.getRecordCreateDate()); // TODO:  + "/" + recordRemoteData.getRecordCreateDate()
         Optional<Record> recordOpt = recordDAO.findByKey(projectName, recordKey);
         Record record;
         if (recordOpt.isPresent()) {
@@ -97,11 +99,11 @@ public class RemoteDataProcessingOrchestratorImpl implements RemoteDataProcessin
         QuestionSnapshotRemoteData qaRemoteData = formGenCacheQuestionDAO.getQuestionsAndAnswersSnapshot(projectName, contextUri, recordRemoteData.getRootQuestionOrigin());
 
         // PROCESS the questions tree
-        QuestionTreeRemoteDataProcessor processor = new QuestionTreeRemoteDataProcessor(qaRemoteData);
+        RemoteQuestionModelProcessor processor = new RemoteQuestionModelProcessor(qaRemoteData);
         processor.process();
 
         // Answers
-        Map<String, SubmittedAnswer> submittedAnswerMap = mapToSubmittedAnswersAndPersistEventually(processor.getAnsweredQuestions(), projectName);
+        Map<String, SubmittedAnswer> submittedAnswerMap = mapToSubmittedAnswersAndPersistEventually(projectName, processor.getAnsweredQuestions(), processor.getQuestionOriginLabels());
 
         // FormTemplate
         String formTemplateKey = ObjectUtils.createKeyForContext(projectName, processor.getRootQuestionOrigin());
@@ -115,6 +117,8 @@ public class RemoteDataProcessingOrchestratorImpl implements RemoteDataProcessin
             formTemplate = formTemplateDAO.update(projectName, formTemplate);
         }
 
+        // QuestionTemplate
+
         // FormTemplateVersion
         String formTemplateVersionKey = ObjectUtils.createKeyForContext(projectName, processor.getAllQuestionOriginsPathsHash());
         Optional<FormTemplateVersion> formTemplateVersionOpt = formTemplateVersionDAO.findByKey(projectName, formTemplateVersionKey);
@@ -124,13 +128,14 @@ public class RemoteDataProcessingOrchestratorImpl implements RemoteDataProcessin
             formTemplateVersion = formTemplateVersionOpt.get();
 
             // add new answers to question template snapshots and update them directly
-            addSubmittedAnswersToExistingQuestionTemplateSnapshots(projectName, formTemplateVersion, submittedAnswerMap);
+            addSubmittedAnswersToQuestionsAndPersist(projectName, formTemplateVersion, submittedAnswerMap);
         } else {
             formTemplateVersion = new FormTemplateVersion(formTemplateVersionKey, formTemplate, null, null, contextUri);
             QuestionTemplateSnapshot questionTemplateSnapshot = createQuestionTemplateSnapshotsWithAnswers(
                     processor.getQuestionOriginsAndTheirPaths(),
                     submittedAnswerMap,
                     qaRemoteData,
+                    formTemplate,
                     formTemplateVersion,
                     projectName);
             formTemplateVersion.setQuestionTemplateSnapshot(questionTemplateSnapshot);
@@ -164,12 +169,21 @@ public class RemoteDataProcessingOrchestratorImpl implements RemoteDataProcessin
             Map<String, String> questionOriginAndTheirPaths,
             Map<String, SubmittedAnswer> submittedAnswerMap,
             QuestionSnapshotRemoteData questionTreeRemoteData,
+            FormTemplate formTemplate,
             FormTemplateVersion formTemplateVersion,
             String projectDescriptorName) {
 
-        QuestionTemplateSnapshotTreeBuilder qtsTreeBuilder = new QuestionTemplateSnapshotTreeBuilder(
+        // takes existing FormTemplate question templates and connects them to the new questions
+
+        // QuestionTemplate(s)
+        Map<String, QuestionTemplate> questionTemplatesMap = questionTemplateDAO.findAllWhere(projectDescriptorName, Vocabulary.p_hasFormTemplate, formTemplate.getUri()).stream()
+                .collect(Collectors.toMap(qt -> qt.getQuestionOrigin(), Function.identity()));
+
+        LocalQuestionModelTreeBuilder qtsTreeBuilder = new LocalQuestionModelTreeBuilder(
                 questionTreeRemoteData,
+                questionTemplatesMap,
                 questionOriginAndTheirPaths,
+                formTemplate,
                 formTemplateVersion,
                 submittedAnswerMap,
                 projectDescriptorName);
@@ -177,7 +191,8 @@ public class RemoteDataProcessingOrchestratorImpl implements RemoteDataProcessin
         return qtsTreeBuilder.process();
     }
 
-    private void addSubmittedAnswersToExistingQuestionTemplateSnapshots(String projectDescriptorName, FormTemplateVersion formTemplateVersion, Map<String, SubmittedAnswer> submittedAnswerMap) {
+    private void addSubmittedAnswersToQuestionsAndPersist(String projectDescriptorName, FormTemplateVersion formTemplateVersion, Map<String, SubmittedAnswer> submittedAnswerMap) {
+        // QuestionTemplateSnapshot(s)
         List<QuestionTemplateSnapshot> questionTemplateSnapshots = questionTemplateSnapshotDAO.findAllWhere(projectDescriptorName, Vocabulary.p_hasFormTemplateVersion, formTemplateVersion.getUri());
         questionTemplateSnapshots.stream().forEach(qts -> {
             SubmittedAnswer sa;
@@ -195,12 +210,12 @@ public class RemoteDataProcessingOrchestratorImpl implements RemoteDataProcessin
         });
     }
 
-    private Map<String, SubmittedAnswer> mapToSubmittedAnswersAndPersistEventually(Map<String, String> answeredQuestions, String projectDescriptorName) {
+    private Map<String, SubmittedAnswer> mapToSubmittedAnswersAndPersistEventually(String projectDescriptorName, Map<String, String> answeredQuestions, Map<String, String> questionOriginLabels) {
         // the result is question-origin-1 -> SubmittedAnswer(with question-origin-1)
         return answeredQuestions.entrySet().stream().map(entry -> {
             String answerKey = ObjectUtils.createKeyForContext(projectDescriptorName, entry.getKey() + entry.getValue()); // question-origin + answer-value
             return submittedAnswerDAO.findByKey(projectDescriptorName, answerKey)
-                    .orElseGet(() -> submittedAnswerDAO.update(projectDescriptorName, new SubmittedAnswer(answerKey, entry.getValue(), entry.getKey())));
+                    .orElseGet(() -> submittedAnswerDAO.update(projectDescriptorName, new SubmittedAnswer(answerKey, entry.getValue(), entry.getKey(), questionOriginLabels.get(entry.getKey()))));
         }).collect(Collectors.toMap(SubmittedAnswer::getQuestionOrigin, Function.identity()));
     }
 }

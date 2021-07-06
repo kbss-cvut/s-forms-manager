@@ -28,8 +28,9 @@ public class QuestionTemplate extends LocalEntity implements Serializable {
     public QuestionTemplate() {
     }
 
-    public QuestionTemplate(String questionOriginHashKey, String questionOrigin, Set<QuestionTemplateSnapshot> questionTemplateSnapshots) {
-        super(questionOriginHashKey);
+    public QuestionTemplate(String questionOriginFormTemplateHashKey, FormTemplate formTemplate, String questionOrigin, Set<QuestionTemplateSnapshot> questionTemplateSnapshots) {
+        super(questionOriginFormTemplateHashKey);
+        this.formTemplate = formTemplate;
         this.questionOrigin = questionOrigin;
         this.questionTemplateSnapshots = questionTemplateSnapshots;
     }
@@ -48,5 +49,13 @@ public class QuestionTemplate extends LocalEntity implements Serializable {
 
     public void setSnapshots(Set<QuestionTemplateSnapshot> questionTemplateSnapshots) {
         this.questionTemplateSnapshots = questionTemplateSnapshots;
+    }
+
+    public FormTemplate getFormTemplate() {
+        return formTemplate;
+    }
+
+    public void setFormTemplate(FormTemplate formTemplate) {
+        this.formTemplate = formTemplate;
     }
 }

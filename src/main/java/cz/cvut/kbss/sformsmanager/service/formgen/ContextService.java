@@ -1,4 +1,4 @@
-package cz.cvut.kbss.sformsmanager.service.model.remote;
+package cz.cvut.kbss.sformsmanager.service.formgen;
 
 import cz.cvut.kbss.sformsmanager.model.persisted.remote.Context;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.RecordSnapshotDAO;

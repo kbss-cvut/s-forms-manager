@@ -9,6 +9,9 @@ import java.util.Set;
 @OWLClass(iri = Vocabulary.QuestionTemplateSnapshot)
 public class QuestionTemplateSnapshot extends LocalEntity implements Serializable {
 
+    @OWLObjectProperty(iri = Vocabulary.p_hasQuestionTemplate, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private QuestionTemplate questionTemplate;
+
     @OWLObjectProperty(iri = Vocabulary.p_hasQuestionTemplateSnapshots, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<QuestionTemplateSnapshot> questionTemplateSnapshots;
 
@@ -16,7 +19,7 @@ public class QuestionTemplateSnapshot extends LocalEntity implements Serializabl
     @OWLObjectProperty(iri = Vocabulary.p_hasFormTemplateVersion)
     private FormTemplateVersion formTemplateVersion;
 
-    @OWLDataProperty(iri = Vocabulary.p_originPath)
+    @OWLDataProperty(iri = Vocabulary.p_questionOriginPath)
     private String questionOriginPath;
 
     @OWLDataProperty(iri = Vocabulary.s_p_has_question_origin)
@@ -35,7 +38,7 @@ public class QuestionTemplateSnapshot extends LocalEntity implements Serializabl
 
     public QuestionTemplateSnapshot(
             String formTemplateVersionAndOriginPathHashKey,
-            Set<QuestionTemplateSnapshot> questionTemplateSnapshots,
+            QuestionTemplate questionTemplate, Set<QuestionTemplateSnapshot> questionTemplateSnapshots,
             FormTemplateVersion formTemplateVersion,
             String questionOriginPath,
             String questionOrigin,
@@ -43,6 +46,7 @@ public class QuestionTemplateSnapshot extends LocalEntity implements Serializabl
             Set<SubmittedAnswer> answers) {
 
         super(formTemplateVersionAndOriginPathHashKey);
+        this.questionTemplate = questionTemplate;
         this.formTemplateVersion = formTemplateVersion;
         this.questionTemplateSnapshots = questionTemplateSnapshots;
         this.questionOriginPath = questionOriginPath;
@@ -97,5 +101,13 @@ public class QuestionTemplateSnapshot extends LocalEntity implements Serializabl
 
     public void setLabel(String label) {
         this.label = label;
+    }
+
+    public QuestionTemplate getQuestionTemplate() {
+        return questionTemplate;
+    }
+
+    public void setQuestionTemplate(QuestionTemplate questionTemplate) {
+        this.questionTemplate = questionTemplate;
     }
 }

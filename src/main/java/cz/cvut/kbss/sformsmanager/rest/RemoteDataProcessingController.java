@@ -3,7 +3,7 @@ package cz.cvut.kbss.sformsmanager.rest;
 import cz.cvut.kbss.sformsmanager.model.dto.ContextDTO;
 import cz.cvut.kbss.sformsmanager.model.dto.Paginated;
 import cz.cvut.kbss.sformsmanager.model.persisted.remote.Context;
-import cz.cvut.kbss.sformsmanager.service.model.remote.ContextService;
+import cz.cvut.kbss.sformsmanager.service.formgen.ContextService;
 import cz.cvut.kbss.sformsmanager.service.process.RemoteDataProcessingOrchestrator;
 import cz.cvut.kbss.sformsmanager.utils.PredicateUtils;
 import org.slf4j.Logger;

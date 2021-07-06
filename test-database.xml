@@ -1,0 +1,1064 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<TriX xmlns='http://www.w3.org/2004/03/trix/trix-1/'>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-1-answer</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://xmlns.com/foaf/0.1/accountName</uri>
+			<plainLiteral xml:lang='en'>Doctor143</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-2-answers-1-changed</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/key</uri>
+			<plainLiteral xml:lang='en'>1168172037638315685</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-2-answers</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://www.w3.org/2000/01/rdf-schema#label</uri>
+			<plainLiteral xml:lang='en'>MBA</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/token</uri>
+			<plainLiteral xml:lang='en'>some-random-token</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-2-answers</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/has-question</uri>
+			<uri>http://onto.fel.cvut.cz/ontologies/documentation/question/cbbc8189-78a7-43bd-897d-51f60bc13149/8cd78157abb5223c11fe2832a3cfd928-q</uri>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+			<uri>http://www.w3.org/2000/01/rdf-schema#label</uri>
+			<plainLiteral xml:lang='en'>Instituto Nacional de Cancerología México</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-1-answer</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://purl.org/dc/terms/created</uri>
+			<typedLiteral datatype='http://www.w3.org/2001/XMLSchema#dateTime'>2019-06-28T22:56:07.033+02:00</typedLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-2-answers-1-changed</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://xmlns.com/foaf/0.1/lastName</uri>
+			<plainLiteral xml:lang='en'>Navara</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/was-treated-at</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-2-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://purl.org/dc/terms/modified</uri>
+			<typedLiteral datatype='http://www.w3.org/2001/XMLSchema#dateTime'>2019-06-28T22:56:50.104+02:00</typedLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record</uri>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-2-answers</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/is-member-of</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-2-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/has-author</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-1-answer</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/has-question</uri>
+			<uri>http://onto.fel.cvut.cz/ontologies/documentation/question/cbbc8189-78a7-43bd-897d-51f60bc13149/8cd78157abb5223c11fe2832a3cfd928-q</uri>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://purl.org/dc/terms/modified</uri>
+			<typedLiteral datatype='http://www.w3.org/2001/XMLSchema#dateTime'>2019-06-28T22:58:00.124+02:00</typedLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://xmlns.com/foaf/0.1/mbox</uri>
+			<plainLiteral xml:lang='en'>myrandomemail@hotmail.com</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://xmlns.com/foaf/0.1/accountName</uri>
+			<plainLiteral xml:lang='en'>Doctor143</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/key</uri>
+			<plainLiteral xml:lang='en'>1168172037638315685</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-2-answers-1-changed</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://purl.org/dc/terms/modified</uri>
+			<typedLiteral datatype='http://www.w3.org/2001/XMLSchema#dateTime'>2019-08-30T00:00:00.155+02:00</typedLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-2-answers</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/isInvited</uri>
+			<typedLiteral datatype='http://www.w3.org/2001/XMLSchema#boolean'>true</typedLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-1-answer</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+			<uri>http://www.w3.org/2000/01/rdf-schema#label</uri>
+			<plainLiteral xml:lang='en'>Instituto Nacional de Cancerología México</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record</uri>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://xmlns.com/foaf/0.1/firstName</uri>
+			<plainLiteral xml:lang='en'>Some Random Name </plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-2-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/is-member-of</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-1-answer</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/is-member-of</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-2-answers</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/A.Klara+Hern%C3%A1ndez+-Navara-594</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/password</uri>
+			<plainLiteral xml:lang='en'>somoe-random-password</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-2-answers-1-changed</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/has-author</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://www.w3.org/2000/01/rdf-schema#label</uri>
+			<plainLiteral xml:lang='en'>MBA</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-2-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/isInvited</uri>
+			<typedLiteral datatype='http://www.w3.org/2001/XMLSchema#boolean'>true</typedLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://purl.org/dc/terms/created</uri>
+			<typedLiteral datatype='http://www.w3.org/2001/XMLSchema#dateTime'>2019-06-28T22:56:07.033+02:00</typedLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-2-answers</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://purl.org/dc/terms/created</uri>
+			<typedLiteral datatype='http://www.w3.org/2001/XMLSchema#dateTime'>2019-06-28T22:56:07.033+02:00</typedLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/token</uri>
+			<plainLiteral xml:lang='en'>some-random-token</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://xmlns.com/foaf/0.1/accountName</uri>
+			<plainLiteral xml:lang='en'>Doctor143</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-2-answers-1-changed</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+			<uri>http://www.w3.org/2000/01/rdf-schema#label</uri>
+			<plainLiteral xml:lang='en'>Instituto Nacional de Cancerología México</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-2-answers</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://xmlns.com/foaf/0.1/firstName</uri>
+			<plainLiteral xml:lang='en'>Some Random Name </plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-2-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/has-question</uri>
+			<uri>http://onto.fel.cvut.cz/ontologies/documentation/question/cbbc8189-78a7-43bd-897d-51f60bc13149/8cd78157abb5223c11fe2832a3cfd928-q</uri>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-2-answers-1-changed</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://www.w3.org/2000/01/rdf-schema#label</uri>
+			<plainLiteral xml:lang='en'>MBA</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-1-answer</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/was-treated-at</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://xmlns.com/foaf/0.1/mbox</uri>
+			<plainLiteral xml:lang='en'>myrandomemail@hotmail.com</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-2-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/password</uri>
+			<plainLiteral xml:lang='en'>some-random-password</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-1-answer</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/isInvited</uri>
+			<typedLiteral datatype='http://www.w3.org/2001/XMLSchema#boolean'>true</typedLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-2-answers-1-changed</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://xmlns.com/foaf/0.1/firstName</uri>
+			<plainLiteral xml:lang='en'>Some Random Name </plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-2-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/was-treated-at</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/token</uri>
+			<plainLiteral xml:lang='en'>some-random-token</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/is-member-of</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-2-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://xmlns.com/foaf/0.1/accountName</uri>
+			<plainLiteral xml:lang='en'>Doctor143</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-2-answers</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/was-treated-at</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://xmlns.com/foaf/0.1/firstName</uri>
+			<plainLiteral xml:lang='en'>Some Random Name </plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://purl.org/dc/terms/modified</uri>
+			<typedLiteral datatype='http://www.w3.org/2001/XMLSchema#dateTime'>2019-06-28T022:57:00.155+02:00</typedLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-2-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://xmlns.com/foaf/0.1/firstName</uri>
+			<plainLiteral xml:lang='en'>Some Random Name </plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-2-answers-1-changed</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/isInvited</uri>
+			<typedLiteral datatype='http://www.w3.org/2001/XMLSchema#boolean'>true</typedLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/isInvited</uri>
+			<typedLiteral datatype='http://www.w3.org/2001/XMLSchema#boolean'>true</typedLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-2-answers-1-changed</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+			<uri>http://xmlns.com/foaf/0.1/mbox</uri>
+			<plainLiteral xml:lang='en'>user@hotmail.com</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/has-question</uri>
+			<uri>http://onto.fel.cvut.cz/ontologies/documentation/question/cbbc8189-78a7-43bd-897d-51f60bc13149/8cd78157abb5223c11fe2832a3cfd928-q</uri>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-1-answer</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/password</uri>
+			<plainLiteral xml:lang='en'>some-random-password</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-2-answers</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://xmlns.com/foaf/0.1/lastName</uri>
+			<plainLiteral xml:lang='en'>Navara</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-2-answers-1-changed</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/was-treated-at</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/has-author</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-2-answers</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://xmlns.com/foaf/0.1/mbox</uri>
+			<plainLiteral xml:lang='en'>myrandomemail@hotmail.com</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://purl.org/dc/terms/modified</uri>
+			<typedLiteral datatype='http://www.w3.org/2001/XMLSchema#dateTime'>2019-06-30T09:01:00.155+02:00</typedLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-2-answers-1-changed</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/password</uri>
+			<plainLiteral xml:lang='en'>some-random-password</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-2-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://xmlns.com/foaf/0.1/lastName</uri>
+			<plainLiteral xml:lang='en'>Navara</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-2-answers-1-changed</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/is-member-of</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-2-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://xmlns.com/foaf/0.1/mbox</uri>
+			<plainLiteral xml:lang='en'>myrandomemail@hotmail.com</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-2-answers-1-changed</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record</uri>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-2-answers</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/has-author</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/key</uri>
+			<plainLiteral xml:lang='en'>45968164276093019265</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/has-question</uri>
+			<uri>http://onto.fel.cvut.cz/ontologies/documentation/question/cbbc8189-78a7-43bd-897d-51f60bc13149/8cd78157abb5223c11fe2832a3cfd928-q</uri>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-2-answers</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+			<uri>http://xmlns.com/foaf/0.1/mbox</uri>
+			<plainLiteral xml:lang='en'>user@hotmail.com</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-2-answers-1-changed</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/key</uri>
+			<plainLiteral xml:lang='en'>45968164276093019265</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/token</uri>
+			<plainLiteral xml:lang='en'>some-random-token</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://purl.org/dc/terms/created</uri>
+			<typedLiteral datatype='http://www.w3.org/2001/XMLSchema#dateTime'>2019-06-28T22:56:07.033+02:00</typedLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-1-answer</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/key</uri>
+			<plainLiteral xml:lang='en'>1168172037638315685</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-2-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+			<uri>http://xmlns.com/foaf/0.1/mbox</uri>
+			<plainLiteral xml:lang='en'>user@hotmail.com</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://xmlns.com/foaf/0.1/lastName</uri>
+			<plainLiteral xml:lang='en'>Navara</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-2-answers</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/key</uri>
+			<plainLiteral xml:lang='en'>45968164276093019265</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+			<uri>http://xmlns.com/foaf/0.1/mbox</uri>
+			<plainLiteral xml:lang='en'>user@hotmail.com</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-2-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/key</uri>
+			<plainLiteral xml:lang='en'>45968164276093019265</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-2-answers</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+			<uri>http://www.w3.org/2000/01/rdf-schema#label</uri>
+			<plainLiteral xml:lang='en'>Instituto Nacional de Cancerología México</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-2-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+			<uri>http://www.w3.org/2000/01/rdf-schema#label</uri>
+			<plainLiteral xml:lang='en'>Instituto Nacional de Cancerología México</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-1-answer</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/has-author</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/token</uri>
+			<plainLiteral xml:lang='en'>some-random-token</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-2-answers-1-changed</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://xmlns.com/foaf/0.1/accountName</uri>
+			<plainLiteral xml:lang='en'>Doctor143</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-1-answer</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/key</uri>
+			<plainLiteral xml:lang='en'>45968164276093019265</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-2-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record</uri>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-2-answers-1-changed</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://xmlns.com/foaf/0.1/mbox</uri>
+			<plainLiteral xml:lang='en'>myrandomemail@hotmail.com</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-1-answer</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+			<uri>http://xmlns.com/foaf/0.1/mbox</uri>
+			<plainLiteral xml:lang='en'>user@hotmail.com</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-2-answers</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record</uri>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-1-answer</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://xmlns.com/foaf/0.1/lastName</uri>
+			<plainLiteral xml:lang='en'>Navara</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-2-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/key</uri>
+			<plainLiteral xml:lang='en'>1168172037638315685</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/password</uri>
+			<plainLiteral xml:lang='en'>some-random-password</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-2-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://www.w3.org/2000/01/rdf-schema#label</uri>
+			<plainLiteral xml:lang='en'>MBA</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-1-answer</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://www.w3.org/2000/01/rdf-schema#label</uri>
+			<plainLiteral xml:lang='en'>MBA</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-2-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://purl.org/dc/terms/created</uri>
+			<typedLiteral datatype='http://www.w3.org/2001/XMLSchema#dateTime'>2019-06-28T22:56:07.033+02:00</typedLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-2-answers</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/key</uri>
+			<plainLiteral xml:lang='en'>1168172037638315685</plainLiteral>
+		</triple>
+	</graph>
+	<graph>
+		<triple>
+			<uri>http://onto.fel.cvut.cz/ontologies/documentation/question/cbbc8189-78a7-43bd-897d-51f60bc13149/8cd78157abb5223c11fe2832a3cfd928-q</uri>
+			<uri>http://onto.fel.cvut.cz/ontologies/form/has-question-origin</uri>
+			<uri>http://vfn.cz/ontologies/abrax-form/abrax-study-q-generated-qo</uri>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions</uri>
+		<triple>
+			<uri>http://onto.fel.cvut.cz/ontologies/documentation/question/cbbc8189-78a7-43bd-897d-51f60bc13149/8cd78157abb5223c11fe2832a3cfd928-q</uri>
+			<uri>http://onto.fel.cvut.cz/ontologies/form/has-question-origin</uri>
+			<uri>http://vfn.cz/ontologies/abrax-form/abrax-study-q-generated-qo</uri>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-2-questions</uri>
+		<triple>
+			<uri>http://onto.fel.cvut.cz/ontologies/documentation/question/cbbc8189-78a7-43bd-897d-51f60bc13149/8cd78157abb5223c11fe2832a3cfd928-q</uri>
+			<uri>http://onto.fel.cvut.cz/ontologies/form/has-question-origin</uri>
+			<uri>http://vfn.cz/ontologies/abrax-form/abrax-study-q-generated-qo</uri>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-1-answer</uri>
+		<triple>
+			<uri>http://onto.fel.cvut.cz/ontologies/documentation/question/cbbc8189-78a7-43bd-897d-51f60bc13149/8cd78157abb5223c11fe2832a3cfd928-q</uri>
+			<uri>http://onto.fel.cvut.cz/ontologies/form/has-question-origin</uri>
+			<uri>http://vfn.cz/ontologies/abrax-form/abrax-study-q-generated-qo</uri>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-2-answers</uri>
+		<triple>
+			<uri>http://onto.fel.cvut.cz/ontologies/documentation/question/cbbc8189-78a7-43bd-897d-51f60bc13149/8cd78157abb5223c11fe2832a3cfd928-q</uri>
+			<uri>http://onto.fel.cvut.cz/ontologies/form/has-question-origin</uri>
+			<uri>http://vfn.cz/ontologies/abrax-form/abrax-study-q-generated-qo</uri>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-3-questions-2-answers-1-changed</uri>
+		<triple>
+			<uri>http://onto.fel.cvut.cz/ontologies/documentation/question/cbbc8189-78a7-43bd-897d-51f60bc13149/8cd78157abb5223c11fe2832a3cfd928-q</uri>
+			<uri>http://onto.fel.cvut.cz/ontologies/form/has-question-origin</uri>
+			<uri>http://vfn.cz/ontologies/abrax-form/abrax-study-q-generated-qo</uri>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-5-questions-2-answers-1-changed</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/key</uri>
+			<plainLiteral xml:lang='en'>1168172037638315685</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://xmlns.com/foaf/0.1/lastName</uri>
+			<plainLiteral xml:lang='en'>Navara</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://purl.org/dc/terms/modified</uri>
+			<typedLiteral datatype='http://www.w3.org/2001/XMLSchema#dateTime'>2019-09-01T12:00:00.155+02:00</typedLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/has-author</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+			<uri>http://www.w3.org/2000/01/rdf-schema#label</uri>
+			<plainLiteral xml:lang='en'>Instituto Nacional de Cancerología México</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://www.w3.org/2000/01/rdf-schema#label</uri>
+			<plainLiteral xml:lang='en'>MBA</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://xmlns.com/foaf/0.1/firstName</uri>
+			<plainLiteral xml:lang='en'>Some Random Name </plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/isInvited</uri>
+			<typedLiteral datatype='http://www.w3.org/2001/XMLSchema#boolean'>true</typedLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+			<uri>http://xmlns.com/foaf/0.1/mbox</uri>
+			<plainLiteral xml:lang='en'>user@hotmail.com</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/has-question</uri>
+			<uri>http://onto.fel.cvut.cz/ontologies/documentation/question/cbbc8189-78a7-43bd-897d-51f60bc13149/8cd78157abb5223c11fe2832a3cfd928-q</uri>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/was-treated-at</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/password</uri>
+			<plainLiteral xml:lang='en'>anotehr-random-password</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/is-member-of</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record</uri>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/key</uri>
+			<plainLiteral xml:lang='en'>45968164276093019265</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/token</uri>
+			<plainLiteral xml:lang='en'>some-random-token</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://purl.org/dc/terms/created</uri>
+			<typedLiteral datatype='http://www.w3.org/2001/XMLSchema#dateTime'>2019-06-28T22:56:07.033+02:00</typedLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://xmlns.com/foaf/0.1/accountName</uri>
+			<plainLiteral xml:lang='en'>Doctor143</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://xmlns.com/foaf/0.1/mbox</uri>
+			<plainLiteral xml:lang='en'>myrandomemail@hotmail.com</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://onto.fel.cvut.cz/ontologies/documentation/question/cbbc8189-78a7-43bd-897d-51f60bc13149/8cd78157abb5223c11fe2832a3cfd928-q</uri>
+			<uri>http://onto.fel.cvut.cz/ontologies/form/has-question-origin</uri>
+			<uri>http://vfn.cz/ontologies/abrax-form/abrax-study-q-generated-qo</uri>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-5-questions-3-answers-1-changed</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/key</uri>
+			<plainLiteral xml:lang='en'>1168172037638315685</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://xmlns.com/foaf/0.1/lastName</uri>
+			<plainLiteral xml:lang='en'>Navara</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://purl.org/dc/terms/modified</uri>
+			<typedLiteral datatype='http://www.w3.org/2001/XMLSchema#dateTime'>2019-09-01T13:00:00.155+02:00</typedLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/has-author</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+			<uri>http://www.w3.org/2000/01/rdf-schema#label</uri>
+			<plainLiteral xml:lang='en'>Instituto Nacional de Cancerología México</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://www.w3.org/2000/01/rdf-schema#label</uri>
+			<plainLiteral xml:lang='en'>MBA</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://xmlns.com/foaf/0.1/firstName</uri>
+			<plainLiteral xml:lang='en'>Some Random Name </plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/isInvited</uri>
+			<typedLiteral datatype='http://www.w3.org/2001/XMLSchema#boolean'>true</typedLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+			<uri>http://xmlns.com/foaf/0.1/mbox</uri>
+			<plainLiteral xml:lang='en'>user@hotmail.com</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/has-question</uri>
+			<uri>http://onto.fel.cvut.cz/ontologies/documentation/question/cbbc8189-78a7-43bd-897d-51f60bc13149/8cd78157abb5223c11fe2832a3cfd928-q</uri>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/was-treated-at</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/password</uri>
+			<plainLiteral xml:lang='en'>anotehr-random-password</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/is-member-of</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record</uri>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/key</uri>
+			<plainLiteral xml:lang='en'>45968164276093019265</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/token</uri>
+			<plainLiteral xml:lang='en'>some-random-token</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://purl.org/dc/terms/created</uri>
+			<typedLiteral datatype='http://www.w3.org/2001/XMLSchema#dateTime'>2019-06-28T22:56:07.033+02:00</typedLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://xmlns.com/foaf/0.1/accountName</uri>
+			<plainLiteral xml:lang='en'>Doctor143</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://xmlns.com/foaf/0.1/mbox</uri>
+			<plainLiteral xml:lang='en'>myrandomemail@hotmail.com</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://onto.fel.cvut.cz/ontologies/documentation/question/cbbc8189-78a7-43bd-897d-51f60bc13149/8cd78157abb5223c11fe2832a3cfd928-q</uri>
+			<uri>http://onto.fel.cvut.cz/ontologies/form/has-question-origin</uri>
+			<uri>http://vfn.cz/ontologies/abrax-form/abrax-study-q-generated-qo</uri>
+		</triple>
+	</graph>
+	<graph>
+		<uri>http://vfn.cz/ontologies/study-manager/form-initial-2-questions</uri>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/has-author</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/is-member-of</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/isInvited</uri>
+			<typedLiteral datatype='http://www.w3.org/2001/XMLSchema#boolean'>true</typedLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/password</uri>
+			<plainLiteral xml:lang='en'>some-random-password</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/was-treated-at</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/token</uri>
+			<plainLiteral xml:lang='en'>some-random-token</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://xmlns.com/foaf/0.1/accountName</uri>
+			<plainLiteral xml:lang='en'>Doctor143</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://xmlns.com/foaf/0.1/firstName</uri>
+			<plainLiteral xml:lang='en'>Some Random Name </plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://xmlns.com/foaf/0.1/lastName</uri>
+			<plainLiteral xml:lang='en'>Navara</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/J.Kozlovsky+Hern%C3%A1ndez+-XkaNavara-594</uri>
+			<uri>http://xmlns.com/foaf/0.1/mbox</uri>
+			<plainLiteral xml:lang='en'>myrandomemail@hotmail.com</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+			<uri>http://xmlns.com/foaf/0.1/mbox</uri>
+			<plainLiteral xml:lang='en'>user@hotmail.com</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/key</uri>
+			<plainLiteral xml:lang='en'>45968164276093019265</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/institution/instance1000311530</uri>
+			<uri>http://www.w3.org/2000/01/rdf-schema#label</uri>
+			<plainLiteral xml:lang='en'>Instituto Nacional de Cancerología México</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record</uri>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://vfn.cz/ontologies/study-manager/key</uri>
+			<plainLiteral xml:lang='en'>1168172037638315685</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://www.w3.org/2000/01/rdf-schema#label</uri>
+			<plainLiteral xml:lang='en'>MBA</plainLiteral>
+		</triple>
+		<triple>
+			<uri>http://vfn.cz/ontologies/study-manager/patient-record/instance466023873</uri>
+			<uri>http://purl.org/dc/terms/created</uri>
+			<typedLiteral datatype='http://www.w3.org/2001/XMLSchema#dateTime'>2019-06-28T22:56:07.033+02:00</typedLiteral>
+		</triple>
+		<triple>
+			<uri>http://onto.fel.cvut.cz/ontologies/documentation/question/cbbc8189-78a7-43bd-897d-51f60bc13149/8cd78157abb5223c11fe2832a3cfd928-q</uri>
+			<uri>http://onto.fel.cvut.cz/ontologies/form/has-question-origin</uri>
+			<uri>http://vfn.cz/ontologies/abrax-form/abrax-study-q-generated-qo</uri>
+		</triple>
+	</graph>
+</TriX>

@@ -39,7 +39,7 @@ public class QuestionTemplateService {
     }
 
     public List<QuestionTemplateSnapshot> findSubQuestionsForOriginPath(String projectName, String questionOriginPath) {
-        return questionTemplateSnapshotDAO.findAllWhere(projectName, Vocabulary.p_originPath, questionOriginPath).stream()
+        return questionTemplateSnapshotDAO.findAllWhere(projectName, Vocabulary.p_questionOriginPath, questionOriginPath).stream()
                 .flatMap(qts -> qts.getQuestionTemplateSnapshots().stream())
                 .collect(Collectors.toList());
     }
@@ -60,6 +60,6 @@ public class QuestionTemplateService {
     }
 
     public List<QuestionTemplateSnapshot> findByQOP(String projectName, String questionOriginPath) {
-        return questionTemplateSnapshotDAO.findAllWhere(projectName, Vocabulary.p_originPath, questionOriginPath);
+        return questionTemplateSnapshotDAO.findAllWhere(projectName, Vocabulary.p_questionOriginPath, questionOriginPath);
     }
 }

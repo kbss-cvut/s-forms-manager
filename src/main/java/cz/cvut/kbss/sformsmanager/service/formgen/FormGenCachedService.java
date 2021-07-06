@@ -4,7 +4,9 @@ import cz.cvut.kbss.sformsmanager.model.dto.SFormsRawJson;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.repository.Repository;
 import org.eclipse.rdf4j.rio.RDFFormat;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -15,15 +17,22 @@ import java.net.URISyntaxException;
 @Service
 public class FormGenCachedService implements FormGenJsonLoader {
 
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(FormGenCachedService.class);
+
+    @Value("${app.debug}")
+    private boolean debug;
+
     private final LocalFormGenJsonLoader localFormGenJsonLoader;
     private final RemoteFormGenJsonLoader remoteFormGenJsonLoader;
+    private final FileSystemFormGenJsonLoader fileSystemFormGenJsonLoader;
 
     private final Repository repository;
 
     @Autowired
-    public FormGenCachedService(LocalFormGenJsonLoader localFormGenJsonLoader, RemoteFormGenJsonLoader remoteFormGenJsonLoader, Repository repository) {
+    public FormGenCachedService(LocalFormGenJsonLoader localFormGenJsonLoader, RemoteFormGenJsonLoader remoteFormGenJsonLoader, FileSystemFormGenJsonLoader fileSystemFormGenJsonLoader, Repository repository) {
         this.localFormGenJsonLoader = localFormGenJsonLoader;
         this.remoteFormGenJsonLoader = remoteFormGenJsonLoader;
+        this.fileSystemFormGenJsonLoader = fileSystemFormGenJsonLoader;
         this.repository = repository;
     }
 
@@ -34,14 +43,24 @@ public class FormGenCachedService implements FormGenJsonLoader {
     public SFormsRawJson getFormGenRawJson(String projectName, URI contextUri) throws URISyntaxException, IOException {
         SFormsRawJson localFormGen = localFormGenJsonLoader.getFormGenRawJson(projectName, contextUri);
         if (localFormGen != null) {
+            // already cached
             return localFormGen;
         }
-        SFormsRawJson remoteFormGen = remoteFormGenJsonLoader.getFormGenRawJson(projectName, contextUri);
+
+        SFormsRawJson formGen = null;
+        if (debug) {
+            log.trace("Trying to get MOCK data from file system. Project name: {}. ContextUri: {}.", projectName, contextUri.toString());
+            formGen = fileSystemFormGenJsonLoader.getFormGenRawJson(projectName, contextUri);
+        }
+
+        if (formGen == null) {
+            formGen = remoteFormGenJsonLoader.getFormGenRawJson(projectName, contextUri);
+        }
 
         // save (cache) formGen to local repository
         Resource contextResource = localFormGenJsonLoader.createFormGenSimpleResource(projectName, contextUri);
-        repository.getConnection().add(new StringReader(remoteFormGen.getRawJson()), null, RDFFormat.JSONLD, contextResource);
-        return remoteFormGen;
+        repository.getConnection().add(new StringReader(formGen.getRawJson()), null, RDFFormat.JSONLD, contextResource);
+        return formGen;
     }
 
     /**

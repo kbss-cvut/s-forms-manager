@@ -18,15 +18,20 @@ public class SubmittedAnswer extends LocalEntity implements Serializable {
     @OWLDataProperty(iri = Vocabulary.s_p_has_question_origin)
     private String questionOrigin;
 
+    @ParticipationConstraints()
+    @OWLDataProperty(iri = Vocabulary.s_p_label)
+    private String questionLabel;
+
     // key is the QUESTION-ORIGIN + ANSWER VALUE -> hash
 
     public SubmittedAnswer() {
     }
 
-    public SubmittedAnswer(String questionOriginAndAnswerValueHashKey, String textValue, String questionOrigin) {
+    public SubmittedAnswer(String questionOriginAndAnswerValueHashKey, String textValue, String questionOrigin, String questionLabel) {
         super(questionOriginAndAnswerValueHashKey);
         this.textValue = textValue;
         this.questionOrigin = questionOrigin;
+        this.questionLabel = questionLabel;
     }
 
     public String getTextValue() {
@@ -43,5 +48,13 @@ public class SubmittedAnswer extends LocalEntity implements Serializable {
 
     public void setQuestionOrigin(String questionOrigin) {
         this.questionOrigin = questionOrigin;
+    }
+
+    public String getQuestionLabel() {
+        return questionLabel;
+    }
+
+    public void setQuestionLabel(String questionLabel) {
+        this.questionLabel = questionLabel;
     }
 }

@@ -8,6 +8,7 @@ import cz.cvut.kbss.sformsmanager.model.persisted.local.RecordSnapshot;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.SubmittedAnswer;
 import cz.cvut.kbss.sformsmanager.service.model.local.RecordService;
 import cz.cvut.kbss.sformsmanager.service.model.local.SubmittedAnswerService;
+import org.assertj.core.util.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -75,6 +76,12 @@ public class RecordSnapshotController {
 
         Set<SubmittedAnswer> answers1 = answerService.getRecordSnapshotAnswers(projectName, snapshotContextUri1);
         Set<SubmittedAnswer> answers2 = answerService.getRecordSnapshotAnswers(projectName, snapshotContextUri2);
+        if (answers1 == null) {
+            answers1 = Sets.newHashSet();
+        }
+        if (answers2 == null) {
+            answers2 = Sets.newHashSet();
+        }
 
         Map<String, SubmittedAnswer> questionAnswerMap1 = answers1.stream().collect(Collectors.toMap(SubmittedAnswer::getQuestionOrigin, Function.identity()));
 
@@ -84,19 +91,20 @@ public class RecordSnapshotController {
 
         for (SubmittedAnswer answer : answers2) {
             String questionOrigin = answer.getQuestionOrigin();
+            String questionLabel = answer.getQuestionLabel();
             String answerValue = answer.getTextValue();
 
             if (!questionAnswerMap1.containsKey(questionOrigin)) {
-                rightAnswers.add(new SubmittedAnswerDTO(questionOrigin, answerValue)); // new answer
+                rightAnswers.add(new SubmittedAnswerDTO(questionOrigin, questionLabel, answerValue)); // new answer
             } else if (questionAnswerMap1.containsKey(questionOrigin) && !questionAnswerMap1.get(questionOrigin).getTextValue().equals(answerValue)) {
-                changedAnswers.add(new SubmittedAnswerChangeDTO(questionOrigin, questionAnswerMap1.get(questionOrigin).getTextValue(), answer.getTextValue())); // add changed answer
+                changedAnswers.add(new SubmittedAnswerChangeDTO(questionOrigin, questionLabel, questionAnswerMap1.get(questionOrigin).getTextValue(), answer.getTextValue())); // add changed answer
             } else {
                 numberOfUnchangedAnswers++;
             }
             answers1.remove(questionAnswerMap1.get(questionOrigin)); // remove common questions
         }
 
-        List<SubmittedAnswerDTO> leftAnswers = answers1.stream().map(answer -> new SubmittedAnswerDTO(answer.getQuestionOrigin(), answer.getTextValue())).collect(Collectors.toList());
+        List<SubmittedAnswerDTO> leftAnswers = answers1.stream().map(answer -> new SubmittedAnswerDTO(answer.getQuestionOrigin(), answer.getQuestionLabel(), answer.getTextValue())).collect(Collectors.toList());
         // answers1 now only contain answers that are not in answers2
         return new SubmittedAnswersCompareResultDTO(numberOfUnchangedAnswers, leftAnswers, rightAnswers, changedAnswers);
     }

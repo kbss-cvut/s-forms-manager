@@ -60,8 +60,9 @@ public class Vocabulary {
     public static final String p_hasRecordVersions = URI_BASE + "hasRecordVersions";
 
     public static final String p_originPathsHash = URI_BASE + "questionOriginPathHash";
-    public static final String p_originPath = URI_BASE + "questionOriginPath";
+    public static final String p_questionOriginPath = URI_BASE + "questionOriginPath";
     public static final String p_questionTreeDepth = URI_BASE + "questionTreeDepth";
+    public static final String p_hasQuestionTemplate = URI_BASE + "hasQuestionTemplate";
     public static final String p_hasQuestionTemplateSnapshots = URI_BASE + "hasQuestionTemplateSnapshots";
     public static final String p_hasFormTemplate = URI_BASE + "hasFormTemplate";
     public static final String p_hasFormTemplateSnapshots = URI_BASE + "hasFormTemplateSnapshots";

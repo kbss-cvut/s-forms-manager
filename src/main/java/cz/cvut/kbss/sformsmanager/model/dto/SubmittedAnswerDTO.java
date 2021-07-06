@@ -2,20 +2,26 @@ package cz.cvut.kbss.sformsmanager.model.dto;
 
 public class SubmittedAnswerDTO {
 
-    public final String question;
+    public final String questionOrigin;
+    public final String questionLabel;
     public final String answerValue;
 
-    public SubmittedAnswerDTO(String question, String answerValue) {
-        this.question = question;
+    public SubmittedAnswerDTO(String questionOrigin, String questionLabel, String answerValue) {
+        this.questionOrigin = questionOrigin;
+        this.questionLabel = questionLabel;
         this.answerValue = answerValue;
     }
 
 
-    public String getQuestion() {
-        return question;
+    public String getQuestionOrigin() {
+        return questionOrigin;
     }
 
     public String getAnswerValue() {
         return answerValue;
+    }
+
+    public String getQuestionLabel() {
+        return questionLabel;
     }
 }
