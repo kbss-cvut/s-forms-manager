@@ -31,12 +31,22 @@ public class RecordSnapshot extends LocalEntity implements Serializable {
     @OWLObjectProperty(iri = Vocabulary.p_hasRemoteContextURI)
     private URI remoteContextURI;
 
+    @OWLDataProperty(iri = Vocabulary.p_hasNumberOfAnswers)
+    private Integer numberOfAnswers;
+
     // key is the RECORD-URI -> hash
 
     public RecordSnapshot() {
     }
 
-    public RecordSnapshot(String recordUriHashKey, Record record, RecordVersion recordVersion, FormTemplateVersion formTemplateVersion, Set<SubmittedAnswer> answers, Date recordSnapshotCreated, URI remoteContextURI) {
+    public RecordSnapshot(String recordUriHashKey,
+                          Record record,
+                          RecordVersion recordVersion,
+                          FormTemplateVersion formTemplateVersion,
+                          Set<SubmittedAnswer> answers,
+                          Date recordSnapshotCreated,
+                          URI remoteContextURI,
+                          Integer numberOfAnswers) {
         super(recordUriHashKey);
         this.record = record;
         this.recordVersion = recordVersion;
@@ -44,6 +54,7 @@ public class RecordSnapshot extends LocalEntity implements Serializable {
         this.answers = answers;
         this.recordSnapshotCreated = recordSnapshotCreated;
         this.remoteContextURI = remoteContextURI;
+        this.numberOfAnswers = numberOfAnswers;
     }
 
     public RecordVersion getRecordVersion() {
@@ -92,6 +103,14 @@ public class RecordSnapshot extends LocalEntity implements Serializable {
 
     public void setRecord(Record record) {
         this.record = record;
+    }
+
+    public Integer getNumberOfAnswers() {
+        return numberOfAnswers;
+    }
+
+    public void setNumberOfAnswers(Integer numberOfAnswers) {
+        this.numberOfAnswers = numberOfAnswers;
     }
 }
 

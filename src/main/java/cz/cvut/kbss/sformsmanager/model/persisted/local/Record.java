@@ -5,6 +5,7 @@ import cz.cvut.kbss.sformsmanager.model.Vocabulary;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @OWLClass(iri = Vocabulary.Record)
@@ -68,6 +69,9 @@ public class Record extends LocalEntity implements Serializable {
     }
 
     public Set<RecordSnapshot> getRecordSnapshots() {
+        if (this.recordSnapshots == null) {
+            this.recordSnapshots = new HashSet<>();
+        }
         return recordSnapshots;
     }
 
@@ -76,6 +80,9 @@ public class Record extends LocalEntity implements Serializable {
     }
 
     public Set<RecordVersion> getRecordVersions() {
+        if (this.recordVersions == null) {
+            this.recordVersions = new HashSet<>();
+        }
         return recordVersions;
     }
 

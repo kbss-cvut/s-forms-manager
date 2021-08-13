@@ -30,6 +30,7 @@ public class SearchQueryTemplateService {
         put("record", QUERY_ENTITY_PREFIX + "record.sparql");
         put("record-snapshot", QUERY_ENTITY_PREFIX + "record-snapshot.sparql");
         put("record-version", QUERY_ENTITY_PREFIX + "record-version.sparql");
+        put("submitted-answer", QUERY_ENTITY_PREFIX + "submitted-answer.sparql");
     }};
 
     private freemarker.template.Configuration templateCfg;

@@ -6,22 +6,27 @@ PREFIX form: <http://onto.fel.cvut.cz/ontologies/form/>
 # RECORD SNAPSHOT
 
 SELECT
-    ?record
-    ?formTemplate
+    ?recordSnapshot
+	?numberOfAnswers
+	?key
+    ?recordSnapshotCreated
+    ?formTemplateVersion
+	?recordVersion
     ?remoteContextUri
-    (count(?recordSnapshots) as ?numberOfRecordSnapshots)
-    (count(?recordVersions) as ?numberOfRecordVersions)
-    ?recordCreated
+    ?record
 WHERE {
     GRAPH <${contextUri}> {
 
-    	?record a sfm:Record ;
-			sfm:hasRemoteContextURI	?remoteContextUri ;
-      		sfm:hasRecordSnapshots ?recordSnapshots ;
-        	sfm:hasFormTemplate	?formTemplate ;
-            sfm:recordCreated ?recordCreated .
+    	?recordSnapshot a sfm:RecordSnapshot ;
+  			sfm:key ?key;
+			sfm:hasRemoteContextURI	?hasRemoteContextURI ;
+      		sfm:hasRecord ?record ;
+            sfm:recordSnapshotCreated ?recordSnapshotCreated ;
+            sfm:hasNumberOfAnswers ?numberOfAnswers .
 
-    	OPTIONAL { ?record sfm:hasRecordVersions ?recordVersions . }
+    	OPTIONAL {  }
+    	OPTIONAL { ?recordSnapshot sfm:hasFormTemplateVersion	?formTemplateVersion . }
+    	OPTIONAL { ?recordSnapshot sfm:hasRecordVersion ?recordVersion . }
   }
 }
-GROUP BY ?record ?formTemplate ?recordCreated ?remoteContextUri
+ORDER BY ?recordSnapshotCreated

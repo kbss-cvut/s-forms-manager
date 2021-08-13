@@ -1,6 +1,6 @@
 # Getting Started
 
-- configure the app at `application.properties`
+- configure the app at `application.properties`, part of the file is a description individual options
 - use Tomcat server 8+ to deploy the app as the ROOT webapp (**automatic deployment with IntelliJ Idea)
 - by default, the app is running at: [http://localhost:8080](http://localhost:8080)
 

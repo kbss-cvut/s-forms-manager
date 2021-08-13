@@ -86,7 +86,7 @@ public class RemoteDataProcessingOrchestratorImpl implements RemoteDataProcessin
             // initial record: no questions or answers variant
 
             // persist without RecordVersion and without FormTemplateVersion
-            RecordSnapshot recordSnapshot = new RecordSnapshot(recordSnapshotKey, record, null, null, null, recordRemoteData.getRecordModifiedDate(), contextUri);
+            RecordSnapshot recordSnapshot = new RecordSnapshot(recordSnapshotKey, record, null, null, null, recordRemoteData.getRecordModifiedDate(), contextUri, 0);
             recordSnapshotDAO.persist(projectName, recordSnapshot);
 
             // re-update record
@@ -144,7 +144,7 @@ public class RemoteDataProcessingOrchestratorImpl implements RemoteDataProcessin
 
 
         // RecordVersion
-        String recordVersionKey = ObjectUtils.createKeyForContext(projectName, record.getUri() + "/" + processor.getAllQuestionOriginsAndAnswersHash());
+        String recordVersionKey = ObjectUtils.createKeyForContext(projectName, record.getUri() + "/" + processor.getAllQuestionOriginsAndAnswersString());
         Optional<RecordVersion> recordVersionOpt = recordVersionDAO.findByKey(projectName, recordVersionKey);
 
         RecordVersion recordVersion;
@@ -156,7 +156,15 @@ public class RemoteDataProcessingOrchestratorImpl implements RemoteDataProcessin
         }
 
         // RecordSnapshot
-        RecordSnapshot recordSnapshot = new RecordSnapshot(recordSnapshotKey, record, recordVersion, formTemplateVersion, new HashSet<>(submittedAnswerMap.values()), recordRemoteData.getRecordModifiedDate(), contextUri);
+        RecordSnapshot recordSnapshot = new RecordSnapshot(
+                recordSnapshotKey,
+                record,
+                recordVersion,
+                formTemplateVersion,
+                new HashSet<>(submittedAnswerMap.values()),
+                recordRemoteData.getRecordModifiedDate(),
+                contextUri,
+                processor.getAnsweredQuestions().values().size());
 
         // re-update Record
         record.setFormTemplate(formTemplate);

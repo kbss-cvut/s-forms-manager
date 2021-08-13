@@ -75,9 +75,14 @@ public class RemoteQuestionModelProcessor {
         if (!answers.isEmpty()) answeredQuestions.put(questionOrigin, answers.get(0));
     }
 
-    public String getAllQuestionOriginsAndAnswersHash() {
+    public String getAllQuestionOriginsAndAnswersString() {
         requireProcessed();
         return answeredQuestions.entrySet().stream().map(entry -> entry.getKey() + entry.getValue()).collect(Collectors.joining());
+    }
+
+    public String getAllSortedAnswersString() {
+        requireProcessed();
+        return answeredQuestions.values().stream().sorted().collect(Collectors.joining());
     }
 
     public String getAllQuestionOriginsPathsHash() {

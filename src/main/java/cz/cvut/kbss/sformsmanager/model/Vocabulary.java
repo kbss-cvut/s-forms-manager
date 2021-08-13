@@ -76,6 +76,7 @@ public class Vocabulary {
     public static final String p_hasAnswerValue = URI_BASE + "hasAnswerValue";
     public static final String p_hasSubQuestionTemplates = URI_BASE + "hasSubQuestionTemplates";
     public static final String p_hasSubmittedAnswersHash = URI_BASE + "hasSubmittedAnswersHash";
+    public static final String p_hasNumberOfAnswers = URI_BASE + "hasNumberOfAnswers";
 
     /* General */
     public final static String RDFS_URI = "http://www.w3.org/2000/01/rdf-schema#";

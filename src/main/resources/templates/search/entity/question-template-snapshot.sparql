@@ -14,12 +14,13 @@ SELECT
 	(count(?answers) as ?numberOfAnswers)
 	?questionOriginPath
 	?questionOrigin
+	?formTemplateVersion
 WHERE {
     GRAPH <${contextUri}> {
 
     	?questionTemplateSnapshot a sfm:QuestionTemplateSnapshot ;
             sfm:key ?key ;
-            sfm:hasFormTemplateVersion ?FormTemplateVersion ;
+            sfm:hasFormTemplateVersion ?formTemplateVersion ;
             sfm:questionOriginPath ?questionOriginPath ;
     		form:has-question-origin ?questionOrigin .
 
@@ -28,4 +29,4 @@ WHERE {
     	OPTIONAL { ?questionTemplateSnapshot rdfs:label ?label . }
   	}
 }
-GROUP BY ?questionTemplateSnapshot ?key ?label ?questionOrigin ?questionOriginPath
+GROUP BY ?questionTemplateSnapshot ?key ?label ?questionOrigin ?questionOriginPath ?formTemplateVersion
