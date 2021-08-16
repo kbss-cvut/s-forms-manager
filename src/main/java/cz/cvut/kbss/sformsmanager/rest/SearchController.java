@@ -110,17 +110,6 @@ public class SearchController {
                         ? qts.getQuestionTemplateSnapshots().stream().map(q -> q.getQuestionOriginPath()).collect(Collectors.toList()) : Collections.emptyList());
     }
 
-    @RequestMapping(path = "/getAutocomplete", method = RequestMethod.GET)
-    @ResponseStatus(value = HttpStatus.OK)
-    public List<String> getAutocomplete(
-            @RequestParam(value = "projectName") String projectName,
-            @RequestParam(value = "depth") int depth,
-            @RequestParam(value = "questionOriginPath") String questionOriginPath) throws IOException {  // TODO: handle all the exceptions in controller layer
-
-        Integer depthString = Integer.valueOf(depth); // TODO: fix this
-        return searchService.getAutocompleteValues(projectName, depthString, questionOriginPath);
-    }
-
     private static class SearchQueryRequest {
         private String query;
 

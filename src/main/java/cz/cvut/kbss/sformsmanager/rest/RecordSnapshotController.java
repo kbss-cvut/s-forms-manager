@@ -109,7 +109,7 @@ public class RecordSnapshotController {
         return new SubmittedAnswersCompareResultDTO(numberOfUnchangedAnswers, leftAnswers, rightAnswers, changedAnswers);
     }
 
-    private RecordSnapshotDTO mapRecord(RecordSnapshot recordSnapshot) { // TODO: struts
+    private RecordSnapshotDTO mapRecord(RecordSnapshot recordSnapshot) { // TODO: struts https://mapstruct.org/
         return new RecordSnapshotDTO(
                 recordSnapshot.getUri().toString(),
                 recordSnapshot.getKey(),

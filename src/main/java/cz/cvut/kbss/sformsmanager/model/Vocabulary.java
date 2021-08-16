@@ -91,7 +91,7 @@ public class Vocabulary {
     public final static String s_p_has_question_origin = FORM_URI + "has-question-origin";
 
     /* Study Manager */
-    public final static String VFN_STUDY_MANAGER_URI = "http://vfn.cz/ontologies/study-manager/"; // TODO: this is supposed to be configurable per connection, vfn is not project specific
+    public final static String VFN_STUDY_MANAGER_URI = "http://vfn.cz/ontologies/study-manager/";
     public static final String Patient = VFN_STUDY_MANAGER_URI + "patient-record";
 
 

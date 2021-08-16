@@ -44,7 +44,7 @@ public class RemoteDataLoader implements DataLoader {
         final HttpHeaders headers = new HttpHeaders();
         // Set default accept type to JSON-LD
         headers.set(HttpHeaders.ACCEPT, "application/ld+json");
-        String[] supportedHeaders = {HttpHeaders.ACCEPT, HttpHeaders.CONTENT_TYPE}; // TODO: make configurable
+        String[] supportedHeaders = {HttpHeaders.ACCEPT, HttpHeaders.CONTENT_TYPE};
         for (String header : supportedHeaders) {
             if (params.containsKey(header)) {
                 headers.set(header, params.get(header));

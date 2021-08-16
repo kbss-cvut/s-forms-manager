@@ -45,7 +45,7 @@ public class LocalFormGenJsonLoader implements FormGenJsonLoader {
     public SFormsRawJson getFormGenRawJson(String projectName, URI contextUri) {
         Optional<Resource> resource = getFormGenResource(projectName, contextUri);
 //        if (!resource.isPresent()) {
-        if (true) { // TODO: fix
+        if (true) { // TODO: fix when caching is enabled
             return null;
         }
 

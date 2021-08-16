@@ -62,9 +62,6 @@ public class RemoteDataProcessingOrchestratorImpl implements RemoteDataProcessin
 
     @Transactional
     public void processDataSnapshotInRemoteContext(String projectName, URI contextUri) throws IOException, URISyntaxException {
-
-        // TODO: use Optional.getOrElse and extract redundant code
-
         // cache formGen data locally first
         formGenCachedService.getFormGenRawJson(projectName, contextUri);
 
@@ -73,7 +70,7 @@ public class RemoteDataProcessingOrchestratorImpl implements RemoteDataProcessin
         String recordSnapshotKey = ObjectUtils.createKeyForContext(projectName, contextUri);
 
         // Record
-        String recordKey = ObjectUtils.createKeyForContext(projectName, recordRemoteData.getRemoteRecordURI().toString() + recordRemoteData.getRecordCreateDate()); // TODO:  + "/" + recordRemoteData.getRecordCreateDate()
+        String recordKey = ObjectUtils.createKeyForContext(projectName, recordRemoteData.getRemoteRecordURI().toString() + recordRemoteData.getRecordCreateDate());
         Optional<Record> recordOpt = recordDAO.findByKey(projectName, recordKey);
         Record record;
         if (recordOpt.isPresent()) {

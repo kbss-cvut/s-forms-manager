@@ -58,7 +58,7 @@ public class TrelloService implements TicketingService {
     public String createTicket(String projectName, Ticket ticket) {
         Card card = new Card();
         card.setName(ticket.getName());
-        card.setDesc(ticket.getDescription()); // TODO: add link to the form
+        card.setDesc(ticket.getDescription());
 
         // create ticket
         card = trelloClient.createCard(getNewCardListId(), card);

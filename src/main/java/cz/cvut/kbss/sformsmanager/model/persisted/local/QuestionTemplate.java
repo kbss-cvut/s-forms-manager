@@ -13,7 +13,6 @@ import java.util.Set;
 public class QuestionTemplate extends LocalEntity implements Serializable {
 
     @OWLObjectProperty(iri = Vocabulary.p_hasFormTemplate)
-    // TODO: can be LAZILY loaded objects @ParticipationConstraints(nonEmpty = true)?
     private FormTemplate formTemplate;
 
     @OWLObjectProperty(iri = Vocabulary.p_hasQuestionTemplateSnapshots)

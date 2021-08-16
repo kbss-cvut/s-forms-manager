@@ -9,11 +9,9 @@
     <description>Demo project for Spring Boot</description>
     <packaging>war</packaging>
 
-    <!-- TODO: clean redundant dependencies -->
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jdk.version>1.8</jdk.version> <!-- todo: tomcat? -->
+        <jdk.version>1.8</jdk.version>
         <maven.compiler.source>${jdk.version}</maven.compiler.source>
         <maven.compiler.target>${jdk.version}</maven.compiler.target>
         <cz.cvut.kbss.jopa.version>0.14.4</cz.cvut.kbss.jopa.version>
@@ -137,26 +135,6 @@
             <version>1.3.5</version>
         </dependency>
 
-
-        <!-- Spring Boot === DOES NOT WORK WITH OWL -->
-        <!--        <dependency>-->
-        <!--            <groupId>org.springframework.boot</groupId>-->
-        <!--            <artifactId>spring-boot-starter</artifactId>-->
-        <!--            <version>${org.springframework.boot.version}</version>-->
-        <!--        </dependency>-->
-
-        <!-- Spring Boot cache ============================================ -->
-        <!--        <dependency>-->
-        <!--            <groupId>org.springframework.boot</groupId>-->
-        <!--            <artifactId>spring-boot-starter-cache</artifactId>-->
-        <!--            <version>${org.springframework.boot.version}</version>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>com.hazelcast</groupId>-->
-        <!--            <artifactId>hazelcast-all</artifactId>-->
-        <!--            <version>4.0.2</version>-->
-        <!--        </dependency>-->
-
         <!-- Bean Validation -->
         <dependency>
             <groupId>javax.validation</groupId>
@@ -175,61 +153,6 @@
             <artifactId>freemarker</artifactId>
             <version>2.3.29</version>
         </dependency>
-
-        <!-- Spring Security -->
-        <!--        <dependency>-->
-        <!--            <groupId>org.springframework.security</groupId>-->
-        <!--            <artifactId>spring-security-config</artifactId>-->
-        <!--            <version>${org.springframework.security.version}</version>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>org.springframework.security</groupId>-->
-        <!--            <artifactId>spring-security-core</artifactId>-->
-        <!--            <version>${org.springframework.security.version}</version>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>org.springframework.security</groupId>-->
-        <!--            <artifactId>spring-security-web</artifactId>-->
-        <!--            <version>${org.springframework.security.version}</version>-->
-        <!--        </dependency>-->
-        <!--  ============================================ -->
-
-        <!--        Jackson for JSON serialization-->
-        <!--        <dependency>-->
-        <!--            <groupId>com.fasterxml.jackson.core</groupId>-->
-        <!--            <artifactId>jackson-databind</artifactId>-->
-        <!--            <version>${com.fasterxml.jackson.version}</version>-->
-        <!--        </dependency>-->
-
-
-        <!--        &lt;!&ndash; TODO: use serialization instead &ndash;&gt;-->
-        <!--        <dependency>-->
-        <!--            <groupId>org.json</groupId>-->
-        <!--            <artifactId>json</artifactId>-->
-        <!--            <version>20080701</version>-->
-        <!--        </dependency>-->
-
-
-        <!-- Lombok = CANNOT BE USED -->
-        <!--        <dependency> -->
-        <!--            <groupId>org.projectlombok</groupId>-->
-        <!--            <artifactId>lombok</artifactId>-->
-        <!--            <version>1.18.12</version>-->
-        <!--            <scope>provided</scope>-->
-        <!--        </dependency>-->
-        <!--=======-->
-        <!--&gt;>>>>>> e1818c5... works again &#45;&#45; [Fix] Issue with persisting student-->
-        <!--        <dependency>-->
-        <!--            <groupId>com.fasterxml.jackson.core</groupId>-->
-        <!--            <artifactId>jackson-core</artifactId>-->
-        <!--            <version>${com.fasterxml.jackson.version}</version>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>com.fasterxml.jackson.datatype</groupId>-->
-        <!--            <artifactId>jackson-datatype-jsr310</artifactId>-->
-        <!--            <version>${com.fasterxml.jackson.version}</version>-->
-        <!--        </dependency>-->
-
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
