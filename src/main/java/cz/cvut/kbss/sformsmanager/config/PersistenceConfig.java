@@ -18,14 +18,12 @@ import com.github.ledsoft.jopa.spring.transaction.DelegatingEntityManager;
 import com.github.ledsoft.jopa.spring.transaction.JopaTransactionManager;
 import cz.cvut.kbss.jopa.model.EntityManagerFactory;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@EnableAspectJAutoProxy
-@ComponentScan(basePackages = "cz.cvut.kbss.sformsmanager.persistence.base")
+@EnableTransactionManagement
 public class PersistenceConfig {
 
     @Bean

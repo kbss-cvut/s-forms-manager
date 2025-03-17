@@ -1,9 +1,9 @@
 package cz.cvut.kbss.sformsmanager.service.process;
 
+import com.github.jsonldjava.shaded.com.google.common.collect.Sets;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.*;
 import cz.cvut.kbss.sformsmanager.model.persisted.response.QuestionSnapshotRemoteData;
 import cz.cvut.kbss.sformsmanager.utils.ObjectUtils;
-import org.assertj.core.util.Sets;
 
 import java.util.HashSet;
 import java.util.Map;

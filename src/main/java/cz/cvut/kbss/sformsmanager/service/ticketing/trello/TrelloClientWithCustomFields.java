@@ -1,13 +1,13 @@
 package cz.cvut.kbss.sformsmanager.service.ticketing.trello;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.github.jsonldjava.shaded.com.google.common.collect.Lists;
 import com.julienvey.trello.TrelloHttpClient;
 import com.julienvey.trello.domain.Argument;
 import com.julienvey.trello.domain.TrelloEntity;
 import com.julienvey.trello.impl.TrelloImpl;
 import com.julienvey.trello.impl.TrelloUrl;
 import com.julienvey.trello.impl.http.ApacheHttpClient;
-import org.assertj.core.util.Lists;
 
 import java.util.Arrays;
 import java.util.List;

@@ -2,6 +2,7 @@ package cz.cvut.kbss.sformsmanager.service.process;
 
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.*;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.Record;
 import cz.cvut.kbss.sformsmanager.model.persisted.response.QuestionSnapshotRemoteData;
 import cz.cvut.kbss.sformsmanager.model.persisted.response.RecordSnapshotRemoteData;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.*;

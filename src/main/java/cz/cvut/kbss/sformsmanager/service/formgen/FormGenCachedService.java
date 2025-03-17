@@ -4,6 +4,7 @@ import cz.cvut.kbss.sformsmanager.model.dto.SFormsRawJson;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.repository.Repository;
 import org.eclipse.rdf4j.rio.RDFFormat;
+import org.eclipse.rdf4j.rio.RDFParseException;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -59,7 +60,12 @@ public class FormGenCachedService implements FormGenJsonLoader {
 
         // save (cache) formGen to local repository
         Resource contextResource = localFormGenJsonLoader.createFormGenSimpleResource(projectName, contextUri);
-        repository.getConnection().add(new StringReader(formGen.getRawJson()), null, RDFFormat.JSONLD, contextResource);
+        try {
+            repository.getConnection().add(new StringReader(formGen.getRawJson()), null, RDFFormat.JSONLD, contextResource);
+        } catch (RDFParseException e) {
+            log.error("Error when saving formGen to local repository.", e);
+        }
+
         return formGen;
     }
 
