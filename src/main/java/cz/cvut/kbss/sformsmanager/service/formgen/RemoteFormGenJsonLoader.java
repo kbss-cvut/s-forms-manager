@@ -52,6 +52,8 @@ public class RemoteFormGenJsonLoader implements FormGenJsonLoader {
         params.put(REPOSITORY_URL_PARAM, project.getAppRepositoryUrl());
         params.put(FORMGEN_REPOSITORY_URL_PARAM, project.getFormGenRepositoryUrl());
 
+        log.info("Trying to get raw JSONLD data from {}, formgen: {}", project.getAppRepositoryUrl(), project.getFormGenRepositoryUrl());
+
         String rawFormJson = dataLoader.loadDataFromUrl(project.getFormGenServiceUrl(), params, Collections.emptyMap());
         return new SFormsRawJson(projectName, contextUri.toString(), rawFormJson);
     }

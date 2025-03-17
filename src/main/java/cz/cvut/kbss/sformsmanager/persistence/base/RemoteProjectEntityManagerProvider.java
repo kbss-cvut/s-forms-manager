@@ -40,11 +40,11 @@ public class RemoteProjectEntityManagerProvider {
 
         final Map<String, String> properties = new HashMap<>();
         properties.put(JOPAPersistenceProperties.ONTOLOGY_PHYSICAL_URI_KEY, project.getFormGenRepositoryUrl());
-        properties.put(JOPAPersistenceProperties.DATA_SOURCE_CLASS, "cz.cvut.kbss.ontodriver.sesame.SesameDataSource");
+        properties.put(JOPAPersistenceProperties.DATA_SOURCE_CLASS, "cz.cvut.kbss.ontodriver.rdf4j.Rdf4jDataSource");
         properties.put(JOPAPersistenceProperties.SCAN_PACKAGE, "cz.cvut.kbss.sformsmanager.model.persisted");
         properties.put(JOPAPersistenceProperties.JPA_PERSISTENCE_PROVIDER, JOPAPersistenceProvider.class.getName());
 
-        log.info("Creating project connection with name {}.", projectDescriptorName);
+        log.info("Creating project connection with name {} to repository at {}.", projectDescriptorName, project.getFormGenRepositoryUrl());
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("sformsmanager", properties);
         EntityManager em = emf.createEntityManager();
         activeEntityManagerMap.put(projectDescriptorName, em);

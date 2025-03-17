@@ -1,0 +1,133 @@
+version: "3.9"
+
+# Provide access to record-manager-ui that runs locally in dev mode
+x-access-for-local-development: &local-dev-env
+  security.cors.allowedOrigins: "http://localhost:4173,http://localhost:5173"
+
+# Provide logging to Java application (e.g. record-manager)
+x-logging-java-application: &logging-java
+  LOGGING_LEVEL_ROOT: "debug"
+
+# Expose port to access db-server directly, bypassing nginx
+x-access-db-server-development-port: &db-server-dev-port
+  ports:
+    - "127.0.0.1:${DB_SERVER_DEV_PORT:-7205}:7200"
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: ${RECORD_SET_NAME:-rm}-nginx
+    ports:
+      - "127.0.0.1:${INTERNAL_HOST_PORT:-1235}:80"
+    restart: always
+    depends_on:
+      - record-manager
+      - record-manager-server
+      - s-pipes-engine
+      - s-forms-manager
+      - db-server
+      - rdf4j-server
+    environment:
+      NGINX_ENVSUBST_OUTPUT_DIR: /etc/nginx
+      APP_ORIGIN: "${PUBLIC_ORIGIN:-http://localhost:${INTERNAL_HOST_PORT:-1235}}"
+      APP_ROOT_PATH: "${APP_ROOT_PATH:-}"
+      RECORD_MANAGER_PATH: "${RECORD_MANAGER_PATH:-/record-manager}"
+      ANALYTICS_PATH: "${ANALYTICS_PATH:-/statistics}"
+      INTERNAL_RECORD_MANAGER_SERVER_SERVICE: "${INTERNAL_RECORD_MANAGER_SERVER_SERVICE:-http://record-manager-server:8080}"
+    extra_hosts:
+      - "host.docker.internal:host-gateway" # support "http://host.docker.internal" for Linux (Windows/Mac works without it)
+
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/templates/nginx.conf.template:ro
+      - ../shared/nginx/error.html:/usr/share/nginx/html/error.html:ro
+      - ./nginx/index.html:/usr/share/nginx/html/index.html:ro
+      - ../shared/nginx/images:/usr/share/nginx/html/images:ro
+      - ../shared/nginx/statistics.html:/usr/share/nginx/html/statistics.html:ro
+
+  record-manager:
+    image: ghcr.io/kbss-cvut/record-manager-ui:latest
+    container_name: ${RECORD_SET_NAME:-rm}-record-manager
+    expose:
+      - "80"
+    restart: always
+    depends_on:
+      - record-manager-server
+    environment:
+      API_URL: "${PUBLIC_ORIGIN:-http://localhost:${INTERNAL_HOST_PORT:-1235}}${APP_ROOT_PATH:-}/services/record-manager-server"
+      APP_INFO: "${RECORD_MANAGER_APP_INFO:-}"
+      APP_TITLE: "${RECORD_MANAGER_APP_TITLE:-Record Manager}"
+      APP_LANGUAGE: "${APP_LANGUAGE:-en}"
+      NAVIGATOR_LANGUAGE: "false"
+      BASENAME: "${APP_ROOT_PATH:-}${RECORD_MANAGER_PATH:-/record-manager}"
+      ANALYTICS_URL: "${PUBLIC_ORIGIN:-http://localhost:${INTERNAL_HOST_PORT:-1235}}${APP_ROOT_PATH:-}${ANALYTICS_PATH:-/statistics}"
+      EXTENSIONS: "${RECORD_MANAGER_EXTENSIONS:-supplier}"
+
+  record-manager-server:
+    image: ghcr.io/kbss-cvut/record-manager:latest
+    container_name: ${RECORD_SET_NAME:-rm}-record-manager-server
+    expose:
+      - "8080"
+    restart: always
+    depends_on:
+      - s-pipes-engine
+      - db-server
+    environment:
+      <<: *local-dev-env
+      appContext: "${PUBLIC_ORIGIN:-http://localhost:${INTERNAL_HOST_PORT:-1235}}${APP_ROOT_PATH:-}${RECORD_MANAGER_PATH:-/record-manager}"
+      repositoryUrl: "http://db-server:7200/repositories/record-manager-app"
+      formGenRepositoryUrl: "http://db-server:7200/repositories/record-manager-formgen"
+      formGenServiceUrl: "${FORMGEN_SERVICE_URL}"
+
+  s-pipes-engine:
+    image: ghcr.io/kbss-cvut/s-pipes/s-pipes-engine:latest
+    container_name: ${RECORD_SET_NAME:-rm}-s-pipes-engine
+    ports:
+      - "9999:8080"
+    restart: always
+    depends_on:
+      - db-server
+    environment:
+      FORMGEN_REPOSITORY_URL: "http://db-server:7200/repositories/record-manager-formgen"
+    volumes:
+      - ../shared/s-pipes-engine/scripts:/scripts/root:ro
+
+  db-server:
+    <<: *db-server-dev-port
+    build:
+      context: ../shared/db-server
+    image: ${RECORD_SET_NAME:-rm}-db-server
+    container_name: ${RECORD_SET_NAME:-rm}-db-server
+    environment:
+      GDB_JAVA_OPTS: "-Dgraphdb.external-url=${PUBLIC_ORIGIN:-http://localhost:${INTERNAL_HOST_PORT:-1235}}${APP_ROOT_PATH:-}/services/db-server"
+    expose:
+      - "7200"
+    restart: always
+    volumes:
+      - ../shared/db-server/import:/root/graphdb-import:ro
+      - db-server:/opt/graphdb/home
+
+  s-forms-manager:
+    build:
+        context: ../../
+    image: ${RECORD_SET_NAME:-rm}-s-forms-manager-server
+    container_name: ${RECORD_SET_NAME:-rm}-s-forms-manager-server
+    ports:
+      - "8080:8080"
+    depends_on:
+      - rdf4j-server
+    environment:
+      RDF4J_REPOSITORY_URL: "http://rdf4j-server:8080/rdf4j-server/repositories/s-forms-manager"
+
+  rdf4j-server:
+    build:
+      context: ../../db-server/
+    image:  ${RECORD_SET_NAME:-rm}-rdf4j-server
+    container_name: ${RECORD_SET_NAME:-rm}-rdf4j-server
+    ports:
+      - "8090:8080"
+    volumes:
+      - rdf4j-data:/var/rdf4j/server/repositories
+
+volumes:
+  db-server:
+  rdf4j-data:
