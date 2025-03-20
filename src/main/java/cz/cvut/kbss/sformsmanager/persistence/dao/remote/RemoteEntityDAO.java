@@ -20,7 +20,7 @@ public abstract class RemoteEntityDAO<T> {
     }
 
     public EntityManager getEntityManagerByConnection(String projectName) {
-        return entityManagerProvider.getEntityManagerFactory(projectName);
+        return entityManagerProvider.getEntityManager(projectName);
     }
 
     public T executeOnEntityManager(String projectName, EntityManagerInvoker emConsumer, String errorMessage) throws IOException {

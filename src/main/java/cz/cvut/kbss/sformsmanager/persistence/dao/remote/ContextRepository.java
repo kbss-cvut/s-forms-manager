@@ -3,7 +3,6 @@ package cz.cvut.kbss.sformsmanager.persistence.dao.remote;
 import cz.cvut.kbss.jopa.model.EntityManager;
 import cz.cvut.kbss.sformsmanager.model.persisted.remote.Context;
 import cz.cvut.kbss.sformsmanager.persistence.base.RemoteProjectEntityManagerProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.net.URI;
@@ -15,23 +14,22 @@ public class ContextRepository {
 
     private final RemoteProjectEntityManagerProvider entityManagerProvider;
 
-    @Autowired
     public ContextRepository(RemoteProjectEntityManagerProvider entityManagerProvider) {
         this.entityManagerProvider = entityManagerProvider;
     }
 
     public List<Context> findAll(String projectName) {
-        EntityManager em = entityManagerProvider.getEntityManagerFactory(projectName);
+        EntityManager em = entityManagerProvider.getEntityManager(projectName);
         return em.getContexts().stream().map(URI::toString).map(Context::new).collect(Collectors.toList());
     }
 
     public List<Context> findPaginated(String projectName, int offset, int limit) {
-        EntityManager em = entityManagerProvider.getEntityManagerFactory(projectName);
+        EntityManager em = entityManagerProvider.getEntityManager(projectName);
         return em.getContexts().stream().skip(offset).limit(limit).map(URI::toString).map(Context::new).collect(Collectors.toList());
     }
 
     public int count(String projectName) {
-        EntityManager em = entityManagerProvider.getEntityManagerFactory(projectName);
+        EntityManager em = entityManagerProvider.getEntityManager(projectName);
         return em.getContexts().size();
     }
 }

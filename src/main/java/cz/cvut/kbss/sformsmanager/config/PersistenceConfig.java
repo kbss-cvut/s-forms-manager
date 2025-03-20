@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class PersistenceConfig {
 
+    // used as default entity manager - which is rdf4j app store
     @Bean
     public DelegatingEntityManager entityManager() {
         return new DelegatingEntityManager();

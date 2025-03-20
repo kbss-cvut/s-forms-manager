@@ -6,18 +6,16 @@ import cz.cvut.kbss.sformsmanager.model.Vocabulary;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.Record;
 import cz.cvut.kbss.sformsmanager.persistence.dao.LocalEntityBaseDAO;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.net.URI;
 import java.util.List;
 
-@Component
+@Repository
 public class RecordDAO extends LocalEntityBaseDAO<Record> {
 
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(RecordDAO.class);
 
-    @Autowired
     protected RecordDAO(EntityManager em) {
         super(em, Record.class);
     }

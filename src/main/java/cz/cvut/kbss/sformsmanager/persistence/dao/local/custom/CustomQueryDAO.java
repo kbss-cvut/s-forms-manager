@@ -4,11 +4,12 @@ import cz.cvut.kbss.jopa.exceptions.NoResultException;
 import cz.cvut.kbss.jopa.model.EntityManager;
 import cz.cvut.kbss.sformsmanager.exception.PersistenceException;
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
-import org.springframework.util.ResourceUtils;
+import org.springframework.core.io.FileSystemResourceLoader;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 
 import java.io.IOException;
 import java.net.URI;
-import java.nio.file.Files;
 import java.util.List;
 
 public class CustomQueryDAO {
@@ -17,9 +18,11 @@ public class CustomQueryDAO {
     public static final String CLASSPATH_PREFIX = "classpath:";
 
     protected EntityManager entityManager;
+    private final ResourceLoader resourceLoader;
 
     protected CustomQueryDAO(EntityManager entityManager) {
         this.entityManager = entityManager;
+        this.resourceLoader = new FileSystemResourceLoader();
     }
 
     public <T> T executeOnEntityManagerSingleResult(EntityManagerSingleResultInvoker<T> emInvoker, String errorMessage) {
@@ -39,8 +42,12 @@ public class CustomQueryDAO {
     }
 
     protected String getQueryFromFile(String queryFileName) throws IOException {
+        Resource resource = resourceLoader.getResource(queryFileName);
+        if (!resource.exists()) {
+            throw new IOException("Query file '" + queryFileName + "' not found!");
+        }
         try {
-            return new String(Files.readAllBytes(ResourceUtils.getFile(queryFileName).toPath()));
+            return new String(resource.getInputStream().readAllBytes());
         } catch (IOException e) {
             throw new IOException(String.format("Query from file '%s' could not be found!", queryFileName), e);
         }

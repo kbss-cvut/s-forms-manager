@@ -79,17 +79,19 @@ services:
       formGenServiceUrl: "${FORMGEN_SERVICE_URL}"
 
   s-pipes-engine:
-    image: ghcr.io/kbss-cvut/s-pipes/s-pipes-engine:latest
-    container_name: ${RECORD_SET_NAME:-rm}-s-pipes-engine
+    image: ghcr.io/kbss-cvut/ava-model/s-pipes-engine:latest
+    container_name: ${RECORD_SET_NAME}-s-pipes-engine
     ports:
       - "9999:8080"
     restart: always
     depends_on:
       - db-server
     environment:
+      EXECUTION_EXITONERROR: true
+      EXECUTION_VALIDATION_MAXNUMBEROFCONSTRAINTFAILUREEVIDENCES: 50
       FORMGEN_REPOSITORY_URL: "http://db-server:7200/repositories/record-manager-formgen"
     volumes:
-      - ../shared/s-pipes-engine/scripts:/scripts/root:ro
+      - ../shared/s-pipes-engine/scripts:/scripts/generation-root:ro
 
   db-server:
     <<: *db-server-dev-port

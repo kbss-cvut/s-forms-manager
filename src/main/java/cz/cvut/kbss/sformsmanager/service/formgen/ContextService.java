@@ -3,7 +3,6 @@ package cz.cvut.kbss.sformsmanager.service.formgen;
 import cz.cvut.kbss.sformsmanager.model.persisted.remote.Context;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.RecordSnapshotDAO;
 import cz.cvut.kbss.sformsmanager.persistence.dao.remote.ContextRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +17,6 @@ public class ContextService {
     private final ContextRepository contextRepository;
     private final RecordSnapshotDAO recordSnapshotDAO;
 
-    @Autowired
     public ContextService(ContextRepository contextRepository, RecordSnapshotDAO recordSnapshotDAO) {
         this.contextRepository = contextRepository;
         this.recordSnapshotDAO = recordSnapshotDAO;

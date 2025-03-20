@@ -7,18 +7,16 @@ import cz.cvut.kbss.sformsmanager.model.persisted.local.RecordSnapshot;
 import cz.cvut.kbss.sformsmanager.persistence.dao.LocalEntityBaseDAO;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.custom.CustomQueryDAO;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.net.URI;
 import java.util.List;
 
-@Component
+@Repository
 public class RecordSnapshotDAO extends LocalEntityBaseDAO<RecordSnapshot> {
 
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(RecordSnapshotDAO.class);
 
-    @Autowired
     protected RecordSnapshotDAO(EntityManager em) {
         super(em, RecordSnapshot.class);
     }
