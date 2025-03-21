@@ -71,7 +71,7 @@ public class RemoteDataProcessingOrchestratorImpl implements RemoteDataProcessin
         String recordSnapshotKey = ObjectUtils.createKeyForContext(projectName, contextUri);
 
         // Record
-        String recordKey = ObjectUtils.createKeyForContext(projectName, recordRemoteData.getRemoteRecordURI().toString() + recordRemoteData.getRecordCreateDate());
+        String recordKey = ObjectUtils.createKeyForContext(projectName, recordRemoteData.getRemoteRecordURI().toString());
         Optional<Record> recordOpt = recordDAO.findByKey(projectName, recordKey);
         Record record;
         if (recordOpt.isPresent()) {
