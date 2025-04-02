@@ -11,7 +11,7 @@ import java.net.URI;
 public class FormTemplateVersion extends LocalEntity implements Serializable {
 
     @ParticipationConstraints(nonEmpty = true)
-    @OWLObjectProperty(iri = Vocabulary.p_hasFormTemplate)
+    @OWLObjectProperty(iri = Vocabulary.p_hasFormTemplate, fetch = FetchType.EAGER)
     private FormTemplate formTemplate;
 
     @ParticipationConstraints(nonEmpty = true)

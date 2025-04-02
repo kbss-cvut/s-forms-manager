@@ -3,6 +3,7 @@ package cz.cvut.kbss.sformsmanager.rest;
 import cz.cvut.kbss.sformsmanager.exception.VersionNotFoundException;
 import cz.cvut.kbss.sformsmanager.model.dto.FormTemplateVersionDTO;
 import cz.cvut.kbss.sformsmanager.model.dto.FormTemplateVersionHistogramDTO;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.FormTemplate;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.FormTemplateVersion;
 import cz.cvut.kbss.sformsmanager.model.persisted.response.VersionHistogramQueryResult;
 import cz.cvut.kbss.sformsmanager.model.persisted.response.VersionHistoryBoundsQueryResult;
@@ -60,6 +61,7 @@ public class FormTemplateVersionController {
                         version.getKey(),
                         version.getInternalName(),
                         version.getUri().toString(),
+                        version.getFormTemplate().getKey(),
                         version.getSampleRemoteContextURI(),
                         questionTemplateService.countSnapshotsWithFormTemplateVersion(projectName, version.getUri()),
                         formTemplateService.countFormTemplateVersionRecordSnapshots(projectName, version.getUri())))
