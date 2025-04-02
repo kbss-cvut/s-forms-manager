@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  s-forms-manager:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db-server
+
+  db-server:
+    build:
+      context: ./db-server
+    ports:
+      - "8090:8080"
+    volumes:
+      - rdf4j-data:/var/rdf4j/server/repositories
+
+
+volumes:
+  rdf4j-data:

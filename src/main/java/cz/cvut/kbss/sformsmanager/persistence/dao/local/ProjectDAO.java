@@ -5,17 +5,15 @@ import cz.cvut.kbss.sformsmanager.exception.PersistenceException;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.Project;
 import cz.cvut.kbss.sformsmanager.persistence.dao.LocalEntityBaseDAO;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Component
+@Repository
 public class ProjectDAO extends LocalEntityBaseDAO<Project> {
 
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(ProjectDAO.class);
 
-    @Autowired
     protected ProjectDAO(EntityManager em) {
         super(em, Project.class);
     }

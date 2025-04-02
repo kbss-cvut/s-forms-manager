@@ -2,6 +2,7 @@ package cz.cvut.kbss.sformsmanager.service.process;
 
 import cz.cvut.kbss.sformsmanager.model.Vocabulary;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.*;
+import cz.cvut.kbss.sformsmanager.model.persisted.local.Record;
 import cz.cvut.kbss.sformsmanager.model.persisted.response.QuestionSnapshotRemoteData;
 import cz.cvut.kbss.sformsmanager.model.persisted.response.RecordSnapshotRemoteData;
 import cz.cvut.kbss.sformsmanager.persistence.dao.local.*;
@@ -70,7 +71,7 @@ public class RemoteDataProcessingOrchestratorImpl implements RemoteDataProcessin
         String recordSnapshotKey = ObjectUtils.createKeyForContext(projectName, contextUri);
 
         // Record
-        String recordKey = ObjectUtils.createKeyForContext(projectName, recordRemoteData.getRemoteRecordURI().toString() + recordRemoteData.getRecordCreateDate());
+        String recordKey = ObjectUtils.createKeyForContext(projectName, recordRemoteData.getRemoteRecordURI().toString());
         Optional<Record> recordOpt = recordDAO.findByKey(projectName, recordKey);
         Record record;
         if (recordOpt.isPresent()) {

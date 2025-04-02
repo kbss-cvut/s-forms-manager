@@ -11,7 +11,7 @@ public class LocalPersistencePropertiesProvider {
     @Value("${driver}")
     private String driver;
 
-    @Value("${repositoryUrl}")
+    @Value("${RDF4J_REPOSITORY_URL}")
     private String repositoryUrl;
 
     public LocalPersistencePropertiesProvider() {

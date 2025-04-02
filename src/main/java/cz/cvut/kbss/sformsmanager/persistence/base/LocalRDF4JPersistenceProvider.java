@@ -25,19 +25,19 @@ import org.slf4j.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import java.net.URI;
 
 @Configuration
-public class LocalSesamePersistenceProvider {
+public class LocalRDF4JPersistenceProvider {
 
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(LocalSesamePersistenceProvider.class);
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(LocalRDF4JPersistenceProvider.class);
     private final LocalPersistencePropertiesProvider localPersistencePropertiesProvider;
     private final EntityManagerFactory emf;
 
     private Repository repository;
 
-    public LocalSesamePersistenceProvider(LocalPersistencePropertiesProvider localPersistencePropertiesProvider, EntityManagerFactory emf) {
+    public LocalRDF4JPersistenceProvider(LocalPersistencePropertiesProvider localPersistencePropertiesProvider, EntityManagerFactory emf) {
         this.localPersistencePropertiesProvider = localPersistencePropertiesProvider;
         this.emf = emf;
     }
@@ -55,7 +55,7 @@ public class LocalSesamePersistenceProvider {
             this.repository = RepositoryProvider.getRepository(repoUrl);
             assert repository.isInitialized();
         } catch (RepositoryException | RepositoryConfigException e) {
-            log.error("Unable to connect to Sesame repository at " + repoUrl, e);
+            log.error("Unable to connect to rdf4j repository at " + repoUrl, e);
         }
     }
 

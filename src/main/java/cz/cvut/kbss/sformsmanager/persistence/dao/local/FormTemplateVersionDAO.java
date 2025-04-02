@@ -4,15 +4,13 @@ import cz.cvut.kbss.jopa.model.EntityManager;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.FormTemplateVersion;
 import cz.cvut.kbss.sformsmanager.persistence.dao.LocalEntityBaseDAO;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-@Component
+@Repository
 public class FormTemplateVersionDAO extends LocalEntityBaseDAO<FormTemplateVersion> {
 
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(FormTemplateVersionDAO.class);
 
-    @Autowired
     protected FormTemplateVersionDAO(EntityManager em) {
         super(em, FormTemplateVersion.class);
     }

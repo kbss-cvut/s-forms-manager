@@ -2,14 +2,15 @@ SELECT ?recordCreateDate ?recordModifiedDate ?remoteRecordURI ?rootQuestionOrigi
 WHERE
 {
     graph ?contextUri {
-        ?s a <http://vfn.cz/ontologies/study-manager/patient-record> .
+        ?s a <http://onto.fel.cvut.cz/ontologies/record-manager/patient-record> .
         ?s <http://purl.org/dc/terms/created> ?recordCreateDate .
-        OPTIONAL {?s <http://purl.org/dc/terms/modified> ?recordModifiedDateOptional .}
         OPTIONAL {
-            ?s <http://vfn.cz/ontologies/study-manager/has-question> ?question .
+            ?s <http://purl.org/dc/terms/modified> ?recordModifiedDateOptional .
+        }
+        OPTIONAL {
+            ?s <http://onto.fel.cvut.cz/ontologies/record-manager/has-question> ?question .
             ?question <http://onto.fel.cvut.cz/ontologies/form/has-question-origin> ?rootQuestionOrigin .
         }
-
         BIND(COALESCE(?recordModifiedDateOptional,?recordCreateDate) as ?recordModifiedDate)
         BIND (str(?s) as ?remoteRecordURI)
     }

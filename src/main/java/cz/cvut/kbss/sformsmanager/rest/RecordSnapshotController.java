@@ -1,6 +1,7 @@
 package cz.cvut.kbss.sformsmanager.rest;
 
 
+import com.github.jsonldjava.shaded.com.google.common.collect.Sets;
 import cz.cvut.kbss.sformsmanager.exception.RecordSnapshotNotFound;
 import cz.cvut.kbss.sformsmanager.exception.VersionNotFoundException;
 import cz.cvut.kbss.sformsmanager.model.dto.*;
@@ -8,7 +9,6 @@ import cz.cvut.kbss.sformsmanager.model.persisted.local.RecordSnapshot;
 import cz.cvut.kbss.sformsmanager.model.persisted.local.SubmittedAnswer;
 import cz.cvut.kbss.sformsmanager.service.model.local.RecordService;
 import cz.cvut.kbss.sformsmanager.service.model.local.SubmittedAnswerService;
-import org.assertj.core.util.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

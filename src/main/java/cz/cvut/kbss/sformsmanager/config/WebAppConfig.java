@@ -31,14 +31,8 @@ import java.nio.charset.Charset;
 import java.util.List;
 
 @Configuration
-@EnableWebMvc
 @Import({RestConfig.class})
 public class WebAppConfig implements WebMvcConfigurer {
-
-    @Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-        configurer.enable();
-    }
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
