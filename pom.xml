@@ -22,7 +22,7 @@
         <com.github.galigator.openllet.version>2.6.4</com.github.galigator.openllet.version>
         <com.github.ledsoft.jopa-spring-transactions.version>0.0.7</com.github.ledsoft.jopa-spring-transactions.version>
 
-        <org.springframework.version>5.2.6.RELEASE</org.springframework.version>
+        <org.springframework.version>6.1.14</org.springframework.version>
         <org.springframework.boot.version>2.3.2.RELEASE</org.springframework.boot.version>
         <org.springframework.security.version>5.2.6.RELEASE</org.springframework.security.version>
     </properties>
